@@ -1,4 +1,4 @@
-pathfinder
+Pathfinder
 ==========
 
-Front End for Dragonrealms
+A Front End for Dragonrealms.  A work in progress.
