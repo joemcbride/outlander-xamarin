@@ -1,0 +1,14 @@
+<UserControl x:Class="JM.DR.WPF.Controls.CharacterListControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Border BorderBrush="White" BorderThickness="1" CornerRadius="3">
+
+    <ListBox Name="characterListBox" Background="Transparent" BorderThickness="0"
+                 ItemTemplate="{StaticResource CharacterTemplate}"
+                 ItemContainerStyle="{StaticResource GlowItemContainer}">
+    </ListBox>
+    
+  </Border>
+
+</UserControl>
