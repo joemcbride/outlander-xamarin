@@ -6,15 +6,15 @@ using Pathfinder.Core.Xml;
 namespace Pathfinder.Core.Tests.Xml
 {
     [TestFixture]
-    public class PromptParserTester
+	public class RoundtimeParserTester
     {
-        private PromptParser theParser;
-        private const string SampleData = "<prompt time=\"1366780108\">H&gt;</prompt>";
+		private RoundtimeParser theParser;
+		private const string SampleData = "<roundTime value='1366812703'/>";
 
         [SetUp]
         public void Setup()
         {
-            theParser = new PromptParser();
+			theParser = new RoundtimeParser();
         }
 
         [Test]
@@ -24,20 +24,20 @@ namespace Pathfinder.Core.Tests.Xml
         }
 
         [Test]
-        public void should_parse_prompt()
-        {
-			var result = theParser.Parse(SampleData).Single();
-
-			Assert.AreEqual("H>", result.Prompt);
-        }
-
-        [Test]
 		public void should_parse_time()
         {
 			var result = theParser.Parse(SampleData).Single();
 
-			Assert.AreEqual("1366780108".UnixTimeStampToDateTime(), result.Time);
+			Assert.AreEqual("1366812703".UnixTimeStampToDateTime(), result.Finished);
         }
+
+		[Test]
+		public void should_set_matched()
+		{
+			var result = theParser.Parse(SampleData).Single();
+
+			Assert.AreEqual(SampleData, result.Matched);
+		}
 
 		[Test]
 		public void is_valid()
@@ -49,7 +49,7 @@ namespace Pathfinder.Core.Tests.Xml
 		[Test]
 		public void is_not_valid()
 		{
-			var result = new ParseResult();
+			var result = new RoundtimeResult();
 			Assert.False(result.IsValid());
 		}
     }

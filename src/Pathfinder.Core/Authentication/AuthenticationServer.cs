@@ -12,7 +12,7 @@ namespace Pathfinder.Core.Authentication
 
         private readonly ISimpleSocket _socket;
         private readonly ICharacterParser _characterParser;
-        private readonly IGameParser _gameParser;
+		private readonly IAuthGameParser _gameParser;
         private readonly IConnectionTokenParser _connectionTokenParser;
         private readonly IPasswordHashProvider _passwordHashProvider;
 
@@ -23,7 +23,7 @@ namespace Pathfinder.Core.Authentication
 
             _socket = new SimpleSocket();
             _characterParser = new CharacterParser();
-            _gameParser = new GameParser();
+			_gameParser = new AuthGameParser();
             _connectionTokenParser = new ConnectionTokenParser();
             _passwordHashProvider = new PasswordHashProvider();
         }

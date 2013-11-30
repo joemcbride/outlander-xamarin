@@ -38,10 +38,18 @@ namespace Pathfinder.Core
         {
             if (_socket == null || _socket.Connected == false)
             {
+				Debug.WriteLine("Not connnected");
+
                 return String.Empty;
             }
 
-            return _socket.Receive();
+			var data = _socket.Receive();
+
+			if(_socket.LastError != null){
+				Debug.WriteLine(_socket.LastError.Message);
+			}
+
+			return data;
         }
 
         public void Close()

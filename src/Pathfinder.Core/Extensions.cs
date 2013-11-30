@@ -12,6 +12,11 @@ namespace Pathfinder.Core
         //    return values;
         //}
 
+		public static DateTime UnixTimeStampToDateTime(this string unixTimeStamp)
+		{
+			return UnixTimeStampToDateTime (double.Parse (unixTimeStamp));
+		}
+
         public static DateTime UnixTimeStampToDateTime(this double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch

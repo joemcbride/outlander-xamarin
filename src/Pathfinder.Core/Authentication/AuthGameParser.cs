@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Pathfinder.Core.Authentication
 {
-    public interface IGameParser
+	public interface IAuthGameParser
     {
         IEnumerable<Game> Parse(string data);
     }
 
-    public class GameParser : IGameParser
+	public class AuthGameParser : IAuthGameParser
     {
         public IEnumerable<Game> Parse(string data)
         {

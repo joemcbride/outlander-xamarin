@@ -1,18 +1,17 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Authentication;
 
-namespace Pathfinder.Core.Tests.Authentication
+namespace Pathfinder.Core.Authentication.Tests
 {
     [TestFixture]
-    public class GameParserTester
+	public class AuthGameParserTester
     {
-        private GameParser theParser;
+		private AuthGameParser theParser;
 
         [SetUp]
         public void Setup()
         {
-            theParser = new GameParser();
+			theParser = new AuthGameParser();
         }
 
         [Test]

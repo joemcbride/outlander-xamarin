@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Pathfinder.Core.Authentication;
 
-namespace Pathfinder.Core.Tests.Authentication
+namespace Pathfinder.Core.Authentication.Tests
 {
     [TestFixture]
     public class ConnectionTokenParserTester

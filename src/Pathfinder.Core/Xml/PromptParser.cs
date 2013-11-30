@@ -1,34 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Pathfinder.Core.Events;
 
 namespace Pathfinder.Core.Xml
 {
-    public class PromptParser
+	public class PromptParser : RegexParser<PromptResult>
     {
-        private static readonly ILog Log = LogManager.GetLog(typeof (PromptParser));
+		private const string Match_Regex = "<prompt(.+?)<\\/prompt>";
 
-        public bool Matches(string data)
-        {
-            return !string.IsNullOrWhiteSpace(data) && data.StartsWith("<prompt");
-        }
+		public PromptParser()
+		{
+			Pattern = Match_Regex;
+		}
 
-        public string Parse(string data)
-        {
-            string prompt = data;
-
-            try
-            {
-                var element = XElement.Parse(data.Trim());
-                var time = Double.Parse(element.Attribute("time").Value).UnixTimeStampToDateTime();
-                prompt = element.Value;
-            }
-            catch (Exception exc)
-            {
-                Log.Error(exc);
-            }
-
-            return prompt;
-        }
+		protected override PromptResult BuildItem(string xml)
+		{
+			return PromptResult.For(xml);
+		}
     }
 }

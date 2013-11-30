@@ -4,8 +4,10 @@
     using System.Net.Sockets;
     using System.Text;
 
-    public interface ISimpleSocket
+	public interface ISimpleSocket : IDisposable
     {
+		Exception LastError { get; }
+
         void Close();
         void Connect(string host, int port);
         bool Send(string data);
