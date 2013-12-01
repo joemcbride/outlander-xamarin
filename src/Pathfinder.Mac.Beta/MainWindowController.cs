@@ -95,6 +95,11 @@ namespace Pathfinder.Mac.Beta
 						}
 
 						Log(gameData.Current);
+
+						if(_lastPrompt != null && !string.IsNullOrWhiteSpace(gameData.Current))
+						{
+							Log(_lastPrompt.Prompt + "\n");
+						}
 					}
 					catch(Exception exc){
 						Log("Parse Exception: " + exc.Message + "\n\n");
@@ -105,13 +110,21 @@ namespace Pathfinder.Mac.Beta
 
 			MainTextView.Editable = false;
 
-			UsernameTextField.StringValue = "ilithi";
-
 			LoginButton.Activated += (sender, e) =>
 			{
 				Log("Authenticating...\n\n");
 
-				var token = Authenticate(UsernameTextField.StringValue, PasswordTextField.StringValue);
+				var account = UsernameTextField.StringValue;
+				var password = PasswordTextField.StringValue;
+				var character = CharacterTextField.StringValue;
+
+				if(string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(character))
+				{
+					Log("Please enter all information\n\n");
+					return;
+				}
+
+				var token = Authenticate(account, password, character);
 				if(token != null)
 				{
 					Log("\n\nAuthenticated...");
@@ -131,22 +144,27 @@ namespace Pathfinder.Mac.Beta
 			SubmitButton.Activated += (sender, e) =>
 			{
 				var command = CommandTextField.StringValue;
-				var prompt = command;
-
-				if(_lastPrompt != null)
-				{
-					prompt = _lastPrompt.Prompt + " " + prompt + "\n";
-				}
-
-				Log(prompt);
-
 				CommandTextField.StringValue = string.Empty;
-				_gameServer.SendCommand(command);
-				_timer.Enabled = true;
+				SendCommand(command);
 			};
 		}
 
-		private ConnectionToken Authenticate(string account, string password)
+		private void SendCommand(string command)
+		{
+			var prompt = command;
+
+			if(_lastPrompt != null)
+			{
+				prompt = _lastPrompt.Prompt + " " + prompt + "\n";
+			}
+
+			Log(prompt);
+
+			_gameServer.SendCommand(command);
+			_timer.Enabled = true;
+		}
+
+		private ConnectionToken Authenticate(string account, string password, string character)
 		{
 			using (var authServer = new AuthenticationServer("eaccess.play.net", 7900))
 			{
@@ -167,7 +185,15 @@ namespace Pathfinder.Mac.Beta
 					.Select(c => c.CharacterId + ", " + c.Name)
 					.Apply(Log);
 
-				var token = authServer.ChooseCharacter(characters[0].CharacterId);
+				var characterId = characters
+					.Where(x => x.Name.ToLower() == character.ToLower())
+					.Select(x => x.CharacterId)
+					.FirstOrDefault();
+
+				ConnectionToken token = null;
+				if (!string.IsNullOrWhiteSpace(characterId)) {
+					token = authServer.ChooseCharacter(characterId);
+				}
 				return token;
 			}
 		}
@@ -182,6 +208,18 @@ namespace Pathfinder.Mac.Beta
 			MainTextView.ScrollRangeToVisible(new NSRange(start, length));
 		}
 
+		public override void KeyUp(NSEvent theEvent)
+		{
+			base.KeyUp(theEvent);
+
+			var keys = KeyUtil.GetKeys(theEvent);
+			if(keys == NSKey.Return && !string.IsNullOrWhiteSpace(CommandTextField.StringValue)) {
+				var command = CommandTextField.StringValue;
+				CommandTextField.StringValue = string.Empty;
+				SendCommand(command);
+			}
+		}
+
 		//strongly typed window accessor
 		public new MainWindow Window {
 			get {
@@ -189,5 +227,6 @@ namespace Pathfinder.Mac.Beta
 			}
 		}
 	}
+
 }
 

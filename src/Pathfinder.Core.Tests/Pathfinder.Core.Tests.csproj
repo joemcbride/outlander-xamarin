@@ -61,6 +61,7 @@
     <Compile Include="Xml\PopStreamTransformerTester.cs" />
     <Compile Include="IoCTester.cs" />
     <Compile Include="Xml\CompassParserTester.cs" />
+    <Compile Include="Text\ChunkReaderTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
@@ -78,5 +79,8 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Text\" />
   </ItemGroup>
 </Project>

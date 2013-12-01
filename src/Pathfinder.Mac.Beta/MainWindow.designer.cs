@@ -13,6 +13,9 @@ namespace Pathfinder.Mac.Beta
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSTextField CharacterTextField { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField CommandTextField { get; set; }
 
 		[Outlet]
@@ -35,14 +38,9 @@ namespace Pathfinder.Mac.Beta
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (UsernameTextField != null) {
-				UsernameTextField.Dispose ();
-				UsernameTextField = null;
-			}
-
-			if (PasswordTextField != null) {
-				PasswordTextField.Dispose ();
-				PasswordTextField = null;
+			if (CommandTextField != null) {
+				CommandTextField.Dispose ();
+				CommandTextField = null;
 			}
 
 			if (LoginButton != null) {
@@ -60,14 +58,24 @@ namespace Pathfinder.Mac.Beta
 				MainTextView = null;
 			}
 
-			if (CommandTextField != null) {
-				CommandTextField.Dispose ();
-				CommandTextField = null;
+			if (PasswordTextField != null) {
+				PasswordTextField.Dispose ();
+				PasswordTextField = null;
 			}
 
 			if (SubmitButton != null) {
 				SubmitButton.Dispose ();
 				SubmitButton = null;
+			}
+
+			if (UsernameTextField != null) {
+				UsernameTextField.Dispose ();
+				UsernameTextField = null;
+			}
+
+			if (CharacterTextField != null) {
+				CharacterTextField.Dispose ();
+				CharacterTextField = null;
 			}
 		}
 	}

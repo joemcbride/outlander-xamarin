@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController">
             <connections>
+                <outlet property="CharacterTextField" destination="gfA-7z-CEy" id="seE-f1-swF"/>
                 <outlet property="CommandTextField" destination="mk9-qx-D7r" id="DZm-fm-ivK"/>
                 <outlet property="LoginButton" destination="7Rt-q6-WOf" id="wqS-r0-HfU"/>
                 <outlet property="LogoutButton" destination="vIc-Db-Fb4" id="DYQ-O6-BrY"/>
@@ -29,7 +30,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="7Rt-q6-WOf">
-                        <rect key="frame" x="209" y="632" width="82" height="32"/>
+                        <rect key="frame" x="313" y="632" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6P5-9y-Htj">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -104,13 +105,22 @@
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" id="vIc-Db-Fb4">
-                        <rect key="frame" x="291" y="632" width="82" height="32"/>
+                        <rect key="frame" x="395" y="632" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Logout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Am-6M-goF">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <textField verticalHuggingPriority="750" id="gfA-7z-CEy">
+                        <rect key="frame" x="215" y="638" width="96" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Character" drawsBackground="YES" id="gqz-7W-Te6">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
         </window>

@@ -31,6 +31,9 @@ namespace Pathfinder.Core
 
         public void SendCommand(String command)
         {
+			if (_socket == null || _socket.Connected == false)
+				return;
+
             _socket.Send(command);
         }
 
