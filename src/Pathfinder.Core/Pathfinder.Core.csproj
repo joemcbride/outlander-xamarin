@@ -78,6 +78,14 @@
     <Compile Include="ContainerExtensions.cs" />
     <Compile Include="Xml\CompassParser.cs" />
     <Compile Include="Text\ChunkReader.cs" />
+    <Compile Include="Text\NewGameParser.cs" />
+    <Compile Include="Text\PromptTag.cs" />
+    <Compile Include="Text\Chunk.cs" />
+    <Compile Include="Text\Tag.cs" />
+    <Compile Include="Text\ReadResult.cs" />
+    <Compile Include="Text\VitalsTag.cs" />
+    <Compile Include="Text\SelfClosingChunkReader.cs" />
+    <Compile Include="Text\RoomNameTag.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -89,7 +97,6 @@
   </Target>
   -->
   <ItemGroup>
-    <Folder Include="Events\" />
     <Folder Include="Text\" />
   </ItemGroup>
 </Project>

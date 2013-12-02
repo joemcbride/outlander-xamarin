@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Pathfinder.Core.Authentication;
+using System.Text;
 
 namespace Pathfinder.Core
 {
@@ -10,6 +11,8 @@ namespace Pathfinder.Core
 
         private const string StormFrontVersion = "1.0.1.26";
         private const int BufferSize = 3072;
+
+		private StringBuilder _builder = new StringBuilder();
 
         public GameServer()
         {
@@ -48,11 +51,23 @@ namespace Pathfinder.Core
 
 			var data = _socket.Receive();
 
-			if(_socket.LastError != null){
+			if(_socket.LastError != null) {
 				Debug.WriteLine(_socket.LastError.Message);
 			}
 
 			return data;
+
+//			_builder.Append(data);
+//
+//			var value = _builder.ToString();
+//
+//			var idx = value.LastIndexOf("\n");
+//			if (idx == -1)
+//				idx = 0;
+//			else
+//				_builder.Clear();
+//
+//			return value.Substring(0, value.Length - idx);
         }
 
         public void Close()

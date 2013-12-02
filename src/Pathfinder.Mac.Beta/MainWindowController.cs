@@ -6,6 +6,7 @@ using MonoMac.AppKit;
 using Pathfinder.Core;
 using Pathfinder.Core.Authentication;
 using Pathfinder.Core.Xml;
+using Pathfinder.Core.Text;
 
 namespace Pathfinder.Mac.Beta
 {
@@ -16,7 +17,7 @@ namespace Pathfinder.Mac.Beta
 		private GameServer _gameServer;
 		private System.Timers.Timer _timer;
 
-		private PromptResult _lastPrompt;
+		private PromptTag _lastPrompt;
 
 		#region Constructors
 
@@ -45,19 +46,21 @@ namespace Pathfinder.Mac.Beta
 			IoC.GetInstance = _container.GetInstance;
 			IoC.GetAllInstances = _container.GetAllInstances;
 
-			_container.PerRequest<ITransformer, PopStreamTransformer>();
-			_container.PerRequest<IParser, PromptParser>();
-			_container.PerRequest<IParser, GenericStreamParser>();
-			_container.PerRequest<IParser, ComponentParser>();
-			_container.PerRequest<IParser, RoundtimeParser>();
-			_container.PerRequest<IParser, LeftHandParser>();
-			_container.PerRequest<IParser, RightHandParser>();
-			_container.PerRequest<IParser, VitalsParser>();
-			_container.PerRequest<IParser, CompassParser>();
+//			_container.PerRequest<ITransformer, PopStreamTransformer>();
+//			_container.PerRequest<IParser, PromptParser>();
+//			_container.PerRequest<IParser, GenericStreamParser>();
+//			_container.PerRequest<IParser, ComponentParser>();
+//			_container.PerRequest<IParser, RoundtimeParser>();
+//			_container.PerRequest<IParser, LeftHandParser>();
+//			_container.PerRequest<IParser, RightHandParser>();
+//			_container.PerRequest<IParser, VitalsParser>();
+//			_container.PerRequest<IParser, CompassParser>();
+//
+//			_container.PerRequest<GameParser>();
 
-			_container.PerRequest<GameParser>();
+			_container.PerRequest<NewGameParser>();
 
-			_lastPrompt = new PromptResult();
+			_lastPrompt = new PromptTag();
 			_lastPrompt.Prompt = ">";
 		}
 
@@ -79,26 +82,30 @@ namespace Pathfinder.Mac.Beta
 
 					var copy = data;
 
-					var gameData = new GameData();
-					gameData.Append(copy);
-
 					try {
-						var parser = IoC.Get<GameParser>();
-						var result = parser.Parse(gameData);
+						var parser = IoC.Get<NewGameParser>();
+						var result = parser.Parse(Chunk.For(copy));
 
-						result.Apply(r => System.Diagnostics.Debug.WriteLine(r.GetType() + r.Matched + "\n\n"));
+						result.Tags.Apply(r => System.Diagnostics.Debug.WriteLine(string.Format("{0}::{1}\n\n", r.GetType(), r.Text)));
 
-						var foundPrompt = result.OfType<PromptResult>().FirstOrDefault();
+						var foundPrompt = result.Tags.OfType<PromptTag>().FirstOrDefault();
 						if(foundPrompt != null)
 						{
 							_lastPrompt = foundPrompt;
 						}
 
-						Log(gameData.Current);
+						result.Tags.OfType<RoomNameTag>().Apply(t => Log(t.Name));
 
-						if(_lastPrompt != null && !string.IsNullOrWhiteSpace(gameData.Current))
+						if(result.Chunk != null
+							&& !string.IsNullOrWhiteSpace(result.Chunk.Text)
+							&& !string.IsNullOrWhiteSpace(result.Chunk.Text.Trim()))
 						{
-							Log(_lastPrompt.Prompt + "\n");
+							Log(result.Chunk.Text);
+
+							if(_lastPrompt != null && !string.IsNullOrWhiteSpace(result.Chunk.Text))
+							{
+								Log("\n" + _lastPrompt.Prompt + "\n");
+							}
 						}
 					}
 					catch(Exception exc){

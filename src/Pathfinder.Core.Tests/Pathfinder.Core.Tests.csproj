@@ -62,6 +62,10 @@
     <Compile Include="IoCTester.cs" />
     <Compile Include="Xml\CompassParserTester.cs" />
     <Compile Include="Text\ChunkReaderTester.cs" />
+    <Compile Include="Text\PromptChunkReaderTester.cs" />
+    <Compile Include="Text\NewGameParserTester.cs" />
+    <Compile Include="Text\SelfClosingChunkReaderTester.cs" />
+    <Compile Include="Text\RoomNameChunkReaderTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

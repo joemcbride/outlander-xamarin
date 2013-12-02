@@ -1,41 +1,18 @@
 using System;
 using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace Pathfinder.Core.Text
 {
-	public interface IChunkReader
-	{
-		ReadResult Read(Chunk chunk);
-	}
-
-	public class ChunkReader<TTag> : IChunkReader where TTag : Tag, new()
+	public class SelfClosingChunkReader<TTag> : IChunkReader where TTag : Tag, new()
 	{
 		private ReadState _state = new ReadState();
-
 		private readonly string _startTag;
 		private readonly string _endTag;
-		private readonly string _endsWithTag;
-		private readonly bool _checkEndTag;
 
-		public ChunkReader(string startTag, string endTag)
-			: this(startTag, endTag, false)
-		{
-		}
-
-		public ChunkReader(string startTag, string endTag, bool checkEndTag)
+		public SelfClosingChunkReader(string startTag)
 		{
 			_startTag = startTag;
-			_endTag = endTag;
-			_checkEndTag = checkEndTag;
-			_endsWithTag = ">";
-
-			if(_checkEndTag)
-			{
-				_endsWithTag = "/>";
-			}
+			_endTag = "/>";
 		}
 
 		public ReadResult Read(Chunk chunk)
@@ -59,17 +36,6 @@ namespace Pathfinder.Core.Text
 
 				var currentText = _state.Text.ToString();
 
-				if (_checkEndTag)
-				{
-					if (_state.Tracking && currentText.Length == 2 && currentText.StartsWith("</")) {
-						_state.Tracking = false;
-						_state.WaitForEnd = false;
-						_state.WaitForPop = false;
-						_state.Text.Clear();
-						builder.Append(currentText);
-					}
-				}
-
 				if (_state.Tracking
 					&& (currentText.Length == 3 && !currentText.StartsWith(_startTag.Substring(0, 3))
 						|| (currentText.Length >= _startTag.Length && !currentText.StartsWith(_startTag))))
@@ -81,17 +47,13 @@ namespace Pathfinder.Core.Text
 					_state.WaitForPop = true;
 				}
 
-				if (_state.WaitForEnd && currentText.EndsWith(_endsWithTag)) {
+				if(_state.Tracking && currentText.EndsWith(_endTag)){
 					_state.WaitForEnd = false;
 					_state.WaitForPop = false;
 					_state.Tracking = false;
 					_state.Text.Clear();
 
 					result.AddTag(Tag.For<TTag>(currentText));
-				}
-
-				if (_state.WaitForPop && currentText.EndsWith(_endTag)) {
-					_state.WaitForEnd = true;
 				}
 			}
 
@@ -100,18 +62,7 @@ namespace Pathfinder.Core.Text
 				result.Chunk = Chunk.For(builder.ToString());
 			}
 
-			if (_state.Text.Length > 0)
-				result.Stop = true;
-
 			return result;
 		}
-	}
-
-	public class ReadState
-	{
-		public StringBuilder Text = new StringBuilder();
-		public bool Tracking = false;
-		public bool WaitForPop = false;
-		public bool WaitForEnd = false;
 	}
 }
