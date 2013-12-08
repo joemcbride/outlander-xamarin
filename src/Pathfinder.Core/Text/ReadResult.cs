@@ -28,5 +28,10 @@ namespace Pathfinder.Core.Text
 		{
 			_tags.AddRange(tags);
 		}
+
+		public void ClearTags()
+		{
+			_tags.Clear();
+		}
 	}
 }

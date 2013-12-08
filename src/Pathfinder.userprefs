@@ -1,0 +1,33 @@
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/8/2013 5:24:32 PM">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True">
+          <Node name="Pathfinder.Core.Tests" expanded="True" selected="True">
+            <Node name="Pathfinder" expanded="True">
+              <Node name="Core" expanded="True">
+                <Node name="Tests" expanded="True">
+                  <Node name="LearningRateTester" expanded="True" />
+                </Node>
+                <Node name="Text" expanded="True">
+                  <Node name="Tests" expanded="True">
+                    <Node name="ComponentTagTester" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Tests/Text/EmptyClass.cs" line="18" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Pathfinder.Core/Xml/GameParser.cs" line="25" offsetX="744" offsetY="360" expression="parsers" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>

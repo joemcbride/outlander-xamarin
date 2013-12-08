@@ -35,5 +35,11 @@ namespace Pathfinder.Core
                 action(item);
             }
         }
+
+		public static void IfNotNull<T>(this T item, Action<T> action)
+		{
+			if (item != null)
+				action(item);
+		}
     }
 }

@@ -30,6 +30,11 @@ namespace Pathfinder.Core.Text
 
 		public string Text { get; private set; }
 
+		public override string ToString()
+		{
+			return string.Format("[Chunk: Text={0}]", Text);
+		}
+
 		public static Chunk For(string text, int start = 0, int length = -1)
 		{
 			if (length == -1)

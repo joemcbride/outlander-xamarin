@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Pathfinder.Core;
 using Pathfinder.Core.Authentication;
+using console = System.Console;
 
 namespace Pathfinder.Console
 {
@@ -8,33 +9,30 @@ namespace Pathfinder.Console
     {
         static void Main(string[] args)
         {
-            var account = args[0];
-            var password = args[1];
+			var gameServer = new Boostrapper().Build();
 
-            var authServer = new AuthenticationServer("eaccess.play.net", 7900);
-            var authenticated = authServer.Authenticate(account, password);
+			var token = gameServer.Authenticate(args[0], args[1], args[2]);
+			if(token == null)
+			{
+				console.WriteLine("Unable to authenticate.");
+				return;
+			}
+			gameServer.Connect(token);
+			gameServer.GameState.TextLog = (msg) => {
+				console.Write(msg);
+			};
 
-            if (!authenticated)
-            {
-                System.Console.WriteLine("Authentication failed!");
-                System.Console.ReadKey();
-                return;
-            }
+			while(true) {
+				string stringToSend = console.ReadLine();
 
-            var gameList = authServer.GetGameList();
-            gameList
-                .Select(g => g.Code + ", " + g.Name)
-                .Apply(System.Console.WriteLine);
+				gameServer.SendCommand(stringToSend + "\r\n");
 
-            var characters = authServer.GetCharacterList("DR").ToList();
-            characters
-                .Select(c => c.CharacterId + ", " + c.Name)
-                .Apply(System.Console.WriteLine);
-
-            var token = authServer.ChooseCharacter(characters[0].CharacterId);
-
-            authServer.Close();
+				if (stringToSend == "exit") {
+					break;
+				}
+			}
+			gameServer.Disconnect();
+			console.ReadLine();
         }
     }
-
 }

@@ -15,6 +15,7 @@ namespace Pathfinder.Mac.Beta
 		private SimpleContainer _container;
 
 		private GameServer _gameServer;
+		private NewGameParser _gameParser;
 		private System.Timers.Timer _timer;
 
 		private PromptTag _lastPrompt;
@@ -46,18 +47,6 @@ namespace Pathfinder.Mac.Beta
 			IoC.GetInstance = _container.GetInstance;
 			IoC.GetAllInstances = _container.GetAllInstances;
 
-//			_container.PerRequest<ITransformer, PopStreamTransformer>();
-//			_container.PerRequest<IParser, PromptParser>();
-//			_container.PerRequest<IParser, GenericStreamParser>();
-//			_container.PerRequest<IParser, ComponentParser>();
-//			_container.PerRequest<IParser, RoundtimeParser>();
-//			_container.PerRequest<IParser, LeftHandParser>();
-//			_container.PerRequest<IParser, RightHandParser>();
-//			_container.PerRequest<IParser, VitalsParser>();
-//			_container.PerRequest<IParser, CompassParser>();
-//
-//			_container.PerRequest<GameParser>();
-
 			_container.PerRequest<NewGameParser>();
 
 			_lastPrompt = new PromptTag();
@@ -71,11 +60,12 @@ namespace Pathfinder.Mac.Beta
 			base.AwakeFromNib();
 
 			_gameServer = new GameServer();
+			_gameParser = IoC.Get<NewGameParser>();
+
 			_timer = new System.Timers.Timer();
 			_timer.Enabled = false;
-			_timer.Interval = 1000;
+			_timer.Interval = 100;
 			_timer.Elapsed += (sender, e) => {
-				//System.Diagnostics.Debug.WriteLine("Polling " + DateTime.Now.ToString());
 				var data = _gameServer.Poll();
 
 				BeginInvokeOnMainThread(() => {
@@ -83,10 +73,9 @@ namespace Pathfinder.Mac.Beta
 					var copy = data;
 
 					try {
-						var parser = IoC.Get<NewGameParser>();
-						var result = parser.Parse(Chunk.For(copy));
+						var result = _gameParser.Parse(Chunk.For(copy));
 
-						result.Tags.Apply(r => System.Diagnostics.Debug.WriteLine(string.Format("{0}::{1}\n\n", r.GetType(), r.Text)));
+						//result.Tags.Apply(r => System.Diagnostics.Debug.WriteLine(string.Format("{0}::{1}\n\n", r.GetType(), r.Text)));
 
 						var foundPrompt = result.Tags.OfType<PromptTag>().FirstOrDefault();
 						if(foundPrompt != null)
@@ -100,9 +89,9 @@ namespace Pathfinder.Mac.Beta
 							&& !string.IsNullOrWhiteSpace(result.Chunk.Text)
 							&& !string.IsNullOrWhiteSpace(result.Chunk.Text.Trim()))
 						{
-							Log(result.Chunk.Text);
+							Log(result.Chunk.Text.Trim());
 
-							if(_lastPrompt != null && !string.IsNullOrWhiteSpace(result.Chunk.Text))
+							if(_lastPrompt != null)
 							{
 								Log("\n" + _lastPrompt.Prompt + "\n");
 							}
@@ -173,8 +162,9 @@ namespace Pathfinder.Mac.Beta
 
 		private ConnectionToken Authenticate(string account, string password, string character)
 		{
-			using (var authServer = new AuthenticationServer("eaccess.play.net", 7900))
+			using (var authServer = new AuthenticationServer())
 			{
+				authServer.Connect("eaccess.play.net", 7900);
 				var authenticated = authServer.Authenticate(account, password);
 
 				if (!authenticated) {
@@ -201,6 +191,7 @@ namespace Pathfinder.Mac.Beta
 				if (!string.IsNullOrWhiteSpace(characterId)) {
 					token = authServer.ChooseCharacter(characterId);
 				}
+				authServer.Close();
 				return token;
 			}
 		}

@@ -66,6 +66,10 @@
     <Compile Include="Text\NewGameParserTester.cs" />
     <Compile Include="Text\SelfClosingChunkReaderTester.cs" />
     <Compile Include="Text\RoomNameChunkReaderTester.cs" />
+    <Compile Include="GameServerTester.cs" />
+    <Compile Include="Text\ObivousPathsChunkReaderTester.cs" />
+    <Compile Include="Text\ComponentTagTester.cs" />
+    <Compile Include="LearningRateTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
@@ -86,5 +90,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Text\" />
+    <Folder Include="Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\login-data1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

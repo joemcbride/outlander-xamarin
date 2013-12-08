@@ -5,22 +5,26 @@ using System.Net.Sockets;
 
 namespace Pathfinder.Core.Authentication
 {
-    public sealed class AuthenticationServer : IDisposable
-    {
-        private readonly string _host;
-        private readonly int _port;
+	public interface IAuthenticationServer : IDisposable
+	{
+		void Connect(string host, int port);
+		bool Authenticate(string account, string password);
+		IEnumerable<Game> GetGameList();
+		IEnumerable<Character> GetCharacterList(string gameCode);
+		ConnectionToken ChooseCharacter(string characterId);
+		void Close();
+	}
 
+	public sealed class AuthenticationServer : IAuthenticationServer
+    {
         private readonly ISimpleSocket _socket;
         private readonly ICharacterParser _characterParser;
 		private readonly IAuthGameParser _gameParser;
         private readonly IConnectionTokenParser _connectionTokenParser;
         private readonly IPasswordHashProvider _passwordHashProvider;
 
-        public AuthenticationServer(string host, int port)
+        public AuthenticationServer()
         {
-            _host = host;
-            _port = port;
-
             _socket = new SimpleSocket();
             _characterParser = new CharacterParser();
 			_gameParser = new AuthGameParser();
@@ -28,9 +32,9 @@ namespace Pathfinder.Core.Authentication
             _passwordHashProvider = new PasswordHashProvider();
         }
 
-        private void Connect()
+		public void Connect(string host, int port)
         {
-            _socket.Connect(_host, _port);
+            _socket.Connect(host, port);
         }
 
         public bool Authenticate(string account, string password)
@@ -44,7 +48,7 @@ namespace Pathfinder.Core.Authentication
             {
                 if (!this._socket.Connected == true)
                 {
-                    this.Connect();
+					throw new InvalidOperationException("Not connected");
                 }
 
                 var passwordToken = _socket.SendAndReceive("K");

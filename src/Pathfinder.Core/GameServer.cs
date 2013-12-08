@@ -8,16 +8,23 @@ namespace Pathfinder.Core
     public sealed class GameServer
     {
         private readonly ISimpleSocket _socket;
+		private readonly ILog _logger;
 
         private const string StormFrontVersion = "1.0.1.26";
-        private const int BufferSize = 3072;
+		private const int BufferSize = 5120;
 
 		private StringBuilder _builder = new StringBuilder();
 
-        public GameServer()
+		public GameServer()
+			: this(new SimpleSocket(BufferSize), new SimpleFileLogger())
         {
-            _socket = new SimpleSocket(BufferSize);
         }
+
+		public GameServer(ISimpleSocket socket, ILog logger)
+		{
+			_socket = socket;
+			_logger = logger;
+		}
 
         public void Connect(ConnectionToken token)
         {
@@ -25,9 +32,11 @@ namespace Pathfinder.Core
 
             _socket.Connect(token.GameHost, token.GamePort);
 
-            var connectionString = String.Format("{0}\r\n/FE:STORMFRONT /VERSION:{1} /P:{2} /XML\r\n", token.Key, StormFrontVersion, Environment.OSVersion.Platform);
+			var connectionString = String.Format("{0}\r\n/FE:STORMFRONT /VERSION:{1} /P:{2} /XML\r\n", token.Key, StormFrontVersion, Environment.OSVersion.Platform);
 
-            //String connectionString = String.Format("{0}\r\n/FE:JAVA", token.Key);
+			//var connectionString = String.Format("{0}\r\n/FE:JAVA", token.Key);
+
+			Debug.WriteLine(connectionString);
 
             _socket.Send(connectionString);
         }
@@ -51,23 +60,27 @@ namespace Pathfinder.Core
 
 			var data = _socket.Receive();
 
-			if(_socket.LastError != null) {
-				Debug.WriteLine(_socket.LastError.Message);
+			if (_socket.LastError == null && !string.IsNullOrWhiteSpace(data)) {
+				_logger.Info(data);
 			}
 
-			return data;
+			if(_socket.LastError != null) {
+				_logger.Error(_socket.LastError);
+			}
 
-//			_builder.Append(data);
-//
-//			var value = _builder.ToString();
-//
-//			var idx = value.LastIndexOf("\n");
-//			if (idx == -1)
-//				idx = 0;
-//			else
-//				_builder.Clear();
-//
-//			return value.Substring(0, value.Length - idx);
+			_builder.Append(data);
+
+			var value = _builder.ToString();
+			var returnData = string.Empty;
+
+			var idx = value.LastIndexOf("\n");
+			if(idx > -1){
+				idx += 1;
+				returnData = value.Substring(0, idx);
+				_builder.Remove(0, idx);
+			}
+
+			return returnData;
         }
 
         public void Close()

@@ -19,8 +19,8 @@
 
     public class SimpleSocket : Socket, ISimpleSocket
     {
-        private readonly byte[] _bytes;
         private const string ReturnLineFeed = "\r\n";
+		private readonly int _bufferSize;
 
         public SimpleSocket()
             : this(1024)
@@ -34,7 +34,7 @@
             SocketType socketType, ProtocolType protocolType)
             : base(addressFamily, socketType, protocolType)
         {
-            _bytes = new byte[bufferSize];
+			_bufferSize = bufferSize;
             IncludeCarriageReturnLineFeed = true;
         }
 
@@ -63,9 +63,11 @@
         {
             try
             {
-                int bytesRec = Receive(_bytes);
+				var bytes = new byte[_bufferSize];
 
-                return Encoding.UTF8.GetString(_bytes, 0, bytesRec);
+				int bytesRec = Receive(bytes);
+
+				return Encoding.UTF8.GetString(bytes, 0, bytesRec);
             }
             catch (Exception exc)
             {

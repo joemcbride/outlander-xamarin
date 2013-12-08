@@ -6,21 +6,6 @@ using System.Xml.Linq;
 
 namespace Pathfinder.Core.Text
 {
-
-//	public static class StringExtensions
-//	{
-//		public static bool StartsWithAllChars(this string text, string value, int minLength)
-//		{
-//			if(value.Length > text.Length)
-//			{
-//				//var length = text.Length <= minLength ? text.Length : minLength;
-//				value = value.Substring(0, minLength);
-//			}
-//
-//			return text.StartsWith(value);
-//		}
-//	}
-
 	public class Tag
 	{
 		private string _text;
@@ -46,6 +31,11 @@ namespace Pathfinder.Core.Text
 
 		protected virtual void OnTextSet()
 		{
+		}
+
+		public override string ToString()
+		{
+			return string.Format("[Tag: Text={0}]", Text);
 		}
 
 		public static TTag For<TTag>(string text) where TTag : Tag, new()

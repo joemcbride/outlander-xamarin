@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // http://caliburnmicro.codeplex.com/
 namespace Pathfinder.Core
@@ -44,5 +45,45 @@ namespace Pathfinder.Core
         {
             return (T) GetInstance(typeof (T), key);
         }
+
+		/// <summary>
+		/// Gets all instances by type.
+		/// </summary>
+		/// <typeparam name="T">The type to resolve from the container.</typeparam>
+		/// <returns>The resolved instance.</returns>
+		public static IEnumerable<T> GetAll<T>()
+		{
+			return GetAllInstances(typeof(T)).Select(x => (T)x).ToArray();
+		}
     }
+
+	public interface IServiceLocator
+	{
+		/// <summary>
+		/// Gets an instance by type.
+		/// </summary>
+		/// <typeparam name="T">The type to resolve from the container.</typeparam>
+		/// <returns>The resolved instance.</returns>
+		T Get<T>();
+
+		/// <summary>
+		/// Gets all instances by type.
+		/// </summary>
+		/// <typeparam name="T">The type to resolve from the container.</typeparam>
+		/// <returns>The resolved instance.</returns>
+		IEnumerable<T> GetAll<T>();
+	}
+
+	public class ServiceLocator : IServiceLocator
+	{
+		public T Get<T>()
+		{
+			return IoC.Get<T>();
+		}
+
+		public IEnumerable<T> GetAll<T>()
+		{
+			return IoC.GetAll<T>();
+		}
+	}
 }

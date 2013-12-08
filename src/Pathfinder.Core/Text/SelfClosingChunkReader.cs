@@ -9,6 +9,8 @@ namespace Pathfinder.Core.Text
 		private readonly string _startTag;
 		private readonly string _endTag;
 
+		public Action<StringBuilder, ReadResult, TTag> Append = null;
+
 		public SelfClosingChunkReader(string startTag)
 		{
 			_startTag = startTag;
@@ -53,7 +55,13 @@ namespace Pathfinder.Core.Text
 					_state.Tracking = false;
 					_state.Text.Clear();
 
-					result.AddTag(Tag.For<TTag>(currentText));
+					var tag = Tag.For<TTag>(currentText);
+
+					if (Append != null) {
+						Append(builder, result, tag);
+					} else {
+						result.AddTag(tag);
+					}
 				}
 			}
 

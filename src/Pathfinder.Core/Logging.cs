@@ -13,16 +13,14 @@ namespace Pathfinder.Core
         /// <summary>
         /// Logs the message as info.
         /// </summary>
-        /// <param name="format">A formatted message.</param>
-        /// <param name="args">Parameters to be injected into the formatted message.</param>
-        void Info(string format, params object[] args);
+		/// <param name="message">A formatted message.</param>
+        void Info(string message);
 
         /// <summary>
         /// Logs the message as a warning.
         /// </summary>
-        /// <param name="format">A formatted message.</param>
-        /// <param name="args">Parameters to be injected into the formatted message.</param>
-        void Warn(string format, params object[] args);
+		/// <param name="message">A formatted message.</param>
+		void Warn(string message);
 
         /// <summary>
         /// Logs the exception.
@@ -41,11 +39,88 @@ namespace Pathfinder.Core
         /// Creates an <see cref="ILog"/> for the provided type.
         /// </summary>
         public static Func<Type, ILog> GetLog = type => NullLogInstance;
-
-        class NullLog : ILog {
-            public void Info(string format, params object[] args) { }
-            public void Warn(string format, params object[] args) { }
-            public void Error(Exception exception) { }
-        }
     }
+
+	public class NullLog : ILog {
+		public void Info(string message) { }
+		public void Warn(string message) { }
+		public void Error(Exception exception) { }
+	}
+
+	public class CompositeLog : ILog
+	{
+		private IList<ILog> _loggers = new List<ILog>();
+
+		public CompositeLog()
+			: this(Enumerable.Empty<ILog>())
+		{
+		}
+
+		public CompositeLog(IEnumerable<ILog> loggers)
+		{
+			loggers.Apply(_loggers.Add);
+		}
+
+		public void Add(ILog logger)
+		{
+			_loggers.Add(logger);
+		}
+
+		public void Info(string message)
+		{
+			_loggers.Apply(logger => {
+				logger.Info(message);
+			});
+		}
+
+		public void Warn(string message)
+		{
+			_loggers.Apply(logger => {
+				logger.Warn(message);
+			});
+		}
+
+		public void Error(Exception exception)
+		{
+			_loggers.Apply(logger => {
+				logger.Error(exception);
+			});
+		}
+	}
+
+	public class ConsoleLog : ILog
+	{
+		public void Info(string message)
+		{
+			Console.Write(message);
+		}
+
+		public void Warn(string message)
+		{
+			Console.Write(message);
+		}
+
+		public void Error(Exception exception)
+		{
+			Console.Write(exception);
+		}
+	}
+
+	public class DebugLog : ILog
+	{
+		public void Info(string message)
+		{
+			System.Diagnostics.Debug.WriteLine(message);
+		}
+
+		public void Warn(string message)
+		{
+			System.Diagnostics.Debug.WriteLine(message);
+		}
+
+		public void Error(Exception exception)
+		{
+			System.Diagnostics.Debug.WriteLine(exception);
+		}
+	}
 }

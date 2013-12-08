@@ -20,6 +20,8 @@ namespace Pathfinder.Core.Text
 		private readonly string _endsWithTag;
 		private readonly bool _checkEndTag;
 
+		public Func<StringBuilder, ReadResult, TTag, int> Append = null;
+
 		public ChunkReader(string startTag, string endTag)
 			: this(startTag, endTag, false)
 		{
@@ -87,7 +89,14 @@ namespace Pathfinder.Core.Text
 					_state.Tracking = false;
 					_state.Text.Clear();
 
-					result.AddTag(Tag.For<TTag>(currentText));
+					var tag = Tag.For<TTag>(currentText);
+
+					if (Append != null) {
+						var move = Append(builder, result, tag);
+						i += move;
+					} else {
+						result.AddTag(tag);
+					}
 				}
 
 				if (_state.WaitForPop && currentText.EndsWith(_endTag)) {

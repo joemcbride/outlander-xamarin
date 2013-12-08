@@ -86,6 +86,29 @@
     <Compile Include="Text\VitalsTag.cs" />
     <Compile Include="Text\SelfClosingChunkReader.cs" />
     <Compile Include="Text\RoomNameTag.cs" />
+    <Compile Include="SimpleFileLogger.cs" />
+    <Compile Include="SimpleGameServer.cs" />
+    <Compile Include="AsyncSocket.cs" />
+    <Compile Include="Text\ComponentTag.cs" />
+    <Compile Include="EmptyClass.cs" />
+    <Compile Include="LearningRate.cs" />
+    <Compile Include="Text\PresetTag.cs" />
+    <Compile Include="Text\RoomDescriptionTag.cs" />
+    <Compile Include="Text\StreamWindowTag.cs" />
+    <Compile Include="Text\IndicatorTag.cs" />
+    <Compile Include="Text\RoundtimeTag.cs" />
+    <Compile Include="Text\CasttimeTag.cs" />
+    <Compile Include="Text\SpellTag.cs" />
+    <Compile Include="Text\HandTag.cs" />
+    <Compile Include="ComponentKeys.cs" />
+    <Compile Include="ISimpleGameState.cs" />
+    <Compile Include="SimpleDictionary.cs" />
+    <Compile Include="Text\ITagTransformer.cs" />
+    <Compile Include="Text\StreamWindowTagTransformer.cs" />
+    <Compile Include="Text\ComponentTagTransformer.cs" />
+    <Compile Include="Text\RoomNameChunkReader.cs" />
+    <Compile Include="Text\PresetChunkReader.cs" />
+    <Compile Include="Text\ObivousPathsChunkReader.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
