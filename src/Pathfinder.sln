@@ -89,7 +89,7 @@ Global
 		{32E0857E-49D7-441E-A161-33535A56E029} = {A8C2F6EB-0954-4DBF-95B0-415CC8E554CF}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Pathfinder.Console\Pathfinder.Console.csproj
+		StartupItem = Pathfinder.Mac.Beta\Pathfinder.Mac.Beta.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

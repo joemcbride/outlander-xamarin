@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using Pathfinder.Core;
-using Pathfinder.Core.Xml;
 
 namespace Pathfinder.Core.Container.Tests
 {
@@ -15,7 +14,7 @@ namespace Pathfinder.Core.Container.Tests
 		public void SetUp()
 		{
 			theContainer = new SimpleContainer();
-			theContainer.PerRequest<IParser, VitalsParser>();
+			theContainer.PerRequest<ILog, NullLog>();
 
 			IoC.BuildUp = theContainer.BuildUp;
 			IoC.GetInstance = theContainer.GetInstance;
@@ -23,22 +22,21 @@ namespace Pathfinder.Core.Container.Tests
 		}
 
 		[Test]
-		public void should_get_parser()
+		public void should_get_log()
 		{
-			var parser = IoC.Get<IParser>();
-			Assert.NotNull(parser);
-			Assert.AreEqual(typeof(VitalsParser), parser.GetType());
+			var logger = IoC.Get<ILog>();
+			Assert.NotNull(logger);
+			Assert.AreEqual(typeof(NullLog), logger.GetType());
 		}
 
 		[Test]
-		public void should_get_game_parser()
+		public void should_get_game_server()
 		{
-			theContainer.PerRequest<ITransformer, PopStreamTransformer>();
-			theContainer.PerRequest<IParser, PromptParser>();
-			theContainer.PerRequest<GameParser>();
+			theContainer.PerRequest<ISimpleGameState, SimpleGameState>();
+			theContainer.PerRequest<IGameServer, SimpleGameServer>();
 
-			var parser = IoC.Get<GameParser>();
-			Assert.NotNull(parser);
+			var server = IoC.Get<IGameServer>();
+			Assert.NotNull(server);
 		}
 	}
 }

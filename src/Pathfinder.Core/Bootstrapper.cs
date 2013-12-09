@@ -4,13 +4,13 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
-	public class Boostrapper
+	public class Bootstrapper
 	{
-		public SimpleGameServer Build()
+		public IGameServer Build()
 		{
 			ConfigureContainer();
 
-			return IoC.Get<SimpleGameServer>();
+			return IoC.Get<IGameServer>();
 		}
 
 		private void ConfigureContainer()
@@ -26,7 +26,7 @@ namespace Pathfinder.Core
 			container.PerRequest<IAuthenticationServer, AuthenticationServer>();
 			container.PerRequest<IGameParser, NewGameParser>();
 			container.PerRequest<ISimpleGameState, SimpleGameState>();
-			container.PerRequest<SimpleGameServer>();
+			container.PerRequest<IGameServer, SimpleGameServer>();
 
 			container.PerRequest<ITagTransformer, ComponentTagTransformer>();
 

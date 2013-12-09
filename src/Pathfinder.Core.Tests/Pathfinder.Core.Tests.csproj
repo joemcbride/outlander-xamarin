@@ -50,17 +50,8 @@
     <Compile Include="Authentication\CharacterParserTester.cs" />
     <Compile Include="Authentication\ConnectionTokenParserTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xml\PromptParserTester.cs" />
-    <Compile Include="Xml\ComponentParserTester.cs" />
-    <Compile Include="Xml\IntegratedGameParserTester.cs" />
     <Compile Include="Authentication\AuthGameParserTester.cs" />
-    <Compile Include="Xml\RoundtimeParserTester.cs" />
-    <Compile Include="Xml\VitalsResultTester.cs" />
-    <Compile Include="Xml\HandsParserTester.cs" />
-    <Compile Include="Xml\VitalsParserTester.cs" />
-    <Compile Include="Xml\PopStreamTransformerTester.cs" />
     <Compile Include="IoCTester.cs" />
-    <Compile Include="Xml\CompassParserTester.cs" />
     <Compile Include="Text\ChunkReaderTester.cs" />
     <Compile Include="Text\PromptChunkReaderTester.cs" />
     <Compile Include="Text\NewGameParserTester.cs" />

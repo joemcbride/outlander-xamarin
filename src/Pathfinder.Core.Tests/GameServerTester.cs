@@ -1,21 +1,31 @@
 using System;
 using NUnit.Framework;
+using System.Collections.Generic;
+using Pathfinder.Core.Authentication;
 
 namespace Pathfinder.Core.Tests
 {
 	[TestFixture]
 	public class GameServerTester
 	{
-		private GameServer theGameServer;
-		private StubSimpleSocket theSocket;
+		private IGameServer theGameServer;
+		private StubGameState theGameState;
+		private InMemoryServiceLocator theLocator;
+		private StubAsyncSocket theSocket;
 		private ILog theLogger;
 
 		[SetUp]
 		public void SetUp()
 		{
-			theSocket = new StubSimpleSocket();
+			theGameState = new StubGameState();
+			theLocator = new InMemoryServiceLocator();
 			theLogger = new NullLog();
-			theGameServer = new GameServer(theSocket, theLogger);
+
+			theSocket = new StubAsyncSocket();
+
+			theLocator.Add<IAsyncSocket>(theSocket);
+
+			theGameServer = new SimpleGameServer(theGameState, theLogger, theLocator);
 		}
 
 		[Test]
@@ -27,16 +37,83 @@ namespace Pathfinder.Core.Tests
 			const string expect1 = "\n<streamWindow id=\"main\" title=\"Story\" location=\"center\" target=\"drop\" resident=\"true\"/>\n<streamWindow id='inv' title='My Inventory' target='wear' ifClosed='' resident='true'/>\n";
 			const string expect2 = "<clearStream id='inv' ifClosed=''/>\n";
 
-			theSocket.SetRecieveData(stream);
+			var token = new ConnectionToken();
+			token.Key = "abcd1234";
 
-			var data = theGameServer.Poll();
+			theGameServer.Connect(token);
 
-			Assert.AreEqual(expect1, data);
+			theSocket.FireReceiveMessage(stream);
 
-			theSocket.SetRecieveData(stream2);
-			data = theGameServer.Poll();
+			Assert.AreEqual(expect1, theGameState.LastReadData);
 
-			Assert.AreEqual(expect2, data);
+			theSocket.FireReceiveMessage(stream2);
+
+			Assert.AreEqual(expect2, theGameState.LastReadData);
+		}
+	}
+
+	public class InMemoryServiceLocator : IServiceLocator
+	{
+		private IDictionary<Type, object> _services = new Dictionary<Type, object>();
+
+		public void Add<T>(T service)
+		{
+			_services.Add(typeof(T), service);
+		}
+
+		public T Get<T>()
+		{
+			return (T)_services[typeof(T)];
+		}
+
+		public IEnumerable<T> GetAll<T>()
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class StubGameState : ISimpleGameState
+	{
+		public string LastReadData { get; set; }
+
+		public string Get(string key)
+		{
+			return string.Empty;
+		}
+
+		public void Set(string key, string value)
+		{
+		}
+
+		public void Read(string data)
+		{
+			LastReadData = data;
+		}
+
+		public Action<string> TextLog { get; set; }
+	}
+
+	public class StubAsyncSocket : IAsyncSocket
+	{
+		public event ReceiveMessageEventHandler ReceiveMessage;
+
+		public void Connect(string address, int port)
+		{
+		}
+
+		public void Disconnect()
+		{
+		}
+
+		public void SendMessage(string message)
+		{
+		}
+
+		public void FireReceiveMessage(string message)
+		{
+			var ev = ReceiveMessage;
+			if (ev != null)
+				ev(message);
 		}
 	}
 

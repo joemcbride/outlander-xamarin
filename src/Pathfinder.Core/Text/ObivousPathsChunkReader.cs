@@ -15,13 +15,10 @@ namespace Pathfinder.Core.Text
 
 			if(chunk.Text != null)
 			{
-				try {
-					var replaced = Regex.Replace(chunk.Text, Paths_Regex, "\nObvious $1: $2.");
-					result.Chunk = Chunk.For(replaced);
-				} catch(Exception exc){
-					Console.WriteLine(exc);
-					result.Chunk = chunk;
-				}
+				// remove extra line feeds
+				var replaced = Regex.Replace(chunk.Text, Paths_Regex, "\nObvious $1: $2.");
+				result.Chunk = Chunk.For(replaced);
+				result.Chunk = chunk;
 			}
 
 			return result;

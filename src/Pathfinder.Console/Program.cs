@@ -9,7 +9,7 @@ namespace Pathfinder.Console
     {
         static void Main(string[] args)
         {
-			var gameServer = new Boostrapper().Build();
+			var gameServer = new Bootstrapper().Build();
 
 			var token = gameServer.Authenticate("DR", args[0], args[1], args[2]);
 			if(token == null)

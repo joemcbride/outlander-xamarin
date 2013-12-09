@@ -161,8 +161,11 @@ namespace Pathfinder.Core
 		{
 			try
 			{
-				_client.Shutdown(SocketShutdown.Both);
-				_client.Close();
+				if (_client != null && _client.Connected)
+				{
+					_client.Shutdown(SocketShutdown.Both);
+					_client.Close();
+				}
 			}
 			finally
 			{

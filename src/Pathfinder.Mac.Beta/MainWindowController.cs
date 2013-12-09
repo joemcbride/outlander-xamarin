@@ -1,24 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using Pathfinder.Core;
 using Pathfinder.Core.Authentication;
-using Pathfinder.Core.Xml;
 using Pathfinder.Core.Text;
 
 namespace Pathfinder.Mac.Beta
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController
 	{
-		private SimpleContainer _container;
-
-		private GameServer _gameServer;
-		private NewGameParser _gameParser;
-		private System.Timers.Timer _timer;
-
-		private PromptTag _lastPrompt;
+		private Bootstrapper _bootStrapper;
+		private IGameServer _gameServer;
 
 		#region Constructors
 
@@ -41,16 +35,7 @@ namespace Pathfinder.Mac.Beta
 		// Shared initialization code
 		void Initialize()
 		{
-			_container = new SimpleContainer();
-
-			IoC.BuildUp = _container.BuildUp;
-			IoC.GetInstance = _container.GetInstance;
-			IoC.GetAllInstances = _container.GetAllInstances;
-
-			_container.PerRequest<NewGameParser>();
-
-			_lastPrompt = new PromptTag();
-			_lastPrompt.Prompt = ">";
+			_bootStrapper = new Bootstrapper();
 		}
 
 		#endregion
@@ -59,48 +44,10 @@ namespace Pathfinder.Mac.Beta
 		{
 			base.AwakeFromNib();
 
-			_gameServer = new GameServer();
-			_gameParser = IoC.Get<NewGameParser>();
-
-			_timer = new System.Timers.Timer();
-			_timer.Enabled = false;
-			_timer.Interval = 100;
-			_timer.Elapsed += (sender, e) => {
-				var data = _gameServer.Poll();
-
+			_gameServer = _bootStrapper.Build();
+			_gameServer.GameState.TextLog = (msg) => {
 				BeginInvokeOnMainThread(() => {
-
-					var copy = data;
-
-					try {
-						var result = _gameParser.Parse(Chunk.For(copy));
-
-						//result.Tags.Apply(r => System.Diagnostics.Debug.WriteLine(string.Format("{0}::{1}\n\n", r.GetType(), r.Text)));
-
-						var foundPrompt = result.Tags.OfType<PromptTag>().FirstOrDefault();
-						if(foundPrompt != null)
-						{
-							_lastPrompt = foundPrompt;
-						}
-
-						result.Tags.OfType<RoomNameTag>().Apply(t => Log(t.Name));
-
-						if(result.Chunk != null
-							&& !string.IsNullOrWhiteSpace(result.Chunk.Text)
-							&& !string.IsNullOrWhiteSpace(result.Chunk.Text.Trim()))
-						{
-							Log(result.Chunk.Text.Trim());
-
-							if(_lastPrompt != null)
-							{
-								Log("\n" + _lastPrompt.Prompt + "\n");
-							}
-						}
-					}
-					catch(Exception exc){
-						Log("Parse Exception: " + exc.Message + "\n\n");
-						Log(copy);
-					}
+					Log(msg);
 				});
 			};
 
@@ -120,20 +67,18 @@ namespace Pathfinder.Mac.Beta
 					return;
 				}
 
-				var token = Authenticate(account, password, character);
+				var token = _gameServer.Authenticate("DR", account, password, character);
 				if(token != null)
 				{
 					Log("\n\nAuthenticated...");
 					Log("\nConnecting to game...\n");
 					_gameServer.Connect(token);
-					_timer.Enabled = true;
 				}
 			};
 
 			LogoutButton.Activated += (sender, e) =>
 			{
-				_timer.Enabled = false;
-				_gameServer.Close();
+				_gameServer.Disconnect();
 				Log("\n\nConnection closed.\n\n");
 			};
 
@@ -147,53 +92,11 @@ namespace Pathfinder.Mac.Beta
 
 		private void SendCommand(string command)
 		{
-			var prompt = command;
-
-			if(_lastPrompt != null)
-			{
-				prompt = _lastPrompt.Prompt + " " + prompt + "\n";
-			}
+			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + command + "\n";
 
 			Log(prompt);
 
 			_gameServer.SendCommand(command);
-			_timer.Enabled = true;
-		}
-
-		private ConnectionToken Authenticate(string account, string password, string character)
-		{
-			using (var authServer = new AuthenticationServer())
-			{
-				authServer.Connect("eaccess.play.net", 7900);
-				var authenticated = authServer.Authenticate(account, password);
-
-				if (!authenticated) {
-					Log("Authentication failed!");
-					return null;
-				}
-
-				var gameList = authServer.GetGameList();
-				gameList
-					.Select(g => g.Code + ", " + g.Name)
-					.Apply(Log);
-
-				var characters = authServer.GetCharacterList("DR").ToList();
-				characters
-					.Select(c => c.CharacterId + ", " + c.Name)
-					.Apply(Log);
-
-				var characterId = characters
-					.Where(x => x.Name.ToLower() == character.ToLower())
-					.Select(x => x.CharacterId)
-					.FirstOrDefault();
-
-				ConnectionToken token = null;
-				if (!string.IsNullOrWhiteSpace(characterId)) {
-					token = authServer.ChooseCharacter(characterId);
-				}
-				authServer.Close();
-				return token;
-			}
 		}
 
 		private void Log(string text)
