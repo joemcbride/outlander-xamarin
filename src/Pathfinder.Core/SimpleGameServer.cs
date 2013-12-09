@@ -10,7 +10,7 @@ namespace Pathfinder.Core
 {
 	public interface IGameServer
 	{
-		ISimpleGameState GameState { get; }
+		IGameState GameState { get; }
 
 		void Connect(ConnectionToken token);
 		void Disconnect();
@@ -24,20 +24,20 @@ namespace Pathfinder.Core
 		const string StormFrontVersion = "1.0.1.26";
 		const string ConnectionStringTemplate = "{0}\r\n/FE:STORMFRONT /VERSION:{1} /P:{2} /XML\r\n";
 
-		private readonly ISimpleGameState _gameState;
+		private readonly IGameState _gameState;
 		private readonly ILog _logger;
 		private readonly IServiceLocator _locator;
 		private readonly StringBuilder _builder = new StringBuilder();
 		private IAsyncSocket _asyncSocket;
 
-		public SimpleGameServer(ISimpleGameState gameState, ILog logger, IServiceLocator locator)
+		public SimpleGameServer(IGameState gameState, ILog logger, IServiceLocator locator)
 		{
 			_gameState = gameState;
 			_locator = locator;
 			_logger = logger;
 		}
 
-		public ISimpleGameState GameState {
+		public IGameState GameState {
 			get {
 				return _gameState;
 			}

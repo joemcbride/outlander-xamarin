@@ -72,7 +72,7 @@ namespace Pathfinder.Core.Tests
 		}
 	}
 
-	public class StubGameState : ISimpleGameState
+	public class StubGameState : IGameState
 	{
 		public string LastReadData { get; set; }
 

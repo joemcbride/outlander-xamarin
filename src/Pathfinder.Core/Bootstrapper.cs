@@ -25,7 +25,7 @@ namespace Pathfinder.Core
 			container.PerRequest<IAsyncSocket, AsyncSocket>();
 			container.PerRequest<IAuthenticationServer, AuthenticationServer>();
 			container.PerRequest<IGameParser, NewGameParser>();
-			container.PerRequest<ISimpleGameState, SimpleGameState>();
+			container.PerRequest<IGameState, SimpleGameState>();
 			container.PerRequest<IGameServer, SimpleGameServer>();
 
 			container.PerRequest<ITagTransformer, ComponentTagTransformer>();

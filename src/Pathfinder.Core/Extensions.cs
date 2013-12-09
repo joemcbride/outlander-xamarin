@@ -5,12 +5,13 @@ namespace Pathfinder.Core
 {
     public static class Extensions
     {
-        //public static IEnumerable<T> Each<T>(this IEnumerable<T> values, Action<T> eachAction)
-        //{
-        //    foreach (T obj in values)
-        //        eachAction(obj);
-        //    return values;
-        //}
+		public static string EnsureEmpty(this string value)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return string.Empty;
+
+			return value;
+		}
 
 		public static DateTime UnixTimeStampToDateTime(this string unixTimeStamp)
 		{

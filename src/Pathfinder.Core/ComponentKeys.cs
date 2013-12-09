@@ -28,6 +28,7 @@ namespace Pathfinder.Core
 		public const string RightHand = "righthand";
 		public const string RightHandId = "righthandnounid";
 		public const string RightHandNoun = "righthandnoun";
+
+		public const string Roundtime = "roundtime";
 	}
-	
 }

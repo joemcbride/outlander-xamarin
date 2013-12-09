@@ -19,6 +19,9 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField CommandTextField { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField LeftHandLabel { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton LoginButton { get; set; }
 
 		[Outlet]
@@ -31,6 +34,12 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSSecureTextField PasswordTextField { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField RightHandLabel { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField RoundtimeLabel { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton SubmitButton { get; set; }
 
 		[Outlet]
@@ -38,6 +47,11 @@ namespace Pathfinder.Mac.Beta
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (CharacterTextField != null) {
+				CharacterTextField.Dispose ();
+				CharacterTextField = null;
+			}
+
 			if (CommandTextField != null) {
 				CommandTextField.Dispose ();
 				CommandTextField = null;
@@ -73,9 +87,19 @@ namespace Pathfinder.Mac.Beta
 				UsernameTextField = null;
 			}
 
-			if (CharacterTextField != null) {
-				CharacterTextField.Dispose ();
-				CharacterTextField = null;
+			if (RoundtimeLabel != null) {
+				RoundtimeLabel.Dispose ();
+				RoundtimeLabel = null;
+			}
+
+			if (LeftHandLabel != null) {
+				LeftHandLabel.Dispose ();
+				LeftHandLabel = null;
+			}
+
+			if (RightHandLabel != null) {
+				RightHandLabel.Dispose ();
+				RightHandLabel = null;
 			}
 		}
 	}

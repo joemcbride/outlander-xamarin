@@ -32,7 +32,7 @@ namespace Pathfinder.Core.Container.Tests
 		[Test]
 		public void should_get_game_server()
 		{
-			theContainer.PerRequest<ISimpleGameState, SimpleGameState>();
+			theContainer.PerRequest<IGameState, SimpleGameState>();
 			theContainer.PerRequest<IGameServer, SimpleGameServer>();
 
 			var server = IoC.Get<IGameServer>();

@@ -167,6 +167,10 @@ namespace Pathfinder.Core
 					_client.Close();
 				}
 			}
+			catch(SocketException exc)
+			{
+				_log.Error(exc);
+			}
 			finally
 			{
 				_client = null;

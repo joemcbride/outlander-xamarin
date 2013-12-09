@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using Pathfinder.Core;
@@ -13,6 +14,9 @@ namespace Pathfinder.Mac.Beta
 	{
 		private Bootstrapper _bootStrapper;
 		private IGameServer _gameServer;
+
+		private DateTime _roundTimeEnd;
+		private Timer _timer;
 
 		#region Constructors
 
@@ -36,6 +40,13 @@ namespace Pathfinder.Mac.Beta
 		void Initialize()
 		{
 			_bootStrapper = new Bootstrapper();
+			_timer = new Timer();
+			_timer.Interval = 1000;
+			_timer.Elapsed += (sender, e) =>
+			{
+				var diff = _roundTimeEnd - DateTime.Now;
+				SetRoundtime(diff.Seconds);
+			};
 		}
 
 		#endregion
@@ -48,7 +59,18 @@ namespace Pathfinder.Mac.Beta
 			_gameServer.GameState.TextLog = (msg) => {
 				BeginInvokeOnMainThread(() => {
 					Log(msg);
+
+					BeginInvokeOnMainThread(() => {
+						LeftHandLabel.StringValue = string.Format("Left: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
+						RightHandLabel.StringValue = string.Format("Right: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
+					});
 				});
+			};
+			_gameServer.GameState.Roundtime = (rt) => {
+				_roundTimeEnd = rt.RoundTime;
+				var diff = _roundTimeEnd - DateTime.Now;
+				SetRoundtime(diff.Seconds);
+				_timer.Start();
 			};
 
 			MainTextView.Editable = false;
@@ -101,12 +123,32 @@ namespace Pathfinder.Mac.Beta
 
 		private void Log(string text)
 		{
-			MainTextView.TextStorage.Append(new NSAttributedString(text));
+			MainTextView.TextStorage.Append(CreateString(text));
 
 			var start = MainTextView.TextStorage.Value.Length - 2;
 			start = start > -1 ? start : 0;
 			var length = start >= 2 ? 2 : 0;
 			MainTextView.ScrollRangeToVisible(new NSRange(start, length));
+		}
+
+		private void SetRoundtime(int count)
+		{
+			if(count < 0)
+			{
+				count = 0;
+				_timer.Stop();
+			}
+
+			BeginInvokeOnMainThread(() => RoundtimeLabel.StringValue = string.Format("RT: {0}", count));
+		}
+
+		private NSAttributedString CreateString(string text)
+		{
+			NSObject[] objects = new NSObject[] { NSColor.Blue };
+			NSObject[] keys = new NSObject[] { NSAttributedString.ForegroundColorAttributeName };
+			NSDictionary attributes = NSDictionary.FromObjectsAndKeys (objects, keys);
+
+			return new NSAttributedString (text, attributes);
 		}
 
 		public override void KeyUp(NSEvent theEvent)

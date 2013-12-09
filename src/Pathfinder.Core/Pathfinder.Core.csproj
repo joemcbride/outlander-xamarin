@@ -81,7 +81,6 @@
     <Compile Include="Text\SpellTag.cs" />
     <Compile Include="Text\HandTag.cs" />
     <Compile Include="ComponentKeys.cs" />
-    <Compile Include="ISimpleGameState.cs" />
     <Compile Include="SimpleDictionary.cs" />
     <Compile Include="Text\ITagTransformer.cs" />
     <Compile Include="Text\StreamWindowTagTransformer.cs" />
@@ -90,6 +89,7 @@
     <Compile Include="Text\PresetChunkReader.cs" />
     <Compile Include="Text\ObivousPathsChunkReader.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="IGameState.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

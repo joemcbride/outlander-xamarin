@@ -8,22 +8,24 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
-	public interface ISimpleGameState
+	public interface IGameState
 	{
 		string Get(string key);
 		void Set(string key, string value);
 		void Read(string data);
 
 		Action<string> TextLog { get; set; }
+		Action<RoundtimeTag> Roundtime { get; set; }
 	}
 
-	public class SimpleGameState : ISimpleGameState
+	public class SimpleGameState : IGameState
 	{
 		private readonly IGameParser _parser;
 		private readonly List<string> _filters = new List<string>();
 		private readonly SimpleDictionary _components = new SimpleDictionary();
 
 		public Action<string> TextLog { get; set; }
+		public Action<RoundtimeTag> Roundtime { get; set; }
 
 		public SimpleGameState(IGameParser parser)
 		{
@@ -44,9 +46,7 @@ namespace Pathfinder.Core
 		public void Read(string data)
 		{
 			var result = _parser.Parse(Chunk.For(data));
-
 			ApplyTags(result.Tags);
-
 			RenderData(result);
 		}
 
@@ -76,9 +76,7 @@ namespace Pathfinder.Core
 		{
 			tags = tags.ToList();
 
-			var components = tags.OfType<ComponentTag>();
-
-			components.Apply(c => {
+			tags.OfType<ComponentTag>().Apply(c => {
 				if(c.IsExp) {
 					const string Rank_Regex = "(\\d+)\\s(\\d+)%\\s(\\w+)";
 					_components.Set(c.Id + ".Ranks", Regex.Replace(c.Value, Rank_Regex, "$1.$2"));
@@ -118,6 +116,15 @@ namespace Pathfinder.Core
 			tags.OfType<PromptTag>().Apply(t => {
 				_components.Set(ComponentKeys.Prompt, t.Prompt);
 				_components.Set(ComponentKeys.GameTime, t.GameTime);
+			});
+
+			tags.OfType<RoundtimeTag>().Apply(t => {
+				var diff = t.RoundTime - DateTime.Now;
+				_components.Set(ComponentKeys.Roundtime, diff.Seconds.ToString());
+				if(Roundtime != null)
+				{
+					Roundtime(t);
+				}
 			});
 		}
 
