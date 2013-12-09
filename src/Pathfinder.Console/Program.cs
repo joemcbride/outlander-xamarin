@@ -11,7 +11,7 @@ namespace Pathfinder.Console
         {
 			var gameServer = new Boostrapper().Build();
 
-			var token = gameServer.Authenticate(args[0], args[1], args[2]);
+			var token = gameServer.Authenticate("DR", args[0], args[1], args[2]);
 			if(token == null)
 			{
 				console.WriteLine("Unable to authenticate.");

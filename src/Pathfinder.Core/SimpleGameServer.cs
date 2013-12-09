@@ -70,12 +70,12 @@ namespace Pathfinder.Core
 					_gameState.Read(data);
 				}
 				catch(Exception exc){
-					Console.WriteLine(exc);
+					_logger.Error(exc);
 				}
 			}
 		}
 
-		public ConnectionToken Authenticate(string account, string password, string character)
+		public ConnectionToken Authenticate(string game, string account, string password, string character)
 		{
 			using (var authServer = _provider.Get<IAuthenticationServer>())
 			{
@@ -84,19 +84,19 @@ namespace Pathfinder.Core
 				var authenticated = authServer.Authenticate(account, password);
 
 				if (!authenticated) {
-					System.Console.WriteLine("Authentication failed!");
+					_logger.Warn("Authentication Failed.");
 					return null;
 				}
 
 				var gameList = authServer.GetGameList();
 				gameList
 					.Select(g => g.Code + ", " + g.Name)
-					.Apply(System.Console.WriteLine);
+					.Apply(_logger.Info);
 
-				var characters = authServer.GetCharacterList("DR").ToList();
+				var characters = authServer.GetCharacterList(game).ToList();
 				characters
 					.Select(c => c.CharacterId + ", " + c.Name)
-					.Apply(System.Console.WriteLine);
+					.Apply(_logger.Info);
 
 				var characterId = characters
 					.Where(x => x.Name.ToLower() == character.ToLower())
