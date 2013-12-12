@@ -89,6 +89,7 @@
     <Compile Include="Text\PresetChunkReader.cs" />
     <Compile Include="Text\ObivousPathsChunkReader.cs" />
     <Compile Include="IGameState.cs" />
+    <Compile Include="Text\OutputChunkReader.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

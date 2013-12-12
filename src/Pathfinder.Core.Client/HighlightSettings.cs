@@ -24,7 +24,7 @@ namespace Pathfinder.Core.Client
 
 			settings.Add(new HighlightSetting { Id = HighlightKeys.Default, Color = "#E6E6E6"  });
 			settings.Add(new HighlightSetting { Id = HighlightKeys.Bold, Color = "#FFFF00"  });
-			settings.Add(new HighlightSetting { Id = HighlightKeys.RoomName, Color = "#5858FA"  });
+			settings.Add(new HighlightSetting { Id = HighlightKeys.RoomName, Color = "#3333FF"  });
 
 			return settings;
 		}

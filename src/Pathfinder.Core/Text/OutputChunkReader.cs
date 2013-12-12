@@ -4,16 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Text
 {
-	public class RoomNameChunkReader : IChunkReader
+	public class OutputChunkReader : IChunkReader
 	{
-		private ChunkReader<RoomNameTag> _reader;
+		private ChunkReader<Tag> _reader;
 
-		public RoomNameChunkReader()
+		public OutputChunkReader()
 		{
-			_reader = new ChunkReader<RoomNameTag>("<style id=\"roomName\"", "<style id=\"\"", true);
+			_reader = new ChunkReader<Tag>("<output class=\"mono\"", "<output class=\"\"", true);
 			_reader.Append = (builder, result, tag) => {
-				builder.Append(tag.Name);
-				result.AddTag(tag);
+				builder.Append(tag.Text);
+				//result.AddTag(tag);
 				return 0;
 			};
 		}

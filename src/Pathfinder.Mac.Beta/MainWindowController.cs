@@ -43,7 +43,7 @@ namespace Pathfinder.Mac.Beta
 			_bootStrapper = new Bootstrapper();
 
 			_timer = new Timer();
-			_timer.Interval = 900;
+			_timer.Interval = 1000;
 			_timer.Elapsed += (sender, e) =>
 			{
 				var diff = _roundTimeEnd - DateTime.Now;

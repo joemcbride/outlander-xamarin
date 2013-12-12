@@ -43,6 +43,7 @@ namespace Pathfinder.Core.Text
 			_parsers.Add(new SelfClosingChunkReader<IndicatorTag>("<indicator"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<resource"));
 			//_parsers.Add(new SelfClosingChunkReader<Tag>("<output"));
+			_parsers.Add(new OutputChunkReader());
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<endSetup"));
 			_parsers.Add(new ChunkReader<SpellTag>("<spell", "</spell"));
 			_parsers.Add(new ChunkReader<LeftHandTag>("<left", "</left"));

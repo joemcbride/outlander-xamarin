@@ -43,6 +43,8 @@ namespace Pathfinder.Mac.Beta
 
 			hexColor.FromHexToRGB(out red, out green, out blue);
 
+			//return NSColor.FromDeviceRgba(red, green, blue, 1.0f);
+
 			float c = 0.6168f;
 			float m = 0.0000f;
 			float y = 1.0000f;
