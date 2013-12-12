@@ -84,6 +84,7 @@
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyUtil.cs" />
+    <Compile Include="Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -97,6 +98,10 @@
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
       <Project>{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}</Project>
       <Name>Pathfinder.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pathfinder.Core.Client\Pathfinder.Core.Client.csproj">
+      <Project>{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}</Project>
+      <Name>Pathfinder.Core.Client</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

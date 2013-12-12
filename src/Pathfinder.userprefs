@@ -1,18 +1,23 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/8/2013 5:24:32 PM">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/11/2013 1:21:22 AM">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Mac.Beta/Extensions.cs">
+    <Files>
+      <File FileName="Pathfinder.Mac.Beta/MainWindowController.cs" Line="1" Column="1" />
+      <File FileName="Pathfinder.Core.Client/TextTag.cs" Line="101" Column="5" />
+      <File FileName="Pathfinder.Core.Client.Tests/HighlightsTester.cs" Line="32" Column="47" />
+      <File FileName="Pathfinder.Mac.Beta/Extensions.cs" Line="4" Column="28" />
+    </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="Pathfinder.Core.Tests" expanded="True" selected="True">
+          <Node name="Pathfinder.Core.Client.Tests" expanded="True">
             <Node name="Pathfinder" expanded="True">
               <Node name="Core" expanded="True">
-                <Node name="Tests" expanded="True">
-                  <Node name="LearningRateTester" expanded="True" />
-                </Node>
-                <Node name="Text" expanded="True">
+                <Node name="Client" expanded="True">
                   <Node name="Tests" expanded="True">
-                    <Node name="ComponentTagTester" expanded="True" />
+                    <Node name="HighlightsTester" expanded="True">
+                      <Node name="highlights_room_name" selected="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>

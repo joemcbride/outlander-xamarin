@@ -1,7 +1,8 @@
 using System;
-using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Pathfinder.Core.Authentication;
+using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core.Tests
 {
@@ -49,128 +50,6 @@ namespace Pathfinder.Core.Tests
 			theSocket.FireReceiveMessage(stream2);
 
 			Assert.AreEqual(expect2, theGameState.LastReadData);
-		}
-	}
-
-	public class InMemoryServiceLocator : IServiceLocator
-	{
-		private IDictionary<Type, object> _services = new Dictionary<Type, object>();
-
-		public void Add<T>(T service)
-		{
-			_services.Add(typeof(T), service);
-		}
-
-		public T Get<T>()
-		{
-			return (T)_services[typeof(T)];
-		}
-
-		public IEnumerable<T> GetAll<T>()
-		{
-			throw new NotImplementedException();
-		}
-	}
-
-	public class StubGameState : IGameState
-	{
-		public string LastReadData { get; set; }
-
-		public string Get(string key)
-		{
-			return string.Empty;
-		}
-
-		public void Set(string key, string value)
-		{
-		}
-
-		public void Read(string data)
-		{
-			LastReadData = data;
-		}
-
-		public Action<string> TextLog { get; set; }
-	}
-
-	public class StubAsyncSocket : IAsyncSocket
-	{
-		public event ReceiveMessageEventHandler ReceiveMessage;
-
-		public void Connect(string address, int port)
-		{
-		}
-
-		public void Disconnect()
-		{
-		}
-
-		public void SendMessage(string message)
-		{
-		}
-
-		public void FireReceiveMessage(string message)
-		{
-			var ev = ReceiveMessage;
-			if (ev != null)
-				ev(message);
-		}
-	}
-
-	public class StubSimpleSocket : ISimpleSocket
-	{
-		private string _receiveData;
-		private Exception _lastError = null;
-
-		public void Close()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Connect(string host, int port)
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool Send(string data)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string SendAndReceive(string data)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string Receive()
-		{
-			return _receiveData;
-		}
-
-		public void Shutdown(System.Net.Sockets.SocketShutdown option)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Exception LastError {
-			get {
-				return _lastError;
-			}
-		}
-
-		public bool Connected {
-			get {
-				return true;
-			}
-		}
-
-		public void Dispose()
-		{
-		}
-
-		public void SetRecieveData(string data)
-		{
-			_receiveData = data;
 		}
 	}
 }

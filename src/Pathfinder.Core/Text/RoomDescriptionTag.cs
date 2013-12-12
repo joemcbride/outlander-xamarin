@@ -28,5 +28,4 @@ namespace Pathfinder.Core.Text
 			return new RoomDescriptionTag(tag.Text);
 		}
 	}
-	
 }

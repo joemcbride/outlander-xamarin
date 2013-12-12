@@ -17,7 +17,7 @@ namespace Pathfinder.Core.Text
 			var streamTag = (StreamWindowTag)tag;
 
 			if(streamTag.Id.Equals("room")){
-				return new ComponentTag(string.Format("<component id='{0}'>{1}</component>", "roomdesc", streamTag.Subtitle.Replace(" - ", string.Empty)));
+				return new ComponentTag(string.Format("<component id='{0}'>{1}</component>", ComponentKeys.RoomTitle, streamTag.Subtitle.Replace(" - ", string.Empty)));
 			}
 
 			return streamTag;

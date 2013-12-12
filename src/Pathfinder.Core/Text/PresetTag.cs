@@ -28,5 +28,4 @@ namespace Pathfinder.Core.Text
 			Value = element.Value;
 		}
 	}
-	
 }

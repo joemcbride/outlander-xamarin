@@ -89,6 +89,10 @@ namespace Pathfinder.Core
 				}
 			});
 
+			tags.OfType<RoomNameTag>().Apply(t => {
+				_components.Set(ComponentKeys.RoomName, t.Name);
+			});
+
 			tags.OfType<VitalsTag>().Apply(t => {
 				_components.Set(t.Name, t.Value.ToString());
 			});

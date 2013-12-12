@@ -7,6 +7,7 @@ using MonoMac.Foundation;
 using Pathfinder.Core;
 using Pathfinder.Core.Authentication;
 using Pathfinder.Core.Text;
+using Pathfinder.Core.Client;
 
 namespace Pathfinder.Mac.Beta
 {
@@ -40,8 +41,9 @@ namespace Pathfinder.Mac.Beta
 		void Initialize()
 		{
 			_bootStrapper = new Bootstrapper();
+
 			_timer = new Timer();
-			_timer.Interval = 1000;
+			_timer.Interval = 900;
 			_timer.Elapsed += (sender, e) =>
 			{
 				var diff = _roundTimeEnd - DateTime.Now;
@@ -56,6 +58,9 @@ namespace Pathfinder.Mac.Beta
 			base.AwakeFromNib();
 
 			_gameServer = _bootStrapper.Build();
+
+			IoC.Get<IGameState>().Set(ComponentKeys.RoomName, "[Derelict Road, Darkling Wood]");
+
 			_gameServer.GameState.TextLog = (msg) => {
 				BeginInvokeOnMainThread(() => {
 					Log(msg);
@@ -72,8 +77,6 @@ namespace Pathfinder.Mac.Beta
 				SetRoundtime(diff.Seconds);
 				_timer.Start();
 			};
-
-			MainTextView.Editable = false;
 
 			LoginButton.Activated += (sender, e) =>
 			{
@@ -100,7 +103,7 @@ namespace Pathfinder.Mac.Beta
 
 			LogoutButton.Activated += (sender, e) =>
 			{
-				_gameServer.Disconnect();
+				//_gameServer.Disconnect();
 				Log("\n\nConnection closed.\n\n");
 			};
 
@@ -123,7 +126,20 @@ namespace Pathfinder.Mac.Beta
 
 		private void Log(string text)
 		{
-			MainTextView.TextStorage.Append(CreateString(text));
+			var highlights = IoC.Get<Highlights>();
+			highlights.For(text).Apply(Append);
+		}
+
+		private void Append(TextTag tag)
+		{
+			var defaultSettings = new DefaultSettings();
+
+			var defaultColor = IoC.Get<HighlightSettings>().Get(HighlightKeys.Default).Color;
+
+			var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
+			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
+
+			MainTextView.TextStorage.Append(tag.Text.CreateString(color.ToNSColor(), font));
 
 			var start = MainTextView.TextStorage.Value.Length - 2;
 			start = start > -1 ? start : 0;
@@ -140,15 +156,6 @@ namespace Pathfinder.Mac.Beta
 			}
 
 			BeginInvokeOnMainThread(() => RoundtimeLabel.StringValue = string.Format("RT: {0}", count));
-		}
-
-		private NSAttributedString CreateString(string text)
-		{
-			NSObject[] objects = new NSObject[] { NSColor.Blue };
-			NSObject[] keys = new NSObject[] { NSAttributedString.ForegroundColorAttributeName };
-			NSDictionary attributes = NSDictionary.FromObjectsAndKeys (objects, keys);
-
-			return new NSAttributedString (text, attributes);
 		}
 
 		public override void KeyUp(NSEvent theEvent)

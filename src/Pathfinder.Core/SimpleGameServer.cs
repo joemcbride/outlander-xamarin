@@ -78,7 +78,17 @@ namespace Pathfinder.Core
 				_logger.Info(data);
 
 				try {
-					_gameState.Read(data);
+
+					if(Regex.IsMatch(data, "GSw\\d+"))
+					{
+						var code = Regex.Match(data, "GSw\\d+").Value;
+						data = Regex.Replace(data, "GSw\\d+", string.Empty);
+						data += "Connected to game server.\n\n";
+						SendCommand(code);
+					}
+
+					if(!string.IsNullOrWhiteSpace(data))
+						_gameState.Read(data);
 				}
 				catch(Exception exc){
 					_logger.Error(exc);

@@ -1,6 +1,7 @@
 using System;
 using Pathfinder.Core.Authentication;
 using Pathfinder.Core.Text;
+using Pathfinder.Core.Client;
 
 namespace Pathfinder.Core
 {
@@ -21,12 +22,12 @@ namespace Pathfinder.Core
 			IoC.GetInstance = container.GetInstance;
 			IoC.GetAllInstances = container.GetAllInstances;
 
-			container.PerRequest<IServiceLocator, ServiceLocator>();
+			container.Singleton<IServiceLocator, ServiceLocator>();
 			container.PerRequest<IAsyncSocket, AsyncSocket>();
 			container.PerRequest<IAuthenticationServer, AuthenticationServer>();
 			container.PerRequest<IGameParser, NewGameParser>();
-			container.PerRequest<IGameState, SimpleGameState>();
-			container.PerRequest<IGameServer, SimpleGameServer>();
+			container.Singleton<IGameState, SimpleGameState>();
+			container.Singleton<IGameServer, SimpleGameServer>();
 
 			container.PerRequest<ITagTransformer, ComponentTagTransformer>();
 
@@ -39,6 +40,13 @@ namespace Pathfinder.Core
 			var compositeLog = new CompositeLog(new ILog[]{ logger });
 
 			container.Instance<ILog>(compositeLog);
+
+			container.Instance(HighlightSettings.Default());
+
+			container.PerRequest<Highlights>();
+			container.PerRequest<IHighlighter, MonoHighlighter>();
+			container.PerRequest<IHighlighter, RoomNameHighlighter>();
+			container.PerRequest<IHighlighter, BoldHighlighter>();
 		}
 	}
 }

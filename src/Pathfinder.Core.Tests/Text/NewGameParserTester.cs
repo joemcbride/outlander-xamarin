@@ -51,7 +51,7 @@ namespace Pathfinder.Core.Text.Tests
 		[Test]
 		public void handles_login()
 		{
-			const string expected = "Please wait for connection to game server.\nGSw000100000553733\nWelcome to DragonRealms (R) v2.00\nCopyright 2013 Simutronics Corp.\nAll Rights Reserved\n\n\n\n\n----------------------------------------------------------------------------\n   Last login :  Saturday, December 7, 2013 at 16:54:49\n       Logoff :  Saturday, December 7, 2013 at 16:55:05\n----------------------------------------------------------------------------\n\n\n[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n";
+			const string expected = "Please wait for connection to game server.\nGSw000100000553733\nWelcome to DragonRealms (R) v2.00\nCopyright 2013 Simutronics Corp.\nAll Rights Reserved\n\n\n\n\n<output class=\"mono\"/>\n\n----------------------------------------------------------------------------\n   Last login :  Saturday, December 7, 2013 at 16:54:49\n       Logoff :  Saturday, December 7, 2013 at 16:55:05\n----------------------------------------------------------------------------\n\n<output class=\"\"/>\n[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n";
 
 			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.login-data1.txt"))
 			using(var reader = new StreamReader(stream))
@@ -72,7 +72,7 @@ namespace Pathfinder.Core.Text.Tests
 					tags.AddRange(result.Tags);
 				}
 
-				Assert.AreEqual(147, tags.Count);
+				Assert.AreEqual(145, tags.Count);
 				Assert.AreEqual(expected, builder.ToString());
 			}
 		}
@@ -163,7 +163,7 @@ namespace Pathfinder.Core.Text.Tests
 		}
 
 		[Test]
-		public void something()
+		public void handles_roomname_and_paths()
 		{
 			const string data = "<resource picture=\"0\"/><style id=\"roomName\" />[Woodland Brook]\n<style id=\"\"/><preset id='roomDesc'>Water ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.</preset>  \nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n<compass><dir value=\"ne\"/><dir value=\"s\"/><dir value=\"nw\"/></compass><component id='room players'></component>\n<prompt time=\"1386489933\">R&gt;</prompt>\n";
 			const string expected = "[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n\n\n";

@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Text
 {
-
 	public class PresetChunkReader : IChunkReader
 	{
 		private ChunkReader<PresetTag> _reader;
@@ -34,5 +33,4 @@ namespace Pathfinder.Core.Text
 			return _reader.Read(chunk);
 		}
 	}
-	
 }

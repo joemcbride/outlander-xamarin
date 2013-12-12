@@ -9,7 +9,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pathfinder.Core.Tests</RootNamespace>
     <AssemblyName>Pathfinder.Core.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -61,6 +60,10 @@
     <Compile Include="Text\ObivousPathsChunkReaderTester.cs" />
     <Compile Include="Text\ComponentTagTester.cs" />
     <Compile Include="LearningRateTester.cs" />
+    <Compile Include="StubGameState.cs" />
+    <Compile Include="StubAsyncSocket.cs" />
+    <Compile Include="StubSimpleSocket.cs" />
+    <Compile Include="InMemoryServiceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
