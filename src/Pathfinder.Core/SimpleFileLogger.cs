@@ -35,12 +35,15 @@ namespace Pathfinder.Core
 
 		public void Error(Exception exception)
 		{
-			Write(_errorsFilename, string.Format("Error: {0}", exception));
+			Write(_errorsFilename, string.Format("Error at {0}: {1}\n\n\n", DateTime.UtcNow, exception));
 		}
 
 		private void Write(string filename, string data)
 		{
 			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Documents/Pathfinder");
+			if(!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+
 			var fullPath = Path.Combine(path, filename);
 
 			try {

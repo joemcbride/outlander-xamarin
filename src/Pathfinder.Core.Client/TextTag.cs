@@ -35,12 +35,22 @@ namespace Pathfinder.Core.Client
 
 		public static TextTag For(string text)
 		{
-			return new TextTag { Text = text };
+			return For(text, string.Empty);
+		}
+
+		public static TextTag For(string text, string color)
+		{
+			return For(text, color, false);
 		}
 
 		public static TextTag For(string text, TextTag tag)
 		{
-			return new TextTag { Text = text, Color = tag.Color, Mono = tag.Mono };
+			return For(text, tag.Color, tag.Mono);
+		}
+
+		public static TextTag For(string text, string color, bool mono)
+		{
+			return new TextTag { Text = text, Color = color, Mono = mono };
 		}
 	}
 }

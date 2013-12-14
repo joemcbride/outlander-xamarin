@@ -1,11 +1,8 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/11/2013 1:21:22 AM">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/14/2013 2:31:00 AM">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Mac.Beta/Extensions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Mac.Beta/MainWindowController.cs">
     <Files>
-      <File FileName="Pathfinder.Mac.Beta/MainWindowController.cs" Line="1" Column="1" />
-      <File FileName="Pathfinder.Core.Client/TextTag.cs" Line="101" Column="5" />
-      <File FileName="Pathfinder.Core.Client.Tests/HighlightsTester.cs" Line="32" Column="47" />
-      <File FileName="Pathfinder.Mac.Beta/Extensions.cs" Line="4" Column="28" />
+      <File FileName="Pathfinder.Mac.Beta/MainWindowController.cs" Line="81" Column="34" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
@@ -15,9 +12,7 @@
               <Node name="Core" expanded="True">
                 <Node name="Client" expanded="True">
                   <Node name="Tests" expanded="True">
-                    <Node name="HighlightsTester" expanded="True">
-                      <Node name="highlights_room_name" selected="True" />
-                    </Node>
+                    <Node name="CommandCacheTester" expanded="True" selected="True" />
                   </Node>
                 </Node>
               </Node>
@@ -30,6 +25,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Tests/Text/EmptyClass.cs" line="18" column="1" />
+      <Breakpoint file="/Users/jomc/Documents/Dev/pathfinder/src/Pathfinder.Core.Client.Tests/HighlightsTester.cs" line="39" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

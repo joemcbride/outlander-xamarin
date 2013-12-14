@@ -90,6 +90,7 @@
     <Compile Include="Text\ObivousPathsChunkReader.cs" />
     <Compile Include="IGameState.cs" />
     <Compile Include="Text\OutputChunkReader.cs" />
+    <Compile Include="NotificationLogger.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

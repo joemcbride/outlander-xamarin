@@ -8,12 +8,18 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
-
 	public class SimpleDictionary
 	{
 		private IDictionary<string, string> _components = new Dictionary<string, string>();
 
 		private static object LockObject = new object();
+
+		public bool HasKey(string key)
+		{
+			lock (LockObject) {
+				return _components.ContainsKey(key);
+			}
+		}
 
 		public string Get(string key)
 		{
@@ -36,5 +42,4 @@ namespace Pathfinder.Core
 			}
 		}
 	}
-	
 }

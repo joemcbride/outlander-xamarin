@@ -9,13 +9,10 @@ namespace Pathfinder.Core.Client
 	{
 		private const string Pattern = "(<output class=\"mono\"\\/>(.*?)<output class=\"\"/>)";
 
-		private HighlightSettings _settings;
 		public Action<TextTag, Match> Modify { get; set; }
 
-		public MonoHighlighter(HighlightSettings settings)
+		public MonoHighlighter()
 		{
-			_settings = settings;
-
 			Modify = (tag, match) => {
 				tag.Text = match.Groups[2].Value;
 				tag.Mono = true;

@@ -6,8 +6,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController">
             <connections>
+                <outlet property="ArrivalsTextView" destination="LhE-9b-beR" id="R6Z-fu-HEL"/>
                 <outlet property="CharacterTextField" destination="gfA-7z-CEy" id="seE-f1-swF"/>
                 <outlet property="CommandTextField" destination="mk9-qx-D7r" id="DZm-fm-ivK"/>
+                <outlet property="ExpTextView" destination="PkW-Mr-mNn" id="Xx0-mC-dBz"/>
                 <outlet property="LeftHandLabel" destination="tBS-Ru-QaW" id="thB-oi-Fxp"/>
                 <outlet property="LoginButton" destination="7Rt-q6-WOf" id="wqS-r0-HfU"/>
                 <outlet property="LogoutButton" destination="vIc-Db-Fb4" id="DYQ-O6-BrY"/>
@@ -165,6 +167,119 @@
                             <customView id="D8Q-QG-oBw">
                                 <rect key="frame" x="627" y="0.0" width="200" height="570"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <tabView type="bottomTabsBezelBorder" id="Yve-a2-0Xq">
+                                        <rect key="frame" x="0.0" y="344" width="199" height="223"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                        <tabViewItems>
+                                            <tabViewItem label="Log" identifier="1" id="yyy-QA-X03">
+                                                <view key="view" id="ouh-lf-mXW">
+                                                    <rect key="frame" x="10" y="7" width="179" height="185"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="dm1-1c-1hr">
+                                                            <rect key="frame" x="2" y="-2" width="175" height="184"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <clipView key="contentView" id="lvl-zG-DSI">
+                                                                <rect key="frame" x="0.0" y="0.0" width="160" height="184"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <textView editable="NO" importsGraphics="NO" findStyle="panel" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="PYp-Wm-5U3">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="176" height="184"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <size key="minSize" width="160" height="184"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                        <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <size key="minSize" width="160" height="184"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                    </textView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </clipView>
+                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="JLj-0B-0Gv">
+                                                                <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="BXR-p0-jQ6">
+                                                                <rect key="frame" x="160" y="0.0" width="15" height="184"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                        </scrollView>
+                                                    </subviews>
+                                                </view>
+                                            </tabViewItem>
+                                            <tabViewItem label="Arrivals" identifier="2" id="7ce-vM-Qrk">
+                                                <view key="view" id="BdA-nu-Mx0">
+                                                    <rect key="frame" x="10" y="7" width="179" height="185"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="eHW-8y-0pP">
+                                                            <rect key="frame" x="2" y="5" width="175" height="176"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <clipView key="contentView" id="p7K-ro-fZf">
+                                                                <rect key="frame" x="0.0" y="0.0" width="160" height="176"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="LhE-9b-beR">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="177" height="176"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <size key="minSize" width="160" height="176"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                        <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <size key="minSize" width="160" height="176"/>
+                                                                        <size key="maxSize" width="463" height="10000000"/>
+                                                                    </textView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </clipView>
+                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="RNN-ci-hyE">
+                                                                <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="j72-Dk-dUn">
+                                                                <rect key="frame" x="160" y="0.0" width="15" height="176"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </scroller>
+                                                        </scrollView>
+                                                    </subviews>
+                                                </view>
+                                            </tabViewItem>
+                                        </tabViewItems>
+                                    </tabView>
+                                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="b5t-TL-3N3">
+                                        <rect key="frame" x="7" y="9" width="185" height="333"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <clipView key="contentView" id="aNK-r2-t1r">
+                                            <rect key="frame" x="0.0" y="0.0" width="170" height="333"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textView editable="NO" importsGraphics="NO" findStyle="panel" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="PkW-Mr-mNn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="176" height="333"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <size key="minSize" width="170" height="333"/>
+                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <size key="minSize" width="170" height="333"/>
+                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </clipView>
+                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="1jp-bq-H3j">
+                                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="9o2-AN-KFP">
+                                            <rect key="frame" x="170" y="0.0" width="15" height="333"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                    </scrollView>
+                                </subviews>
                             </customView>
                         </subviews>
                         <holdingPriorities>

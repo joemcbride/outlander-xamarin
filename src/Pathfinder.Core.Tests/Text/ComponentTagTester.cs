@@ -16,6 +16,7 @@ namespace Pathfinder.Core.Text.Tests
 
 			Assert.AreEqual("Elemental_Magic", tag.Id);
 			Assert.AreEqual("12 17% dabbling", tag.Value);
+			Assert.True(tag.IsExp);
 		}
 
 		[Test]
@@ -27,6 +28,19 @@ namespace Pathfinder.Core.Text.Tests
 
 			Assert.AreEqual("Sorcery", tag.Id);
 			Assert.AreEqual("321 56% learning", tag.Value);
+			Assert.True(tag.IsExp);
+		}
+
+		[Test]
+		public void parses_attunement()
+		{
+			const string data = "<component id='exp Attunement'><preset id='whisper'>      Attunement:   25 86% very focused    </preset></component>";
+
+			var tag = new ComponentTag(data);
+
+			Assert.AreEqual("Attunement", tag.Id);
+			Assert.AreEqual("25 86% very focused", tag.Value);
+			Assert.True(tag.IsExp);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Pathfinder.Core.Text
 {
 	public class ComponentTag : Tag
 	{
-		const string EXP_Regex = @".+:\s+(\d+)\s(\d+)%\s(\w+)?.*";
+		const string EXP_Regex = @".+:\s+(\d+)\s(\d+)%\s(\w.*)?.*";
 
 		private bool _isExp;
 
@@ -46,10 +46,11 @@ namespace Pathfinder.Core.Text
 				using (var reader = element.CreateReader())
 				{
 					reader.MoveToContent();
-					Value = reader.ReadInnerXml().Trim().Replace("<pushBold />", "<pushBold/>").Replace("<popBold />", "<popBold/>");
+					Value = reader.ReadInnerXml().Trim().Replace(" />", "/>");
 				}
 
 				if(_isExp){
+					Value = Regex.Replace(Value, "<[^>]*>", string.Empty).Trim();
 					Value = Regex.Replace(Value, EXP_Regex, "$1 $2% $3");
 				}
 			} catch (Exception exc) {

@@ -8,6 +8,28 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
+	public class SkillExp
+	{
+		private const string Rank_Regex = "(\\d+)\\s(\\d+)%\\s(\\w.*)";
+
+		public string Name { get; set; }
+		public string Ranks { get; set; }
+		public LearningRate LearningRate { get; set; }
+		public double Gained { get; set; }
+
+		public static SkillExp For(ComponentTag tag)
+		{
+			var exp = new SkillExp();
+			exp.Name = tag.Id;
+			exp.Ranks = Regex.Replace(tag.Value, Rank_Regex, "$1.$2");
+			var mindState = Regex.Replace(tag.Value, Rank_Regex, "$3");
+
+			exp.LearningRate = LearningRate.For(mindState);
+
+			return exp;
+		}
+	}
+
 	public interface IGameState
 	{
 		string Get(string key);
@@ -16,6 +38,7 @@ namespace Pathfinder.Core
 
 		Action<string> TextLog { get; set; }
 		Action<RoundtimeTag> Roundtime { get; set; }
+		Action<SkillExp> Exp { get; set; }
 	}
 
 	public class SimpleGameState : IGameState
@@ -26,6 +49,7 @@ namespace Pathfinder.Core
 
 		public Action<string> TextLog { get; set; }
 		public Action<RoundtimeTag> Roundtime { get; set; }
+		public Action<SkillExp> Exp { get; set; }
 
 		public SimpleGameState(IGameParser parser)
 		{
@@ -78,12 +102,19 @@ namespace Pathfinder.Core
 
 			tags.OfType<ComponentTag>().Apply(c => {
 				if(c.IsExp) {
-					const string Rank_Regex = "(\\d+)\\s(\\d+)%\\s(\\w+)";
-					_components.Set(c.Id + ".Ranks", Regex.Replace(c.Value, Rank_Regex, "$1.$2"));
-					var mindState = Regex.Replace(c.Value, Rank_Regex, "$3");
-					var learningRate = LearningRate.For(mindState);
-					_components.Set(c.Id + ".LearningRate", learningRate.Id.ToString());
-					_components.Set(c.Id + ".LearningRateName", learningRate.Description);
+					var skill = SkillExp.For(c);
+					var ranksId = c.Id + ".Ranks";
+					// don't set ranks to empty if a value already exists
+					if(!_components.HasKey(ranksId) || !string.IsNullOrWhiteSpace(skill.Ranks))
+					{
+						_components.Set(ranksId, skill.Ranks);
+					}
+					_components.Set(c.Id + ".LearningRate", skill.LearningRate.Id.ToString());
+					_components.Set(c.Id + ".LearningRateName", skill.LearningRate.Description);
+					if(Exp != null)
+					{
+						Exp(skill);
+					}
 				} else {
 					_components.Set(c.Id, c.Value);
 				}

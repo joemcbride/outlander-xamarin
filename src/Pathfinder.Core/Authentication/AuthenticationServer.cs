@@ -22,9 +22,11 @@ namespace Pathfinder.Core.Authentication
 		private readonly IAuthGameParser _gameParser;
         private readonly IConnectionTokenParser _connectionTokenParser;
         private readonly IPasswordHashProvider _passwordHashProvider;
+		private readonly ILog _logger;
 
-        public AuthenticationServer()
+		public AuthenticationServer(ILog logger)
         {
+			_logger = logger;
             _socket = new SimpleSocket();
             _characterParser = new CharacterParser();
 			_gameParser = new AuthGameParser();
@@ -34,7 +36,14 @@ namespace Pathfinder.Core.Authentication
 
 		public void Connect(string host, int port)
         {
-            _socket.Connect(host, port);
+			try
+			{
+            	_socket.Connect(host, port);
+			}
+			catch(Exception exc)
+			{
+				_logger.Error(exc);
+			}
         }
 
         public bool Authenticate(string account, string password)

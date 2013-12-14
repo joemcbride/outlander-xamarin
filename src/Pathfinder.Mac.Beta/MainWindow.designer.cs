@@ -13,10 +13,16 @@ namespace Pathfinder.Mac.Beta
 	partial class MainWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSTextView ArrivalsTextView { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField CharacterTextField { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField CommandTextField { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextView ExpTextView { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField LeftHandLabel { get; set; }
@@ -57,6 +63,11 @@ namespace Pathfinder.Mac.Beta
 				CommandTextField = null;
 			}
 
+			if (LeftHandLabel != null) {
+				LeftHandLabel.Dispose ();
+				LeftHandLabel = null;
+			}
+
 			if (LoginButton != null) {
 				LoginButton.Dispose ();
 				LoginButton = null;
@@ -77,6 +88,16 @@ namespace Pathfinder.Mac.Beta
 				PasswordTextField = null;
 			}
 
+			if (RightHandLabel != null) {
+				RightHandLabel.Dispose ();
+				RightHandLabel = null;
+			}
+
+			if (RoundtimeLabel != null) {
+				RoundtimeLabel.Dispose ();
+				RoundtimeLabel = null;
+			}
+
 			if (SubmitButton != null) {
 				SubmitButton.Dispose ();
 				SubmitButton = null;
@@ -87,19 +108,14 @@ namespace Pathfinder.Mac.Beta
 				UsernameTextField = null;
 			}
 
-			if (RoundtimeLabel != null) {
-				RoundtimeLabel.Dispose ();
-				RoundtimeLabel = null;
+			if (ExpTextView != null) {
+				ExpTextView.Dispose ();
+				ExpTextView = null;
 			}
 
-			if (LeftHandLabel != null) {
-				LeftHandLabel.Dispose ();
-				LeftHandLabel = null;
-			}
-
-			if (RightHandLabel != null) {
-				RightHandLabel.Dispose ();
-				RightHandLabel = null;
+			if (ArrivalsTextView != null) {
+				ArrivalsTextView.Dispose ();
+				ArrivalsTextView = null;
 			}
 		}
 	}

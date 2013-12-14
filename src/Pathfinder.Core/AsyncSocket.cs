@@ -51,21 +51,6 @@ namespace Pathfinder.Core
 			_log = log;
 		}
 
-		public static IPAddress GetIPAddress(string address)
-		{
-			IPAddress ipAddress = null;
-
-			if (IPAddress.TryParse(address, out ipAddress))
-			{
-				return ipAddress;
-			}
-			else
-			{
-				IPHostEntry ipHostInfo = Dns.GetHostEntry(address);
-				return ipHostInfo.AddressList[ipHostInfo.AddressList.Length - 1];
-			}
-		}
-
 		private void ConnectCallback(IAsyncResult ar)
 		{
 			Socket client = (Socket)ar.AsyncState;
@@ -139,6 +124,9 @@ namespace Pathfinder.Core
 
 		public void SendMessage(byte[] message)
 		{
+			if(_client == null || !_client.Connected)
+				return;
+
 			_client.BeginSend(message, 0, message.Length, 0, new AsyncCallback(SendCallback), _client);
 			sendDone.WaitOne();
 		}
@@ -148,7 +136,7 @@ namespace Pathfinder.Core
 			if (IsConnected)
 				Disconnect();
 
-			_endpoint = new IPEndPoint(GetIPAddress(address), port);
+			_endpoint = new IPEndPoint(address.GetIPAddress(), port);
 
 			_client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			_client.BeginConnect(_endpoint, new AsyncCallback(ConnectCallback), _client);

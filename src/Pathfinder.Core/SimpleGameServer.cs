@@ -60,6 +60,9 @@ namespace Pathfinder.Core
 
 		public void SendCommand(string command)
 		{
+			if(_asyncSocket == null)
+				return;
+
 			_asyncSocket.SendMessage(command + "\r\n");
 		}
 
@@ -83,7 +86,7 @@ namespace Pathfinder.Core
 					{
 						var code = Regex.Match(data, "GSw\\d+").Value;
 						data = Regex.Replace(data, "GSw\\d+", string.Empty);
-						data += "Connected to game server.\n\n";
+						//data += "\nConnected to game server.\n\n";
 						SendCommand(code);
 					}
 

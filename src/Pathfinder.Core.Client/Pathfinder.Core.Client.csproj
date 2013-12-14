@@ -40,6 +40,8 @@
     <Compile Include="Highlights.cs" />
     <Compile Include="BoldHighlighter.cs" />
     <Compile Include="MonoHighlighter.cs" />
+    <Compile Include="CommandCache.cs" />
+    <Compile Include="ExpTracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

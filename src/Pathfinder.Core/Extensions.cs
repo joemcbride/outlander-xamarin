@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Pathfinder.Core
 {
     public static class Extensions
     {
+		public static T As<T>(this object item) where T : class
+		{
+			return item as T;
+		}
+
 		public static string EnsureEmpty(this string value)
 		{
 			if (string.IsNullOrWhiteSpace(value))
@@ -24,6 +30,21 @@ namespace Pathfinder.Core
             var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
         }
+
+		public static IPAddress GetIPAddress(this string address)
+		{
+			IPAddress ipAddress = null;
+
+			if (IPAddress.TryParse(address, out ipAddress))
+			{
+				return ipAddress;
+			}
+			else
+			{
+				IPHostEntry ipHostInfo = Dns.GetHostEntry(address);
+				return ipHostInfo.AddressList[ipHostInfo.AddressList.Length - 1];
+			}
+		}
 
         /// <summary>
         /// Applies the action to each element in the list.

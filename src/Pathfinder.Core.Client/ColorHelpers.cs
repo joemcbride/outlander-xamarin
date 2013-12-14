@@ -10,8 +10,8 @@ namespace Pathfinder.Core.Client
 			c = 1.0f - (red / 255);
 			m = 1.0f - (green / 255);
 			y = 1.0f - (blue / 255);
-
 			k = Math.Min(c, Math.Min(m, y));
+
 			c = (c - k) / (1 - k);
 			m = (m - k) / (1 - k);
 			y = (y - k) / (1 - k);
