@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Pathfinder.Console")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Extend Health Inc")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Pathfinder.Console")]
-[assembly: AssemblyCopyright("Copyright © Extend Health Inc 2013")]
+[assembly: AssemblyCopyright("Copyright © Joe McBride 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

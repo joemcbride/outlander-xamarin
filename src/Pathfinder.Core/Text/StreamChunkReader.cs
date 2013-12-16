@@ -5,15 +5,20 @@ using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Text
 {
-	public class RoomNameChunkReader : IChunkReader
+	public class StreamChunkReader : IChunkReader
 	{
-		private ChunkReader<RoomNameTag> _reader;
+		private ChunkReader<StreamTag> _reader;
 
-		public RoomNameChunkReader()
+		public StreamChunkReader()
 		{
-			_reader = new ChunkReader<RoomNameTag>("<style id=\"roomName\"", "<style id=\"\"", true);
+			_reader = new ChunkReader<StreamTag>("<pushStream", "<popStream", true);
 			_reader.Append = (builder, result, tag) => {
-				builder.Append(tag.Name);
+
+				if(string.Equals(tag.Id, "assess"))
+				{
+					builder.Append(tag.Value);
+				}
+
 				result.AddTag(tag);
 				return 0;
 			};

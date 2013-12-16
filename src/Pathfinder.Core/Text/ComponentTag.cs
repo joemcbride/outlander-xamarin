@@ -11,8 +11,6 @@ namespace Pathfinder.Core.Text
 	{
 		const string EXP_Regex = @".+:\s+(\d+)\s(\d+)%\s(\w.*)?.*";
 
-		private bool _isExp;
-
 		public ComponentTag()
 		{
 		}
@@ -27,7 +25,14 @@ namespace Pathfinder.Core.Text
 
 		public bool IsExp
 		{
-			get { return _isExp; }
+			get;
+			private set;
+		}
+
+		public bool IsNewExp
+		{
+			get;
+			private set;
 		}
 
 		protected override void OnTextSet()
@@ -36,7 +41,7 @@ namespace Pathfinder.Core.Text
 				var element = XElement.Parse(Text.Trim());
 				var idValue = element.Attribute("id").Value;
 				if(idValue.StartsWith("exp")) {
-					_isExp = true;
+					IsExp = true;
 					Id = idValue.Substring(4, idValue.Length - 4).Replace(" ", "_");
 				}
 				else {
@@ -49,7 +54,8 @@ namespace Pathfinder.Core.Text
 					Value = reader.ReadInnerXml().Trim().Replace(" />", "/>");
 				}
 
-				if(_isExp){
+				if(IsExp) {
+					IsNewExp = Value != null ? Value.Contains("whisper") : false;
 					Value = Regex.Replace(Value, "<[^>]*>", string.Empty).Trim();
 					Value = Regex.Replace(Value, EXP_Regex, "$1 $2% $3");
 				}
@@ -60,10 +66,7 @@ namespace Pathfinder.Core.Text
 
 		public static ComponentTag RoomExistsFor(ComponentTag tag)
 		{
-			tag.Value = tag.Value
-				.Replace("<d>", string.Empty)
-				.Replace("</d>", string.Empty)
-				.Replace("<compass></compass>", string.Empty);
+			tag.Value = Regex.Replace(tag.Value, "<[^>]*>", string.Empty).TrimStart();
 
 			return tag;
 		}

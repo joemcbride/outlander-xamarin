@@ -12,6 +12,9 @@ namespace Pathfinder.Core
 	{
 		public const string Prompt = "prompt";
 
+		public const string CharacterName = "charactername";
+		public const string Game = "game";
+
 		public const string RoomTitle = "roomtitle";
 		public const string RoomName = "roomname";
 		public const string RoomDescription = "roomdesc";

@@ -16,6 +16,7 @@ namespace Pathfinder.Core.Text.Tests
 
 			Assert.AreEqual("Elemental_Magic", tag.Id);
 			Assert.AreEqual("12 17% dabbling", tag.Value);
+			Assert.True(tag.IsNewExp);
 			Assert.True(tag.IsExp);
 		}
 
@@ -40,6 +41,7 @@ namespace Pathfinder.Core.Text.Tests
 
 			Assert.AreEqual("Attunement", tag.Id);
 			Assert.AreEqual("25 86% very focused", tag.Value);
+			Assert.True(tag.IsNewExp);
 			Assert.True(tag.IsExp);
 		}
 	}

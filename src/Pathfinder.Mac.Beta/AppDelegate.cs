@@ -1,14 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 
 namespace Pathfinder.Mac.Beta
 {
 	public partial class AppDelegate : NSApplicationDelegate
 	{
-		MainWindowController mainWindowController;
+		private List<MainWindowController> _windows = new List<MainWindowController>();
 
 		public AppDelegate()
 		{
@@ -16,9 +17,20 @@ namespace Pathfinder.Mac.Beta
 
 		public override void FinishedLaunching(NSObject notification)
 		{
-			mainWindowController = new MainWindowController();
+			var mainWindowController = new MainWindowController();
 			mainWindowController.Window.MakeKeyAndOrderFront(this);
+			_windows.Add(mainWindowController);
+		}
+
+		public override void AwakeFromNib()
+		{
+			base.AwakeFromNib();
+
+			NewMenuItem.Activated += (sender, e) => {
+				var mainWindowController = new MainWindowController();
+				mainWindowController.Window.MakeKeyAndOrderFront(this);
+				_windows.Add(mainWindowController);
+			};
 		}
 	}
 }
-

@@ -16,10 +16,10 @@ namespace Pathfinder.Core.Client
 			m = (m - k) / (1 - k);
 			y = (y - k) / (1 - k);
 
-			c = float.Parse(c.ToString("0.0000"));
-			y = float.Parse(y.ToString("0.0000"));
-			m = float.Parse(m.ToString("0.0000"));
-			k = float.Parse(k.ToString("0.0000"));
+			c = (float)Math.Round((decimal)c, 2);
+			y = (float)Math.Round((decimal)y, 2);
+			m = (float)Math.Round((decimal)m, 2);
+			k = (float)Math.Round((decimal)k, 2);
 		}
 
 		public static void FromHexToRGB(this string hexColor, out int red, out int green, out int blue)
@@ -46,6 +46,19 @@ namespace Pathfinder.Core.Client
 				green = int.Parse(hexColor[1].ToString() + hexColor[1].ToString(), NumberStyles.AllowHexSpecifier);
 				blue = int.Parse(hexColor[2].ToString() + hexColor[2].ToString(), NumberStyles.AllowHexSpecifier);
 			}
+		}
+
+		public static void FromHexToOSXRGB(this string hexColor, out float red, out float green, out float blue)
+		{
+			int r;
+			int g;
+			int b;
+
+			FromHexToRGB(hexColor, out r, out g, out b);
+
+			red = (1.0F * r) / 255.0f;
+			green = (1.0F * g) / 255.0f;
+			blue = (1.0F * b) / 255.0f;
 		}
 	}
 }

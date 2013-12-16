@@ -22,9 +22,10 @@ namespace Pathfinder.Core.Client
 		{
 			var settings = new HighlightSettings();
 
-			settings.Add(new HighlightSetting { Id = HighlightKeys.Default, Color = "#E6E6E6"  });
+			settings.Add(new HighlightSetting { Id = HighlightKeys.Default, Color = "#F5F5F5"  });
 			settings.Add(new HighlightSetting { Id = HighlightKeys.Bold, Color = "#FFFF00"  });
-			settings.Add(new HighlightSetting { Id = HighlightKeys.RoomName, Color = "#3333FF"  });
+			settings.Add(new HighlightSetting { Id = HighlightKeys.RoomName, Color = "#0000FF"  });
+			settings.Add(new HighlightSetting { Id = HighlightKeys.Whisper, Color = "#00FFFF"  });
 
 			return settings;
 		}
@@ -35,6 +36,7 @@ namespace Pathfinder.Core.Client
 		public const string Default = "default";
 		public const string Bold = "bold";
 		public const string RoomName = "roomname";
+		public const string Whisper = "whisper";
 	}
 
 	public class HighlightSetting

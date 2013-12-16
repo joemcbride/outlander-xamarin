@@ -76,14 +76,21 @@ namespace Pathfinder.Core
 
 	public class ServiceLocator : IServiceLocator
 	{
+		private SimpleContainer _container;
+
+		public ServiceLocator(SimpleContainer container)
+		{
+			_container = container;
+		}
+
 		public T Get<T>()
 		{
-			return IoC.Get<T>();
+			return _container.GetInstance<T>();
 		}
 
 		public IEnumerable<T> GetAll<T>()
 		{
-			return IoC.GetAll<T>();
+			return _container.GetAllInstances<T>();
 		}
 	}
 }

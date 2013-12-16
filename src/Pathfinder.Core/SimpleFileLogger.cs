@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace Pathfinder.Core
 {
@@ -46,11 +48,31 @@ namespace Pathfinder.Core
 
 			var fullPath = Path.Combine(path, filename);
 
+			lock (LockObject) {
+
+				WriteTextAsync(fullPath, data);
+			}
+
+//			try {
+//				lock (LockObject) {
+//					using (var writer = File.AppendText(fullPath)) {
+//						writer.Write(data);
+//					}
+//				}
+//			} catch (Exception exc) {
+//				Debug.WriteLine(exc);
+//			}
+		}
+
+		private async Task WriteTextAsync(string filePath, string text)
+		{
 			try {
-				lock (LockObject) {
-					using (var writer = File.AppendText(fullPath)) {
-						writer.Write(data);
-					}
+				byte[] encodedText = Encoding.Unicode.GetBytes(text);
+
+				using (FileStream sourceStream = new FileStream(filePath,
+                        FileMode.Append, FileAccess.Write, FileShare.None,
+                        bufferSize: 4096, useAsync: true)) {
+					await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
 				}
 			} catch (Exception exc) {
 				Debug.WriteLine(exc);

@@ -14,6 +14,8 @@ namespace Pathfinder.Mac.Beta
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController
 	{
+		private IServiceLocator _services;
+
 		private Bootstrapper _bootStrapper;
 		private IGameServer _gameServer;
 		private CommandCache _commandCache;
@@ -21,7 +23,8 @@ namespace Pathfinder.Mac.Beta
 		private DateTime _roundTimeEnd;
 		private Timer _timer;
 
-		private ExpTracker _expTracker = new ExpTracker();
+		private ExpTracker _expTracker;
+		private HighlightSettings _highlightSettings;
 
 		#region Constructors
 
@@ -46,6 +49,7 @@ namespace Pathfinder.Mac.Beta
 		{
 			_bootStrapper = new Bootstrapper();
 			_commandCache = new CommandCache();
+			_expTracker = new ExpTracker();
 
 			_timer = new Timer();
 			_timer.Interval = 1000;
@@ -62,7 +66,12 @@ namespace Pathfinder.Mac.Beta
 		{
 			base.AwakeFromNib();
 
+			Window.Title = "Outlander";
+
 			_gameServer = _bootStrapper.Build();
+			_services = _bootStrapper.ServiceLocator();
+
+			_highlightSettings = _services.Get<HighlightSettings>();
 
 			var notifyLogger = new NotificationLogger();
 			notifyLogger.OnError = (err) => {
@@ -71,14 +80,47 @@ namespace Pathfinder.Mac.Beta
 				});
 			};
 
-			var compositeLogger = IoC.Get<ILog>().As<CompositeLog>();
+			var compositeLogger = _services.Get<ILog>().As<CompositeLog>();
 			compositeLogger.Add(notifyLogger);
+
+			_gameServer.GameState.Tags = (tags) => {
+				tags.Apply(t => {
+					var appInfo = t as AppTag;
+					if(appInfo != null) {
+						BeginInvokeOnMainThread(() => {
+							Window.Title = string.Format("{0}: {1} - {2}", appInfo.Game, appInfo.Character, "Outlander");
+						});
+					}
+
+					var streamTag = t as StreamTag;
+					if(streamTag != null && !string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("logons")) {
+						var text = TextTag.For(string.Format("[{0}]{1}", DateTime.Now.ToString("HH:mm"), streamTag.Value), string.Empty, true);
+
+						BeginInvokeOnMainThread(() => {
+							Append(text, ArrivalsTextView);
+						});
+					}
+
+					var builder = new StringBuilder();
+					_gameServer.GameState.Get(ComponentKeys.RoomTitle).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+					_gameServer.GameState.Get(ComponentKeys.RoomDescription).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+					_gameServer.GameState.Get(ComponentKeys.RoomObjects).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+					_gameServer.GameState.Get(ComponentKeys.RoomPlayers).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+					_gameServer.GameState.Get(ComponentKeys.RoomExists).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+
+					BeginInvokeOnMainThread(()=>{
+						LogRoom(builder.ToString(), RoomTextView);
+					});
+				});
+			};
 
 			_gameServer.GameState.Exp = (exp) => {
 
 				_expTracker.Update(exp);
 
-				var tag = TextTag.For(_expTracker.StringDisplay(), "#ffffff", true);
+				var color = exp.IsNew ? _highlightSettings.Get(HighlightKeys.Whisper).Color : string.Empty;
+
+				var tag = TextTag.For(_expTracker.StringDisplay(), color, true);
 
 				BeginInvokeOnMainThread(()=>{
 					ReplaceText(tag, ExpTextView);
@@ -87,18 +129,18 @@ namespace Pathfinder.Mac.Beta
 
 			_gameServer.GameState.TextLog = (msg) => {
 				BeginInvokeOnMainThread(() => {
-					Log(msg);
+					Log(msg.Replace("&lt;", "<"), MainTextView);
 
 					LeftHandLabel.StringValue = string.Format("Left: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
 					RightHandLabel.StringValue = string.Format("Right: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
 				});
 			};
-			_gameServer.GameState.Roundtime = (rt) => {
-				_roundTimeEnd = rt.RoundTime;
-				var diff = _roundTimeEnd - DateTime.Now;
-				SetRoundtime(diff.Seconds);
-				_timer.Start();
-			};
+//			_gameServer.GameState.Roundtime = (rt) => {
+//				_roundTimeEnd = rt.RoundTime;
+//				var diff = _roundTimeEnd - DateTime.Now;
+//				SetRoundtime(diff.Seconds);
+//				_timer.Start();
+//			};
 
 			LoginButton.Activated += (sender, e) =>
 			{
@@ -144,16 +186,29 @@ namespace Pathfinder.Mac.Beta
 		{
 			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + command + "\n";
 
-			Log(prompt);
+			Log(prompt, MainTextView);
 
 			_commandCache.Add(command);
 			_gameServer.SendCommand(command);
 		}
 
-		private void Log(string text)
+		private void LogRoom(string text, NSTextView textView)
 		{
-			var highlights = IoC.Get<Highlights>();
-			highlights.For(text).Apply(t => Append(t, MainTextView));
+			var defaultSettings = new DefaultSettings();
+			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
+
+			textView.TextStorage.BeginEditing();
+			textView.TextStorage.SetString("".CreateString(defaultColor.ToNSColor(), defaultSettings.Font));
+			textView.TextStorage.EndEditing();
+
+			var highlights = _services.Get<Highlights>();
+			highlights.For(text).Apply(t => Append(t, textView));
+		}
+
+		private void Log(string text, NSTextView textView)
+		{
+			var highlights = _services.Get<Highlights>();
+			highlights.For(text).Apply(t => Append(t, textView));
 		}
 
 		private void LogSystem(string text)
@@ -170,7 +225,7 @@ namespace Pathfinder.Mac.Beta
 		{
 			var defaultSettings = new DefaultSettings();
 
-			var defaultColor = IoC.Get<HighlightSettings>().Get(HighlightKeys.Default).Color;
+			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
 
 			var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
 			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
@@ -189,7 +244,7 @@ namespace Pathfinder.Mac.Beta
 		{
 			var defaultSettings = new DefaultSettings();
 
-			var defaultColor = IoC.Get<HighlightSettings>().Get(HighlightKeys.Default).Color;
+			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
 
 			var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
 			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;

@@ -28,7 +28,11 @@ namespace Pathfinder.Core.Tests
 		}
 
 		public Action<string> TextLog { get; set; }
-		public Action<RoundtimeTag> Roundtime { get;set; }
-		public Action<SkillExp> Exp { get;set; }
+		public Action<IEnumerable<Tag>> Tags { get; set; }
+		public Action<SkillExp> Exp { get; set; }
+
+//		public Action<RoundtimeTag> Roundtime { get; set; }
+//		public Action<StreamTag> Arrivals { get; set; }
+//		public Action<AppTag> AppInfo { get; set; }
 	}
 }

@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +65,8 @@
     <Compile Include="StubAsyncSocket.cs" />
     <Compile Include="StubSimpleSocket.cs" />
     <Compile Include="InMemoryServiceLocator.cs" />
+    <Compile Include="Text\StreamTagTester.cs" />
+    <Compile Include="Text\AppTagTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

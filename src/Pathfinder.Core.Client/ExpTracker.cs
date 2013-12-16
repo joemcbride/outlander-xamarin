@@ -22,18 +22,29 @@ namespace Pathfinder.Core.Client
 			else
 			{
 				target = skill;
+				target.OriginalRanks = skill.Ranks;
 				_skills[skill.Name] = target;
+			}
+
+			if(string.IsNullOrWhiteSpace(target.OriginalRanks))
+			{
+				target.OriginalRanks = skill.Ranks;
 			}
 
 			if(calcDiff && !string.IsNullOrWhiteSpace(target.Ranks) && !string.IsNullOrWhiteSpace(skill.Ranks))
 			{
-				target.Gained = Difference(target.Ranks, skill.Ranks);
+				target.Gained = Difference(target.OriginalRanks, skill.Ranks);
 			}
 
 			if(!string.IsNullOrWhiteSpace(skill.Ranks)) {
 				target.Ranks = skill.Ranks;
 			}
 			target.LearningRate = skill.LearningRate;
+		}
+
+		public SkillExp Get(string skillName)
+		{
+			return _skills[skillName];
 		}
 
 		public IEnumerable<SkillExp> All()

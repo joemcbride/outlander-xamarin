@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Pathfinder.Core.Text
 {
@@ -19,7 +20,7 @@ namespace Pathfinder.Core.Text
 			_tagTransformers = tagTransformers;
 
 			_parsers = new List<IChunkReader>();
-			_parsers.Add(new ChunkReader<Tag>("<pushStream", "<popStream", true));
+			_parsers.Add(new StreamChunkReader());
 			_parsers.Add(new RoomNameChunkReader());
 			_parsers.Add(new ChunkReader<PromptTag>("<prompt", "</prompt"));
 			// component needs to go before preset
@@ -29,7 +30,7 @@ namespace Pathfinder.Core.Text
 			_parsers.Add(new ChunkReader<VitalsTag>("<dialogData", "</dialogData"));
 			_parsers.Add(new ChunkReader<Tag>("<compass", "</compass"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<clearContainer"));
-			_parsers.Add(new SelfClosingChunkReader<Tag>("<app"));
+			_parsers.Add(new SelfClosingChunkReader<AppTag>("<app"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<exposeContainer"));
 			_parsers.Add(new ChunkReader<Tag>("<inv", "</inv"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<container"));
@@ -42,7 +43,6 @@ namespace Pathfinder.Core.Text
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<switchQuickBar"));
 			_parsers.Add(new SelfClosingChunkReader<IndicatorTag>("<indicator"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<resource"));
-			//_parsers.Add(new SelfClosingChunkReader<Tag>("<output"));
 			_parsers.Add(new OutputChunkReader());
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<endSetup"));
 			_parsers.Add(new ChunkReader<SpellTag>("<spell", "</spell"));

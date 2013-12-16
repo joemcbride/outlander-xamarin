@@ -63,5 +63,11 @@ namespace Pathfinder.Core
 			if (item != null)
 				action(item);
 		}
+
+		public static void IfNotNullOrEmpty(this string item, Action<string> action)
+		{
+			if (!string.IsNullOrWhiteSpace(item))
+				action(item);
+		}
     }
 }

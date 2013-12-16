@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Text
 {
-
 	public class ComponentTagTransformer : ITagTransformer
 	{
 		public bool Matches(Tag tag)
@@ -24,5 +23,4 @@ namespace Pathfinder.Core.Text
 			return compTag;
 		}
 	}
-	
 }

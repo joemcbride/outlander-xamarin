@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Text
 {
-
 	public class StreamWindowTag : Tag
 	{
 		public string Id { get; set; }
@@ -22,5 +21,4 @@ namespace Pathfinder.Core.Text
 			element.Attribute("subtitle").IfNotNull(e => Subtitle = e.Value);
 		}
 	}
-	
 }

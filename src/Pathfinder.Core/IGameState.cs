@@ -8,28 +8,6 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
-	public class SkillExp
-	{
-		private const string Rank_Regex = "(\\d+)\\s(\\d+)%\\s(\\w.*)";
-
-		public string Name { get; set; }
-		public string Ranks { get; set; }
-		public LearningRate LearningRate { get; set; }
-		public double Gained { get; set; }
-
-		public static SkillExp For(ComponentTag tag)
-		{
-			var exp = new SkillExp();
-			exp.Name = tag.Id;
-			exp.Ranks = Regex.Replace(tag.Value, Rank_Regex, "$1.$2");
-			var mindState = Regex.Replace(tag.Value, Rank_Regex, "$3");
-
-			exp.LearningRate = LearningRate.For(mindState);
-
-			return exp;
-		}
-	}
-
 	public interface IGameState
 	{
 		string Get(string key);
@@ -37,8 +15,11 @@ namespace Pathfinder.Core
 		void Read(string data);
 
 		Action<string> TextLog { get; set; }
-		Action<RoundtimeTag> Roundtime { get; set; }
+		Action<IEnumerable<Tag>> Tags { get; set; }
+//		Action<RoundtimeTag> Roundtime { get; set; }
 		Action<SkillExp> Exp { get; set; }
+//		Action<StreamTag> Arrivals { get; set; }
+//		Action<AppTag> AppInfo { get; set; }
 	}
 
 	public class SimpleGameState : IGameState
@@ -48,8 +29,11 @@ namespace Pathfinder.Core
 		private readonly SimpleDictionary _components = new SimpleDictionary();
 
 		public Action<string> TextLog { get; set; }
-		public Action<RoundtimeTag> Roundtime { get; set; }
+		public Action<IEnumerable<Tag>> Tags { get; set; }
+//		public Action<RoundtimeTag> Roundtime { get; set; }
 		public Action<SkillExp> Exp { get; set; }
+//		public Action<StreamTag> Arrivals { get; set; }
+//		public Action<AppTag> AppInfo { get; set; }
 
 		public SimpleGameState(IGameParser parser)
 		{
@@ -156,11 +140,37 @@ namespace Pathfinder.Core
 			tags.OfType<RoundtimeTag>().Apply(t => {
 				var diff = t.RoundTime - DateTime.Now;
 				_components.Set(ComponentKeys.Roundtime, diff.Seconds.ToString());
-				if(Roundtime != null)
-				{
-					Roundtime(t);
-				}
+//				if(Roundtime != null)
+//				{
+//					Roundtime(t);
+//				}
 			});
+
+//			tags.OfType<StreamTag>().Apply(t => {
+//				if(string.Equals(t.Id, "logons")) {
+//					var ev = Arrivals;
+//					if(ev != null)
+//					{
+//						ev(t);
+//					}
+//				}
+//			});
+
+			tags.OfType<AppTag>().Apply(t => {
+				_components.Set(ComponentKeys.CharacterName, t.Character);
+				_components.Set(ComponentKeys.Game, t.Game);
+
+//				var ev = AppInfo;
+//				if(ev != null)
+//				{
+//					ev(t);
+//				}
+			});
+
+			var tagsEv = Tags;
+			if(tagsEv != null && tags != null){
+				tagsEv(tags);
+			}
 		}
 
 		private void ShowPrompt()

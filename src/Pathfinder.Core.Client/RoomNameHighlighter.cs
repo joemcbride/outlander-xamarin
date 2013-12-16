@@ -16,7 +16,7 @@ namespace Pathfinder.Core.Client
 			_settings = settings;
 
 			Matches = (s) => {
-				return s == _gameState.Get(ComponentKeys.RoomName);
+				return s == _gameState.Get(ComponentKeys.RoomName) || s == _gameState.Get(ComponentKeys.RoomTitle);
 			};
 			Modify = (tag) => {
 				var setting = _settings.Get(HighlightKeys.RoomName);
@@ -32,11 +32,17 @@ namespace Pathfinder.Core.Client
 			if(string.IsNullOrWhiteSpace(originalRoomName))
 				return string.Empty;
 
-			var roomName = originalRoomName.Replace("[", "\\[").Replace("]", "\\]").Replace(",", "\\,");
-			roomName = "(" + roomName + ")";
+			var originalRoomTitle = _gameState.Get(ComponentKeys.RoomTitle);
+
+			var roomName = "(" + FilterName(originalRoomName) + "|" + FilterName(originalRoomTitle) + ")";
 			return roomName;
 
 			//return "(\\[.*?\\])";
+		}
+
+		private string FilterName(string name)
+		{
+			return name.Replace("[", "\\[").Replace("]", "\\]").Replace(",", "\\,");
 		}
 	}
 }

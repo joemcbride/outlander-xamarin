@@ -37,23 +37,13 @@ namespace Pathfinder.Mac.Beta
 
 		public static NSColor ToNSColor(this string hexColor)
 		{
-			int red;
-			int green;
-			int blue;
+			float red;
+			float green;
+			float blue;
 
-			hexColor.FromHexToRGB(out red, out green, out blue);
+			hexColor.FromHexToOSXRGB(out red, out green, out blue);
 
-			//return NSColor.FromDeviceRgba(red, green, blue, 1.0f);
-
-			float c = 0.6168f;
-			float m = 0.0000f;
-			float y = 1.0000f;
-			float k = 0.5804f;
-			float alpha = 1.0f;
-
-			ColorHelpers.FromRGBToCMYK(red, green, blue, out c, out m, out y, out k);
-
-			return NSColor.FromDeviceCymka(c, m, y, k, alpha);
+			return NSColor.FromDeviceRgba(red, green, blue, 1.0f);
 		}
 	}
 }

@@ -1,9 +1,6 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/14/2013 2:31:00 AM">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/16/2013 4:54:42 AM">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Mac.Beta/MainWindowController.cs">
-    <Files>
-      <File FileName="Pathfinder.Mac.Beta/MainWindowController.cs" Line="81" Column="34" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
@@ -12,7 +9,7 @@
               <Node name="Core" expanded="True">
                 <Node name="Client" expanded="True">
                   <Node name="Tests" expanded="True">
-                    <Node name="CommandCacheTester" expanded="True" selected="True" />
+                    <Node name="RoomNameHighlightsTester" expanded="True" selected="True" />
                   </Node>
                 </Node>
               </Node>
@@ -26,6 +23,7 @@
     <BreakpointStore>
       <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Tests/Text/EmptyClass.cs" line="18" column="1" />
       <Breakpoint file="/Users/jomc/Documents/Dev/pathfinder/src/Pathfinder.Core.Client.Tests/HighlightsTester.cs" line="39" column="1" />
+      <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Client.Tests/HighlightsTester.cs" line="113" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

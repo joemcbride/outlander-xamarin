@@ -43,6 +43,9 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField RightHandLabel { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextView RoomTextView { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField RoundtimeLabel { get; set; }
 
 		[Outlet]
@@ -53,6 +56,11 @@ namespace Pathfinder.Mac.Beta
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ArrivalsTextView != null) {
+				ArrivalsTextView.Dispose ();
+				ArrivalsTextView = null;
+			}
+
 			if (CharacterTextField != null) {
 				CharacterTextField.Dispose ();
 				CharacterTextField = null;
@@ -61,6 +69,11 @@ namespace Pathfinder.Mac.Beta
 			if (CommandTextField != null) {
 				CommandTextField.Dispose ();
 				CommandTextField = null;
+			}
+
+			if (ExpTextView != null) {
+				ExpTextView.Dispose ();
+				ExpTextView = null;
 			}
 
 			if (LeftHandLabel != null) {
@@ -108,14 +121,9 @@ namespace Pathfinder.Mac.Beta
 				UsernameTextField = null;
 			}
 
-			if (ExpTextView != null) {
-				ExpTextView.Dispose ();
-				ExpTextView = null;
-			}
-
-			if (ArrivalsTextView != null) {
-				ArrivalsTextView.Dispose ();
-				ArrivalsTextView = null;
+			if (RoomTextView != null) {
+				RoomTextView.Dispose ();
+				RoomTextView = null;
 			}
 		}
 	}
