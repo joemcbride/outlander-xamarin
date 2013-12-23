@@ -83,6 +83,11 @@ ipch/
 # ReSharper is a .NET coding add-in
 _ReSharper*
 
+#################
+# Xamarin Studio
+#################
+*.userprefs
+
 # Installshield output folder
 [Ee]xpress
 
