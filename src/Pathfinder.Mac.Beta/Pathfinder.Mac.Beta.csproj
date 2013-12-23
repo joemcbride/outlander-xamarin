@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="KeyUtil.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="DefaultSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />

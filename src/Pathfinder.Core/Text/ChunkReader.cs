@@ -21,6 +21,7 @@ namespace Pathfinder.Core.Text
 		private readonly bool _checkEndTag;
 
 		public Func<StringBuilder, ReadResult, TTag, int> Append = null;
+		public Action<StringBuilder, ReadState, ReadResult> AppendPartial = null;
 
 		public ChunkReader(string startTag, string endTag)
 			: this(startTag, endTag, false)
@@ -64,10 +65,8 @@ namespace Pathfinder.Core.Text
 				if (_checkEndTag)
 				{
 					if (_state.Tracking && currentText.Length == 2 && currentText.StartsWith("</")) {
-						_state.Tracking = false;
-						_state.WaitForEnd = false;
-						_state.WaitForPop = false;
-						_state.Text.Clear();
+
+						_state.Reset();
 						builder.Append(currentText);
 					}
 				}
@@ -84,10 +83,11 @@ namespace Pathfinder.Core.Text
 				}
 
 				if (_state.WaitForEnd && currentText.EndsWith(_endsWithTag)) {
-					_state.WaitForEnd = false;
-					_state.WaitForPop = false;
-					_state.Tracking = false;
-					_state.Text.Clear();
+
+					if(AppendPartial != null)
+						AppendPartial(builder, _state, result);
+
+					_state.Reset();
 
 					var tag = Tag.For<TTag>(currentText);
 
@@ -104,13 +104,17 @@ namespace Pathfinder.Core.Text
 				}
 			}
 
+			if(_state.Text.Length > 0) {
+				result.Stop = true;
+
+				if(AppendPartial != null)
+					AppendPartial(builder, _state, result);
+			}
+
 			if (builder.Length > 0)
 			{
 				result.Chunk = Chunk.For(builder.ToString());
 			}
-
-			if (_state.Text.Length > 0)
-				result.Stop = true;
 
 			return result;
 		}
@@ -122,5 +126,17 @@ namespace Pathfinder.Core.Text
 		public bool Tracking = false;
 		public bool WaitForPop = false;
 		public bool WaitForEnd = false;
+		public StringBuilder DequedText = new StringBuilder();
+		public int DequedTextIndex = 0;
+
+		public void Reset()
+		{
+			Text.Clear();
+			Tracking = false;
+			WaitForPop = false;
+			WaitForEnd = false;
+			DequedText.Clear();
+			DequedTextIndex = 0;
+		}
 	}
 }

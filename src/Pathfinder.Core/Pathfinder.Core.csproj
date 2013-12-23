@@ -95,6 +95,10 @@
     <Compile Include="Text\AppTag.cs" />
     <Compile Include="Text\StreamTag.cs" />
     <Compile Include="Text\StreamChunkReader.cs" />
+    <Compile Include="IFileSystem.cs" />
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="BuildAppDirectories.cs" />
+    <Compile Include="RoundtimeHandler.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

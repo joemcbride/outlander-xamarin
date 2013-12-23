@@ -22,7 +22,13 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField CommandTextField { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField ConcentrationTextField { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextView ExpTextView { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField HealthTextField { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField LeftHandLabel { get; set; }
@@ -37,6 +43,9 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextView MainTextView { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField ManaTextField { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSSecureTextField PasswordTextField { get; set; }
 
 		[Outlet]
@@ -49,6 +58,15 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField RoundtimeLabel { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField SpellLabel { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField SpiritTextField { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField StaminaTextField { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton SubmitButton { get; set; }
 
 		[Outlet]
@@ -56,6 +74,11 @@ namespace Pathfinder.Mac.Beta
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (RoomTextView != null) {
+				RoomTextView.Dispose ();
+				RoomTextView = null;
+			}
+
 			if (ArrivalsTextView != null) {
 				ArrivalsTextView.Dispose ();
 				ArrivalsTextView = null;
@@ -71,9 +94,19 @@ namespace Pathfinder.Mac.Beta
 				CommandTextField = null;
 			}
 
+			if (ConcentrationTextField != null) {
+				ConcentrationTextField.Dispose ();
+				ConcentrationTextField = null;
+			}
+
 			if (ExpTextView != null) {
 				ExpTextView.Dispose ();
 				ExpTextView = null;
+			}
+
+			if (HealthTextField != null) {
+				HealthTextField.Dispose ();
+				HealthTextField = null;
 			}
 
 			if (LeftHandLabel != null) {
@@ -96,6 +129,11 @@ namespace Pathfinder.Mac.Beta
 				MainTextView = null;
 			}
 
+			if (ManaTextField != null) {
+				ManaTextField.Dispose ();
+				ManaTextField = null;
+			}
+
 			if (PasswordTextField != null) {
 				PasswordTextField.Dispose ();
 				PasswordTextField = null;
@@ -111,6 +149,21 @@ namespace Pathfinder.Mac.Beta
 				RoundtimeLabel = null;
 			}
 
+			if (SpellLabel != null) {
+				SpellLabel.Dispose ();
+				SpellLabel = null;
+			}
+
+			if (SpiritTextField != null) {
+				SpiritTextField.Dispose ();
+				SpiritTextField = null;
+			}
+
+			if (StaminaTextField != null) {
+				StaminaTextField.Dispose ();
+				StaminaTextField = null;
+			}
+
 			if (SubmitButton != null) {
 				SubmitButton.Dispose ();
 				SubmitButton = null;
@@ -119,11 +172,6 @@ namespace Pathfinder.Mac.Beta
 			if (UsernameTextField != null) {
 				UsernameTextField.Dispose ();
 				UsernameTextField = null;
-			}
-
-			if (RoomTextView != null) {
-				RoomTextView.Dispose ();
-				RoomTextView = null;
 			}
 		}
 	}

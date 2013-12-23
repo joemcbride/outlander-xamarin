@@ -20,6 +20,16 @@ namespace Pathfinder.Core
 
 		public bool IsNew { get; set; }
 
+		public string Display()
+		{
+			return string.Format("{0,-15} {1,7} {2,3}/34 {3}{4:F}",
+				Name.Replace("_", " "),
+				Ranks,
+				LearningRate.Id,
+				PosNeg(Gained),
+				Gained);
+		}
+
 		public SkillExp Clone()
 		{
 			return new SkillExp
@@ -30,6 +40,14 @@ namespace Pathfinder.Core
 				LearningRate = LearningRate,
 				Gained = Gained
 			};
+		}
+
+		private string PosNeg(double gained)
+		{
+			if(gained == 0)
+				return " ";
+
+			return gained > 0 ? "+" : "-";
 		}
 
 		public static SkillExp For(ComponentTag tag)

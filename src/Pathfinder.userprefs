@@ -1,15 +1,28 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/16/2013 4:54:42 AM">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/22/2013 11:42:51 PM">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Core.Client/Bootstrapper.cs">
+    <Files>
+      <File FileName="Pathfinder.Core.Client/Bootstrapper.cs" Line="30" Column="30" />
+      <File FileName="Pathfinder.Core.Client/CommandProcessor.cs" Line="10" Column="2" />
+      <File FileName="Pathfinder.Core.Client/Scripting/SendCommandTokenHandler.cs" Line="12" Column="4" />
+    </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="Pathfinder.Core.Client.Tests" expanded="True">
-            <Node name="Pathfinder" expanded="True">
-              <Node name="Core" expanded="True">
-                <Node name="Client" expanded="True">
-                  <Node name="Tests" expanded="True">
-                    <Node name="RoomNameHighlightsTester" expanded="True" selected="True" />
+          <Node name="Tests" expanded="True">
+            <Node name="Pathfinder.Core.Client.Tests" expanded="True">
+              <Node name="Pathfinder" expanded="True">
+                <Node name="Core" expanded="True">
+                  <Node name="Client" expanded="True">
+                    <Node name="Tests" expanded="True">
+                      <Node name="CommandProcessorTester" expanded="True" />
+                      <Node name="CommandTokenizerTests" expanded="True" />
+                      <Node name="PauseTokenHandlerTester" expanded="True" />
+                      <Node name="ScriptRunnerTester" expanded="True" selected="True" />
+                      <Node name="ScriptTester" expanded="True" />
+                      <Node name="SendCommandTokenHandlerTester" expanded="True" />
+                      <Node name="WaitForTokenHandlerTester" expanded="True" />
+                    </Node>
                   </Node>
                 </Node>
               </Node>
@@ -22,7 +35,6 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Tests/Text/EmptyClass.cs" line="18" column="1" />
-      <Breakpoint file="/Users/jomc/Documents/Dev/pathfinder/src/Pathfinder.Core.Client.Tests/HighlightsTester.cs" line="39" column="1" />
       <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Client.Tests/HighlightsTester.cs" line="113" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

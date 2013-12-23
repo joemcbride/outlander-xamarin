@@ -23,8 +23,8 @@ namespace Pathfinder.Core.Authentication.Tests
 
             var characters = theParser.Parse(sample).ToList();
 
-            characters.Select(c => c.CharacterId + ", " + c.Name)
-                .Apply(Console.WriteLine);
+			characters.Select(c => c.CharacterId + ", " + c.Name)
+				.Apply(c => Console.WriteLine(c));
 
             Assert.AreEqual("W_ACCOUNT_000", characters[0].CharacterId);
             Assert.AreEqual("Char1", characters[0].Name);

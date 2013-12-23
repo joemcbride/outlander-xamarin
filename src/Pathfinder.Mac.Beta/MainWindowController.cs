@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Timers;
@@ -20,8 +21,8 @@ namespace Pathfinder.Mac.Beta
 		private IGameServer _gameServer;
 		private CommandCache _commandCache;
 
-		private DateTime _roundTimeEnd;
-		private Timer _timer;
+		private ICommandProcessor _commandProcessor;
+		private IScriptLog _scriptLog;
 
 		private ExpTracker _expTracker;
 		private HighlightSettings _highlightSettings;
@@ -50,14 +51,6 @@ namespace Pathfinder.Mac.Beta
 			_bootStrapper = new Bootstrapper();
 			_commandCache = new CommandCache();
 			_expTracker = new ExpTracker();
-
-			_timer = new Timer();
-			_timer.Interval = 1000;
-			_timer.Elapsed += (sender, e) =>
-			{
-				var diff = _roundTimeEnd - DateTime.Now;
-				SetRoundtime(diff.Seconds);
-			};
 		}
 
 		#endregion
@@ -70,6 +63,48 @@ namespace Pathfinder.Mac.Beta
 
 			_gameServer = _bootStrapper.Build();
 			_services = _bootStrapper.ServiceLocator();
+
+			var appSettings = _services.Get<AppSettings>();
+			var homeDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Documents/Outlander");
+			appSettings.HomeDirectory = homeDir;
+
+			new BuildAppDirectories().Build(appSettings);
+
+			_commandProcessor = _services.Get<ICommandProcessor>();
+			_scriptLog = _services.Get<IScriptLog>();
+			_services.Get<IRoundtimeHandler>().Changed += (sender, e) => {
+				SetRoundtime(e);
+			};
+
+			_scriptLog.Info += (sender, e) => {
+				var log = "[{0}]: ({1}) {2}\n".ToFormat(e.Name, e.LineNumber, e.Data);
+
+				var tag = TextTag.For(log, "ADFF2F");
+
+				BeginInvokeOnMainThread(()=> {
+					Append(tag, MainTextView);
+				});
+			};
+
+			_scriptLog.NotifyStarted += (sender, e) => {
+				var log = "[{0}]: script started\n".ToFormat(e.Name);
+
+				var tag = TextTag.For(log, "ADFF2F");
+
+				BeginInvokeOnMainThread(()=> {
+					Append(tag, MainTextView);
+				});
+			};
+
+			_scriptLog.NotifyAborted += (sender, e) => {
+				var log = "[{0}]: total runtime {1} seconds\n".ToFormat(e.Name, e.Runtime.Seconds);
+
+				var tag = TextTag.For(log, "ADFF2F");
+
+				BeginInvokeOnMainThread(()=> {
+					Append(tag, MainTextView);
+				});
+			};
 
 			_highlightSettings = _services.Get<HighlightSettings>();
 
@@ -85,21 +120,31 @@ namespace Pathfinder.Mac.Beta
 
 			_gameServer.GameState.Tags = (tags) => {
 				tags.Apply(t => {
-					var appInfo = t as AppTag;
-					if(appInfo != null) {
+					t.As<AppTag>().IfNotNull(appInfo => {
 						BeginInvokeOnMainThread(() => {
 							Window.Title = string.Format("{0}: {1} - {2}", appInfo.Game, appInfo.Character, "Outlander");
 						});
-					}
+					});
 
-					var streamTag = t as StreamTag;
-					if(streamTag != null && !string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("logons")) {
-						var text = TextTag.For(string.Format("[{0}]{1}", DateTime.Now.ToString("HH:mm"), streamTag.Value), string.Empty, true);
+					t.As<StreamTag>().IfNotNull(streamTag => {
+						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("logons")) {
+							var text = TextTag.For(string.Format("[{0}]{1}", DateTime.Now.ToString("HH:mm"), streamTag.Value), string.Empty, true);
 
-						BeginInvokeOnMainThread(() => {
-							Append(text, ArrivalsTextView);
+							BeginInvokeOnMainThread(()=> {
+								Append(text, ArrivalsTextView);
+							});
+						}
+					});
+
+					t.As<SpellTag>().IfNotNull(s => {
+						BeginInvokeOnMainThread(()=>{
+							SpellLabel.StringValue = string.Format("S: {0}", s.Spell);
 						});
-					}
+					});
+
+					t.As<VitalsTag>().IfNotNull(v => {
+						UpdateVitals();
+					});
 
 					var builder = new StringBuilder();
 					_gameServer.GameState.Get(ComponentKeys.RoomTitle).IfNotNullOrEmpty(s=>builder.AppendLine(s));
@@ -108,7 +153,7 @@ namespace Pathfinder.Mac.Beta
 					_gameServer.GameState.Get(ComponentKeys.RoomPlayers).IfNotNullOrEmpty(s=>builder.AppendLine(s));
 					_gameServer.GameState.Get(ComponentKeys.RoomExists).IfNotNullOrEmpty(s=>builder.AppendLine(s));
 
-					BeginInvokeOnMainThread(()=>{
+					BeginInvokeOnMainThread(()=> {
 						LogRoom(builder.ToString(), RoomTextView);
 					});
 				});
@@ -118,29 +163,28 @@ namespace Pathfinder.Mac.Beta
 
 				_expTracker.Update(exp);
 
-				var color = exp.IsNew ? _highlightSettings.Get(HighlightKeys.Whisper).Color : string.Empty;
-
-				var tag = TextTag.For(_expTracker.StringDisplay(), color, true);
+				var skills = _expTracker.SkillsWithExp().ToList();
+				var tags = skills
+						.OrderBy(x => x.Name)
+						.Select(x =>
+						{
+							var color = x.IsNew ? _highlightSettings.Get(HighlightKeys.Whisper).Color : string.Empty;
+							return TextTag.For(x.Display() + "\n", color, true);
+						});
 
 				BeginInvokeOnMainThread(()=>{
-					ReplaceText(tag, ExpTextView);
+					ReplaceText(tags, ExpTextView);
 				});
 			};
 
-			_gameServer.GameState.TextLog = (msg) => {
+			_gameServer.GameState.TextLog += (msg) => {
 				BeginInvokeOnMainThread(() => {
 					Log(msg.Replace("&lt;", "<"), MainTextView);
 
-					LeftHandLabel.StringValue = string.Format("Left: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
-					RightHandLabel.StringValue = string.Format("Right: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
+					LeftHandLabel.StringValue = string.Format("L: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
+					RightHandLabel.StringValue = string.Format("R: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
 				});
 			};
-//			_gameServer.GameState.Roundtime = (rt) => {
-//				_roundTimeEnd = rt.RoundTime;
-//				var diff = _roundTimeEnd - DateTime.Now;
-//				SetRoundtime(diff.Seconds);
-//				_timer.Start();
-//			};
 
 			LoginButton.Activated += (sender, e) =>
 			{
@@ -170,7 +214,6 @@ namespace Pathfinder.Mac.Beta
 
 			LogoutButton.Activated += (sender, e) =>
 			{
-				//_gameServer.Disconnect();
 				LogSystem("\n\nConnection closed.\n\n");
 			};
 
@@ -182,14 +225,29 @@ namespace Pathfinder.Mac.Beta
 			};
 		}
 
+		private void UpdateVitals()
+		{
+			BeginInvokeOnMainThread(()=>{
+
+				HealthTextField.StringValue = string.Format("Health {0}%", _gameServer.GameState.Get(ComponentKeys.Health));
+				ManaTextField.StringValue = string.Format("Mana {0}%", _gameServer.GameState.Get(ComponentKeys.Mana));
+				StaminaTextField.StringValue = string.Format("Stamina {0}%", _gameServer.GameState.Get(ComponentKeys.Stamina));
+				ConcentrationTextField.StringValue = string.Format("Conc {0}%", _gameServer.GameState.Get(ComponentKeys.Concentration));
+				SpiritTextField.StringValue = string.Format("Spirit {0}%", _gameServer.GameState.Get(ComponentKeys.Spirit));
+			});
+		}
+
 		private void SendCommand(string command)
 		{
-			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + command + "\n";
+			_commandCache.Add(command);
+
+			var replaced = _commandProcessor.Eval(command);
+
+			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + replaced + "\n";
 
 			Log(prompt, MainTextView);
 
-			_commandCache.Add(command);
-			_gameServer.SendCommand(command);
+			_commandProcessor.Process(replaced);
 		}
 
 		private void LogRoom(string text, NSTextView textView)
@@ -240,26 +298,26 @@ namespace Pathfinder.Mac.Beta
 			textView.ScrollRangeToVisible(new NSRange(start, length));
 		}
 
-		private void ReplaceText(TextTag tag, NSTextView textView)
+		private void ReplaceText(IEnumerable<TextTag> tags, NSTextView textView)
 		{
 			var defaultSettings = new DefaultSettings();
-
 			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
 
-			var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
-			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
-
 			textView.TextStorage.BeginEditing();
-			textView.TextStorage.SetString(tag.Text.CreateString(color.ToNSColor(), font));
+			textView.TextStorage.SetString("".CreateString(defaultColor.ToNSColor()));
+			tags.Apply(tag => {
+				var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
+				var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
+				textView.TextStorage.Append(tag.Text.CreateString(color.ToNSColor(), font));
+			});
 			textView.TextStorage.EndEditing();
 		}
 
-		private void SetRoundtime(int count)
+		private void SetRoundtime(long count)
 		{
 			if(count < 0)
 			{
 				count = 0;
-				_timer.Stop();
 			}
 
 			BeginInvokeOnMainThread(() => RoundtimeLabel.StringValue = string.Format("RT: {0}", count));

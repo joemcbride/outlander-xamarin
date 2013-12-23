@@ -6,7 +6,6 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core.Tests
 {
-
 	public class InMemoryServiceLocator : IServiceLocator
 	{
 		private IDictionary<Type, object> _services = new Dictionary<Type, object>();
@@ -18,7 +17,11 @@ namespace Pathfinder.Core.Tests
 
 		public T Get<T>()
 		{
-			return (T)_services[typeof(T)];
+			var type = typeof(T);
+			if(!_services.ContainsKey(type))
+				throw new KeyNotFoundException("InMemoryServiceLocator::Unable to find key {0}".ToFormat(type));
+
+			return (T)_services[type];
 		}
 
 		public IEnumerable<T> GetAll<T>()
@@ -26,5 +29,4 @@ namespace Pathfinder.Core.Tests
 			throw new NotImplementedException();
 		}
 	}
-
 }

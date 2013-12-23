@@ -1,0 +1,39 @@
+<output class="mono"/>
+
+Circle: 3
+Showing all skills regardless of rank.
+
+          SKILL: Rank/Percent towards next rank/Amount learning/Mindstate Fraction
+    Shield Usage:      9 56% clear          (0/34)     Light Armor:     10 19% clear          (0/34)
+     Chain Armor:     10 17% clear          (0/34)      Brigandine:      7 88% clear          (0/34)
+     Plate Armor:      2 00% clear          (0/34)       Defending:      9 70% clear          (0/34)
+   Parry Ability:      8 99% clear          (0/34)     Small Edged:     11 16% clear          (0/34)
+     Large Edged:     10 21% clear          (0/34) Twohanded Edged:      3 00% clear          (0/34)
+     Small Blunt:      7 05% clear          (0/34)     Large Blunt:      3 00% clear          (0/34)
+ Twohanded Blunt:      3 00% clear          (0/34)          Slings:      3 00% clear          (0/34)
+             Bow:      3 00% clear          (0/34)        Crossbow:      3 00% clear          (0/34)
+^---------------------^          Staves:      3 00% clear          (0/34)        Polearms:      3 00% clear          (0/34)
+    Light Thrown:      4 14% clear          (0/34)    Heavy Thrown:      3 00% clear          (0/34)
+        Brawling:      5 93% clear          (0/34)  Offhand Weapon:      1 50% clear          (0/34)
+   Melee Mastery:     10 49% clear          (0/34) Missile Mastery:      1 38% clear          (0/34)
+ Elemental Magic:     12 28% clear          (0/34)      Attunement:     25 27% clear          (0/34)
+          Arcana:     17 28% clear          (0/34)  Targeted Magic:     12 29% clear          (0/34)
+    Augmentation:     13 42% clear          (0/34)    Debilitation:      4 00% clear          (0/34)
+         Utility:      4 00% clear          (0/34)         Warding:      4 00% clear          (0/34)
+         Sorcery:     14 71% clear          (0/34)       Summoning:     18 16% clear          (0/34)
+         Evasion:      9 91% clear          (0/34)       Athletics:     27 97% dabbling       (1/34)
+^---------------------^      Perception:     13 56% clear          (0/34)         Stealth:      8 14% clear          (0/34)
+    Locksmithing:      4 06% clear          (0/34)        Thievery:      0 00% clear          (0/34)
+       First Aid:      1 00% clear          (0/34) Outdoorsmanship:     17 62% clear          (0/34)
+        Skinning:      9 99% clear          (0/34)         Forging:      0 00% clear          (0/34)
+     Engineering:      0 00% clear          (0/34)      Outfitting:      9 09% clear          (0/34)
+         Alchemy:      0 00% clear          (0/34)      Enchanting:      0 00% clear          (0/34)
+     Scholarship:     10 86% clear          (0/34) Mechanical Lore:      2 02% clear          (0/34)
+       Appraisal:     11 58% clear          (0/34)     Performance:      2 00% clear          (0/34)
+         Tactics:      8 41% clear          (0/34)
+
+Total Ranks Displayed: 384
+Time Development Points: 3  Favors: 0  Deaths: 0  Departs: 0
+Overall state of mind: clear
+EXP HELP for more information
+<output class=""/>

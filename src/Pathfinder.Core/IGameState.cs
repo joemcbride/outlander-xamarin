@@ -8,36 +8,38 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
+	public delegate void TextLogHandler(string text);
+
 	public interface IGameState
 	{
 		string Get(string key);
 		void Set(string key, string value);
 		void Read(string data);
+		void Echo(string text);
+		ISimpleDictionary<string, string> GlobalVars();
 
-		Action<string> TextLog { get; set; }
+		event TextLogHandler TextLog;
+
 		Action<IEnumerable<Tag>> Tags { get; set; }
-//		Action<RoundtimeTag> Roundtime { get; set; }
 		Action<SkillExp> Exp { get; set; }
-//		Action<StreamTag> Arrivals { get; set; }
-//		Action<AppTag> AppInfo { get; set; }
 	}
 
 	public class SimpleGameState : IGameState
 	{
 		private readonly IGameParser _parser;
 		private readonly List<string> _filters = new List<string>();
-		private readonly SimpleDictionary _components = new SimpleDictionary();
+		private readonly SimpleDictionary<string, string> _components = new SimpleDictionary<string, string>();
+		private readonly IRoundtimeHandler _roundtimeHandler;
 
-		public Action<string> TextLog { get; set; }
+		public event TextLogHandler TextLog = delegate { };
+
 		public Action<IEnumerable<Tag>> Tags { get; set; }
-//		public Action<RoundtimeTag> Roundtime { get; set; }
 		public Action<SkillExp> Exp { get; set; }
-//		public Action<StreamTag> Arrivals { get; set; }
-//		public Action<AppTag> AppInfo { get; set; }
 
-		public SimpleGameState(IGameParser parser)
+		public SimpleGameState(IGameParser parser, IRoundtimeHandler roundtimeHandler)
 		{
 			_parser = parser;
+			_roundtimeHandler = roundtimeHandler;
 			_components.Set(ComponentKeys.Prompt, ">");
 		}
 
@@ -58,6 +60,16 @@ namespace Pathfinder.Core
 			RenderData(result);
 		}
 
+		public void Echo(string text)
+		{
+			Log(text);
+		}
+
+		public ISimpleDictionary<string, string> GlobalVars()
+		{
+			return new SimpleDictionary<string, string>(_components.Values());
+		}
+
 		public void RenderData(ReadResult result)
 		{
 			if (result.Chunk == null || string.IsNullOrWhiteSpace(result.Chunk.Text) || string.IsNullOrWhiteSpace(result.Chunk.Text.Trim()))
@@ -75,6 +87,9 @@ namespace Pathfinder.Core
 			if (roomName != null && trimmed.Contains(roomName.Name) && !(trimmed.Contains("Obvious paths") | trimmed.Contains("Obvious exits"))) {
 				dontShowPrompt = true;
 			}
+
+			if(trimmed.Contains("<output class=\"mono\"/>") && !trimmed.Contains("EXP HELP"))
+				dontShowPrompt = true;
 
 			if (!dontShowPrompt)
 				ShowPrompt();
@@ -124,8 +139,8 @@ namespace Pathfinder.Core
 
 			tags.OfType<RightHandTag>().Apply(t => {
 				_components.Set(ComponentKeys.RightHand, t.Name);
-				_components.Set(ComponentKeys.RightHandId + "id", t.Id);
-				_components.Set(ComponentKeys.RightHandNoun + "noun", t.Noun);
+				_components.Set(ComponentKeys.RightHandId, t.Id);
+				_components.Set(ComponentKeys.RightHandNoun, t.Noun);
 			});
 
 			tags.OfType<SpellTag>().Apply(t => {
@@ -135,36 +150,20 @@ namespace Pathfinder.Core
 			tags.OfType<PromptTag>().Apply(t => {
 				_components.Set(ComponentKeys.Prompt, t.Prompt);
 				_components.Set(ComponentKeys.GameTime, t.GameTime);
+				_components.Set(ComponentKeys.GameTimeUpdate, DateTime.UtcNow.DateTimeToUnixTimestamp().ToString());
 			});
 
 			tags.OfType<RoundtimeTag>().Apply(t => {
-				var diff = t.RoundTime - DateTime.Now;
-				_components.Set(ComponentKeys.Roundtime, diff.Seconds.ToString());
-//				if(Roundtime != null)
-//				{
-//					Roundtime(t);
-//				}
+				var gameTime = _components.Get(ComponentKeys.GameTime).UnixTimeStampToDateTime();
+				var gameTimeLastUpdate = _components.Get(ComponentKeys.GameTimeUpdate).UnixTimeStampToDateTime();
+				var diff = t.RoundTime - gameTime;
+				var realDiff = diff.Subtract(DateTime.Now - gameTimeLastUpdate);
+				_roundtimeHandler.Set(realDiff.Seconds);
 			});
-
-//			tags.OfType<StreamTag>().Apply(t => {
-//				if(string.Equals(t.Id, "logons")) {
-//					var ev = Arrivals;
-//					if(ev != null)
-//					{
-//						ev(t);
-//					}
-//				}
-//			});
 
 			tags.OfType<AppTag>().Apply(t => {
 				_components.Set(ComponentKeys.CharacterName, t.Character);
 				_components.Set(ComponentKeys.Game, t.Game);
-
-//				var ev = AppInfo;
-//				if(ev != null)
-//				{
-//					ev(t);
-//				}
 			});
 
 			var tagsEv = Tags;

@@ -14,12 +14,20 @@ namespace Pathfinder.Core.Client
 
 		public override bool Equals(object obj)
 		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != this.GetType()) return false;
 			return Equals((TextTag)obj);
 		}
 
-		public bool Equals(TextTag tag)
+		public bool Equals(TextTag other)
 		{
-			return tag.Text.Equals(tag.Text);
+			return string.Equals(Text, other.Text);
+		}
+
+		public override int GetHashCode()
+		{
+			return (Text != null ? Text.GetHashCode() : 0);
 		}
 
 		public override string ToString()

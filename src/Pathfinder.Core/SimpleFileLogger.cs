@@ -12,17 +12,20 @@ namespace Pathfinder.Core
 		private readonly string _filename = "log.txt";
 		private readonly string _errorsFilename = "errors.txt";
 
+		private IServiceLocator _services;
+
 		private static object LockObject = new object();
 
 		public SimpleFileLogger()
-			: this("log.txt", "errors.txt")
+			: this("log.txt", "errors.txt", null)
 		{
 		}
 
-		public SimpleFileLogger(string fileName, string errorsFileName)
+		public SimpleFileLogger(string fileName, string errorsFileName, IServiceLocator services)
 		{
 			_filename = fileName;
 			_errorsFilename = errorsFileName;
+			_services = services;
 		}
 
 		public void Info(string data)
@@ -42,35 +45,22 @@ namespace Pathfinder.Core
 
 		private void Write(string filename, string data)
 		{
-			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Documents/Pathfinder");
-			if(!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			var appSettings = _services.Get<AppSettings>();
 
-			var fullPath = Path.Combine(path, filename);
+			var fullPath = Path.Combine(appSettings.HomeDirectory, AppSettings.LogFolder, filename);
 
 			lock (LockObject) {
-
 				WriteTextAsync(fullPath, data);
 			}
-
-//			try {
-//				lock (LockObject) {
-//					using (var writer = File.AppendText(fullPath)) {
-//						writer.Write(data);
-//					}
-//				}
-//			} catch (Exception exc) {
-//				Debug.WriteLine(exc);
-//			}
 		}
 
-		private async Task WriteTextAsync(string filePath, string text)
+		private async void WriteTextAsync(string filePath, string text)
 		{
 			try {
 				byte[] encodedText = Encoding.Unicode.GetBytes(text);
 
 				using (FileStream sourceStream = new FileStream(filePath,
-                        FileMode.Append, FileAccess.Write, FileShare.None,
+					FileMode.Append, FileAccess.Write, FileShare.ReadWrite,
                         bufferSize: 4096, useAsync: true)) {
 					await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
 				}

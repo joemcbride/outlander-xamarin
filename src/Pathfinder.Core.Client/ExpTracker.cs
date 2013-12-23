@@ -40,6 +40,7 @@ namespace Pathfinder.Core.Client
 				target.Ranks = skill.Ranks;
 			}
 			target.LearningRate = skill.LearningRate;
+			target.IsNew = skill.IsNew;
 		}
 
 		public SkillExp Get(string skillName)
@@ -62,15 +63,8 @@ namespace Pathfinder.Core.Client
 			var builder = new StringBuilder();
 
 			SkillsWithExp()
-				.OrderBy(x=>x.Name)
-				.Apply(exp =>
-					builder.AppendLine(
-						string.Format("{0,-15} {1,7} {2,3}/34 {3}{4:F}",
-							exp.Name.Replace("_", " "),
-							exp.Ranks,
-							exp.LearningRate.Id,
-							PosNeg(exp.Gained),
-							exp.Gained)));
+				.OrderBy(x => x.Name)
+				.Apply(exp => builder.AppendLine(exp.Display()));
 
 			return builder.ToString();
 		}

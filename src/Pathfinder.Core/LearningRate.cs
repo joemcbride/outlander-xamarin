@@ -41,7 +41,7 @@ namespace Pathfinder.Core
 		public static LearningRate VeryRapt = new LearningRate(31, "very rapt");
 		public static LearningRate Enthralled = new LearningRate(32, "enthralled");
 		public static LearningRate NearlyLocked = new LearningRate(33, "nearly locked");
-		public static LearningRate MindLocked = new LearningRate(34, "mind locked");
+		public static LearningRate MindLock = new LearningRate(34, "mind lock");
 
 		public LearningRate(int id, string description)
 		{
@@ -51,6 +51,24 @@ namespace Pathfinder.Core
 
 		public int Id { get; private set; }
 		public string Description { get; private set; }
+
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != this.GetType()) return false;
+			return Equals((LearningRate)obj);
+		}
+
+		public bool Equals(LearningRate other)
+		{
+			return Id == other.Id;
+		}
+
+		public override int GetHashCode()
+		{
+			return Id.GetHashCode();
+		}
 
 		public static IEnumerable<LearningRate> All()
 		{

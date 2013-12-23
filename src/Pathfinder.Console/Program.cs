@@ -18,7 +18,7 @@ namespace Pathfinder.Console
 				return;
 			}
 			gameServer.Connect(token);
-			gameServer.GameState.TextLog = (msg) => {
+			gameServer.GameState.TextLog += (msg) => {
 				console.Write(msg);
 			};
 

@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using Pathfinder.Core.Authentication;
 using Pathfinder.Core.Text;
 using Pathfinder.Core.Client;
+using Pathfinder.Core.Client.Scripting;
 
 namespace Pathfinder.Core
 {
@@ -25,27 +27,38 @@ namespace Pathfinder.Core
 		{
 			_container = new SimpleContainer();
 
-			//IoC.BuildUp = container.BuildUp;
-			//IoC.GetInstance = container.GetInstance;
-			//IoC.GetAllInstances = container.GetAllInstances;
+			var appSettings = new AppSettings();
 
-			_container.Instance<IServiceLocator>(new ServiceLocator(_container));
+			var services = new ServiceLocator(_container);
+
+			_container.Instance<AppSettings>(appSettings);
+			_container.Singleton<IFileSystem, FileSystem>();
+			_container.Instance<IServiceLocator>(services);
 			_container.PerRequest<IAsyncSocket, AsyncSocket>();
 			_container.PerRequest<IAuthenticationServer, AuthenticationServer>();
 			_container.Singleton<IGameParser, NewGameParser>();
 			_container.Singleton<IGameState, SimpleGameState>();
 			_container.Singleton<IGameServer, SimpleGameServer>();
+			_container.Singleton<IScriptLoader, ScriptLoader>();
+			_container.Singleton<IScriptRunner, ScriptRunner>();
+			_container.Singleton<IRoundtimeHandler, RoundtimeHandler>();
 
 			_container.PerRequest<ITagTransformer, ComponentTagTransformer>();
 			_container.PerRequest<ITagTransformer, StreamWindowTagTransformer>();
+
+			_container.PerRequest<IScript, Script>();
+			_container.Singleton<IScriptLog, ScriptLog>();
+
+			_container.PerRequest<IVariableReplacer, VariableReplacer>();
+			_container.PerRequest<ICommandProcessor, CommandProcessor>();
 
 			var now = DateTime.Now.ToString("s");
 			var logFileName = string.Format("{0}-log.txt", now);
 			var errorsFileName = string.Format("{0}-errors.txt", now);
 
-			//var logger = new SimpleFileLogger(logFileName, errorsFileName);
+			var logger = new SimpleFileLogger(logFileName, errorsFileName, services);
 
-			var compositeLog = new CompositeLog(new ILog[]{ new DebugLog() });
+			var compositeLog = new CompositeLog(new ILog[]{ logger });
 
 			_container.Instance<ILog>(compositeLog);
 

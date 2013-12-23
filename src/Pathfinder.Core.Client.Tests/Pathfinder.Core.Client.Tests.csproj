@@ -37,9 +37,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HighlightsTester.cs" />
     <Compile Include="CommandCacheTester.cs" />
     <Compile Include="ExpTrackerTester.cs" />
+    <Compile Include="Scripting\TokenizerTests.cs" />
+    <Compile Include="Scripting\WaitForTokenHandlerTester.cs" />
+    <Compile Include="BoldHighligtherTester.cs" />
+    <Compile Include="RoomNameHighlightsTester.cs" />
+    <Compile Include="IntegratedHighlightsTester.cs" />
+    <Compile Include="Scripting\GotoTokenHandlerTester.cs" />
+    <Compile Include="Scripting\PauseTokenHandlerTester.cs" />
+    <Compile Include="Scripting\ScriptTester.cs" />
+    <Compile Include="CommandTokenizerTests.cs" />
+    <Compile Include="VariableReplacerTester.cs" />
+    <Compile Include="Scripting\SendCommandTokenHandlerTester.cs" />
+    <Compile Include="CommandProcessorTester.cs" />
+    <Compile Include="Scripting\ScriptRunnerTester.cs" />
+    <Compile Include="Scripting\StubScript.cs" />
+    <Compile Include="Scripting\StubScriptLoader.cs" />
+    <Compile Include="Scripting\StubScriptRunner.cs" />
+    <Compile Include="Scripting\InMemoryScriptLog.cs" />
+    <Compile Include="Scripting\MatchWaitTokenHandlerTester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -58,5 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripting\" />
   </ItemGroup>
 </Project>

@@ -6,11 +6,51 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core.Tests
 {
+	public class StubGameServer : IGameServer
+	{
+		private StubGameState _gameState;
+
+		public StubGameServer(StubGameState gameState)
+		{
+			_gameState = gameState;
+		}
+
+		public string LastCommand { get; private set; }
+
+		public void Connect(ConnectionToken token)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Disconnect()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SendCommand(string command)
+		{
+			LastCommand = command;
+			_gameState.FireTextLog(command);
+		}
+
+		public ConnectionToken Authenticate(string game, string account, string password, string character)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IGameState GameState {
+			get {
+				return _gameState;
+			}
+		}
+	}
+
 	public class StubGameState : IGameState
 	{
 		private IDictionary<string, string> _state = new Dictionary<string, string>();
 
 		public string LastReadData { get; set; }
+		public string LastEcho { get; set; }
 
 		public string Get(string key)
 		{
@@ -27,7 +67,27 @@ namespace Pathfinder.Core.Tests
 			LastReadData = data;
 		}
 
-		public Action<string> TextLog { get; set; }
+		public void Echo(string text)
+		{
+			LastEcho = text;
+			FireTextLog(text);
+		}
+
+		public ISimpleDictionary<string, string> GlobalVars()
+		{
+			return new SimpleDictionary<string, string>(_state);
+		}
+
+		public void FireTextLog(string data)
+		{
+			var ev = TextLog;
+			if(ev != null){
+				ev(data);
+			}
+		}
+
+		public event TextLogHandler TextLog;
+
 		public Action<IEnumerable<Tag>> Tags { get; set; }
 		public Action<SkillExp> Exp { get; set; }
 

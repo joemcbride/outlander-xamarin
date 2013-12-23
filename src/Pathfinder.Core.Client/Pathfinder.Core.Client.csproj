@@ -43,6 +43,28 @@
     <Compile Include="MonoHighlighter.cs" />
     <Compile Include="CommandCache.cs" />
     <Compile Include="ExpTracker.cs" />
+    <Compile Include="Scripting\Tokenizer.cs" />
+    <Compile Include="Scripting\TokenDefinition.cs" />
+    <Compile Include="Scripting\TokenDefinitionRegistry.cs" />
+    <Compile Include="Scripting\ScriptContext.cs" />
+    <Compile Include="Scripting\CompletionEventArgs.cs" />
+    <Compile Include="Scripting\ITokenHandler.cs" />
+    <Compile Include="Scripting\Token.cs" />
+    <Compile Include="Scripting\GotoTokenHandler.cs" />
+    <Compile Include="Scripting\WaitForTokenHandler.cs" />
+    <Compile Include="Scripting\PauseTokenHandler.cs" />
+    <Compile Include="Scripting\ContinueTokenHandler.cs" />
+    <Compile Include="Scripting\SendCommandTokenHandler.cs" />
+    <Compile Include="Scripting\Script.cs" />
+    <Compile Include="CommandProcessor.cs" />
+    <Compile Include="Scripting\IVariableReplacer.cs" />
+    <Compile Include="Scripting\ScriptToken.cs" />
+    <Compile Include="Scripting\IScriptLoader.cs" />
+    <Compile Include="Scripting\IScriptRunner.cs" />
+    <Compile Include="Scripting\ScriptLog.cs" />
+    <Compile Include="Scripting\ScriptCommandTokenHandler.cs" />
+    <Compile Include="Scripting\ScriptTokenHandler.cs" />
+    <Compile Include="Scripting\MatchWait.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
@@ -52,5 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripting\" />
   </ItemGroup>
 </Project>

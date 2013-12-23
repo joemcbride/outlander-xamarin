@@ -15,6 +15,12 @@ namespace Pathfinder.Core
 		public const string CharacterName = "charactername";
 		public const string Game = "game";
 
+		public const string Health = "health";
+		public const string Mana = "mana";
+		public const string Stamina = "stamina";
+		public const string Concentration = "concentration";
+		public const string Spirit = "spirit";
+
 		public const string RoomTitle = "roomtitle";
 		public const string RoomName = "roomname";
 		public const string RoomDescription = "roomdesc";
@@ -24,6 +30,7 @@ namespace Pathfinder.Core
 
 		public const string Spell = "spell";
 		public const string GameTime = "gametime";
+		public const string GameTimeUpdate = "gametimeupdate";
 
 		public const string LeftHand = "lefthand";
 		public const string LeftHandId = "lefthandnounid";
