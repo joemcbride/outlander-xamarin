@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Pathfinder.Core.Client.Scripting;
 
 namespace Pathfinder.Core.Client
 {
-
 	public class ScriptCommandTokenHandler : TokenHandler
 	{
 		private const string Command_Regex = "(\\w+)";
@@ -37,7 +33,8 @@ namespace Pathfinder.Core.Client
 				if(command == "resume")
 					scriptRunner.Resume(scriptToken);
 			}
+
+			TaskSource.TrySetResult(new CompletionEventArgs());
 		}
 	}
-	
 }

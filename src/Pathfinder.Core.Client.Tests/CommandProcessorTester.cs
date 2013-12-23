@@ -43,7 +43,8 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			const string line = ".myscript one two \"three four\"";
 
-			theProcessor.Process(line);
+			var task = theProcessor.Process(line);
+			task.Wait();
 
 			Assert.NotNull(theRunner.RunToken);
 			Assert.AreEqual("myscript", theRunner.RunToken.Name);
@@ -55,7 +56,8 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			const string line = "#script abort myscript";
 
-			theProcessor.Process(line);
+			var task = theProcessor.Process(line);
+			task.Wait();
 
 			Assert.NotNull(theRunner.StopToken);
 			Assert.AreEqual("myscript", theRunner.StopToken.Name);
@@ -66,7 +68,8 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			const string line = "#script pause myscript";
 
-			theProcessor.Process(line);
+			var task = theProcessor.Process(line);
+			task.Wait();
 
 			Assert.NotNull(theRunner.PauseToken);
 			Assert.AreEqual("myscript", theRunner.PauseToken.Name);
@@ -77,7 +80,8 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			const string line = "#script resume myscript";
 
-			theProcessor.Process(line);
+			var task = theProcessor.Process(line);
+			task.Wait();
 
 			Assert.NotNull(theRunner.ResumeToken);
 			Assert.AreEqual("myscript", theRunner.ResumeToken.Name);

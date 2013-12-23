@@ -1,28 +1,41 @@
-﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/22/2013 11:42:51 PM">
+﻿<Properties MonoDevelop.MonoMac.LastXamMacNagTime="12/23/2013 4:28:24 AM">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Core.Client/Bootstrapper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pathfinder.Core.Client.Tests/Scripting/PauseTokenHandlerTester.cs">
     <Files>
-      <File FileName="Pathfinder.Core.Client/Bootstrapper.cs" Line="30" Column="30" />
-      <File FileName="Pathfinder.Core.Client/CommandProcessor.cs" Line="10" Column="2" />
-      <File FileName="Pathfinder.Core.Client/Scripting/SendCommandTokenHandler.cs" Line="12" Column="4" />
+      <File FileName="Pathfinder.Core.Client/Scripting/WaitForTokenHandler.cs" Line="27" Column="4" />
+      <File FileName="Pathfinder.Core.Client/Scripting/Script.cs" Line="131" Column="7" />
+      <File FileName="Pathfinder.Core/RoundtimeHandler.cs" Line="47" Column="3" />
+      <File FileName="Pathfinder.Core.Client.Tests/Scripting/WaitForTokenHandlerTester.cs" Line="26" Column="51" />
+      <File FileName="Pathfinder.Core.Tests/LearningRateTester.cs" Line="14" Column="4" />
+      <File FileName="Pathfinder.Core/SkillExp.cs" Line="53" Column="37" />
+      <File FileName="Pathfinder.Core/Text/ComponentTag.cs" Line="10" Column="2" />
+      <File FileName="Pathfinder.Core/LearningRate.cs" Line="45" Column="3" />
+      <File FileName="Pathfinder.Core.Tests/SkillExpTester.cs" Line="9" Column="3" />
+      <File FileName="Pathfinder.Core.Client.Tests/Scripting/PauseTokenHandlerTester.cs" Line="21" Column="22" />
+      <File FileName="Pathfinder.Core.Client.Tests/Scripting/MatchwaitTokenHandlerTester.cs" Line="95" Column="16" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="Tests" expanded="True">
+          <Node name="Tests" expanded="True" selected="True">
             <Node name="Pathfinder.Core.Client.Tests" expanded="True">
               <Node name="Pathfinder" expanded="True">
                 <Node name="Core" expanded="True">
                   <Node name="Client" expanded="True">
                     <Node name="Tests" expanded="True">
-                      <Node name="CommandProcessorTester" expanded="True" />
-                      <Node name="CommandTokenizerTests" expanded="True" />
+                      <Node name="MatchWaitTokenHandlerTester" expanded="True" />
                       <Node name="PauseTokenHandlerTester" expanded="True" />
-                      <Node name="ScriptRunnerTester" expanded="True" selected="True" />
-                      <Node name="ScriptTester" expanded="True" />
-                      <Node name="SendCommandTokenHandlerTester" expanded="True" />
                       <Node name="WaitForTokenHandlerTester" expanded="True" />
                     </Node>
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+            <Node name="Pathfinder.Core.Tests" expanded="True">
+              <Node name="Pathfinder" expanded="True">
+                <Node name="Core" expanded="True">
+                  <Node name="Tests" expanded="True">
+                    <Node name="SkillExpTester" expanded="True" />
                   </Node>
                 </Node>
               </Node>
@@ -36,6 +49,7 @@
     <BreakpointStore>
       <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Tests/Text/EmptyClass.cs" line="18" column="1" />
       <Breakpoint file="/Users/joe/Documents/_Projects/pathfinder/src/Pathfinder.Core.Client.Tests/HighlightsTester.cs" line="113" column="1" />
+      <Breakpoint file="/Users/jomc/Documents/Dev/pathfinder/src/Pathfinder.Core/SkillExp.cs" line="55" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

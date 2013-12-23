@@ -82,7 +82,7 @@ namespace Pathfinder.Core.Client.Tests
 
 			Assert.True(task.IsCompleted);
 			Assert.AreEqual("one", task.Result.Goto);
-			Assert.AreEqual("waiting for match\nmatched 'Another Road|Derelict Road'\n", theLog.Builder.ToString());
+			Assert.AreEqual("waiting for match\nmatched 'Derelict Road'\n", theLog.Builder.ToString());
 		}
 
 		[Test]
@@ -108,7 +108,7 @@ namespace Pathfinder.Core.Client.Tests
 
 			Assert.True(task.IsCompleted);
 			Assert.AreEqual("two.match", task.Result.Goto);
-			Assert.AreEqual("waiting for match\nmatched 'Another Road|Derelict Road'\n", theLog.Builder.ToString());
+			Assert.AreEqual("waiting for match\nmatched 'Derelict Road'\n", theLog.Builder.ToString());
 		}
 	}
 }

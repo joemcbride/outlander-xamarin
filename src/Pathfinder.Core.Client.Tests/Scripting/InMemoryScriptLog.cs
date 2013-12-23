@@ -11,7 +11,7 @@ namespace Pathfinder.Core.Client.Tests
 		public event EventHandler<ScriptLogInfo> NotifyStarted = delegate { };
 		public event EventHandler<ScriptLogInfo> NotifyAborted = delegate { };
 
-		public void Started(string name)
+		public void Started(string name, DateTime startTime)
 		{
 			Builder.AppendLine("{0} started".ToFormat(name));
 		}
@@ -21,7 +21,7 @@ namespace Pathfinder.Core.Client.Tests
 			Builder.AppendLine(data);
 		}
 
-		public void Aborted(string name, TimeSpan runtime)
+		public void Aborted(string name, DateTime startTime, TimeSpan runtime)
 		{
 			Builder.AppendLine("{0} aborted::{1}".ToFormat(name, runtime));
 		}

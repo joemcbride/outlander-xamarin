@@ -45,6 +45,8 @@ namespace Pathfinder.Core.Client.Scripting
 
 		public Task Run(ScriptToken token)
 		{
+			RemoveByName(token.Name);
+
 			if(!_scriptLoader.CanLoad(token.Name))
 				return null;
 
@@ -91,7 +93,7 @@ namespace Pathfinder.Core.Client.Scripting
 			lock (LockObject) {
 				var script = _scripts.FirstOrDefault(x => x.Name == name);
 				script.IfNotNull(s => {
-					_scriptLog.Aborted(name, DateTime.Now - s.StartTime);
+					_scriptLog.Aborted(name, s.StartTime, DateTime.Now - s.StartTime);
 					s.Stop();
 					_scripts.Remove(s);
 				});

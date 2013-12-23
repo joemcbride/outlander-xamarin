@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Pathfinder.Core.Client.Scripting;
 
 namespace Pathfinder.Core.Client
@@ -11,7 +12,7 @@ namespace Pathfinder.Core.Client
 	public interface ICommandProcessor
 	{
 		string Eval(string command, ScriptContext context = null);
-		void Process(string command, ScriptContext context = null);
+		Task Process(string command, ScriptContext context = null);
 	}
 
 	public class CommandProcessor : ICommandProcessor
@@ -40,14 +41,20 @@ namespace Pathfinder.Core.Client
 			return _variableReplacer.Replace(command, context);
 		}
 
-		public void Process(string command, ScriptContext context = null)
+		public Task Process(string command, ScriptContext context = null)
 		{
+			var completionSource = new TaskCompletionSource<object>();
+
 			var token = _tokenizer.Tokenize(command).FirstOrDefault();
 			if(token != null) {
 				if(context == null)
 					context = new ScriptContext(token.Type, CancellationToken.None, _services, null);
 
-				_tokenHandlers[token.Type].Execute(context, token);
+				var handler = _tokenHandlers[token.Type];
+				Task.Factory.StartNew(() => {
+					handler.Execute(context, token);
+					completionSource.TrySetResult(null);
+				});
 			}
 			else {
 				var server = _services.Get<IGameServer>();
@@ -57,7 +64,10 @@ namespace Pathfinder.Core.Client
 					_scriptLog.Log(context.Name, "sending command: {0}".ToFormat(replaced), context.LineNumber);
 
 				server.SendCommand(replaced);
+				completionSource.TrySetResult(null);
 			}
+
+			return completionSource.Task;
 		}
 	}
 }

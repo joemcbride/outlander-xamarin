@@ -108,4 +108,8 @@
       <Name>Pathfinder.Core.Client</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\map.icns" />
+    <BundleResource Include="Resources\tome %281%29.icns" />
+  </ItemGroup>
 </Project>

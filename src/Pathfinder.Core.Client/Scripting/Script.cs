@@ -45,6 +45,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["label"] = new ContinueTokenHandler((context, token) => {
 				_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
 			});
+			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["goto"] = new GotoTokenHandler();
 			_tokenHandlers["waitfor"] = new WaitForTokenHandler();
 			_tokenHandlers["pause"] = new PauseTokenHandler();
@@ -74,7 +75,7 @@ namespace Pathfinder.Core.Client.Scripting
 			StartTime = DateTime.Now;
 			Name = name;
 
-			_log.Started(name);
+			_log.Started(name, StartTime);
 
 			_localVars["0"] = string.Join(" ", args);
 			args.Apply((x, idx) => _localVars["{0}".ToFormat(idx + 1)] = x);
@@ -89,7 +90,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_scriptLines.Apply((line, num) => {
 				if(string.IsNullOrWhiteSpace(line)) return;
 				var match = Regex.Match(line, "^(\\w.*):");
-				if(match.Success){
+				if(match.Success) {
 					_gotos[match.Groups[1].Value] = num;
 				}
 			});
@@ -121,7 +122,7 @@ namespace Pathfinder.Core.Client.Scripting
 
 				var line = _scriptLines[i];
 				var token = _tokenizer.Tokenize(line).FirstOrDefault();
-				if(token != null) {
+				if(token != null && !token.Ignore) {
 					var task = _tokenHandlers[token.Type].Execute(_scriptContext, token);
 					try
 					{
@@ -136,7 +137,7 @@ namespace Pathfinder.Core.Client.Scripting
 					if(!string.IsNullOrWhiteSpace(task.Result.Goto))
 					{
 						i = _gotos[task.Result.Goto] - 1;
-						_log.Log(Name, "moving to label {0}".ToFormat(task.Result.Goto), _scriptContext.LineNumber);
+						//_log.Log(Name, "moving to label {0}".ToFormat(task.Result.Goto), _scriptContext.LineNumber);
 					}
 				}
 			}

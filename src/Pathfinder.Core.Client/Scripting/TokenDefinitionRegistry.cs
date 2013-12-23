@@ -81,6 +81,21 @@ namespace Pathfinder.Core.Client
 			var registry = new TokenDefinitionRegistry();
 
 			registry.New(d => {
+				d.Type = "comment";
+				d.Pattern = "^#.*";
+				d.Ignore = true;
+				d.BuildToken =  (source, match, def)=> {
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = match.Value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
 				d.Type = "label";
 				d.Pattern = "^([a-zA-Z0-9]+):";
 				d.Ignore = false;

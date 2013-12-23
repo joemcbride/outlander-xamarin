@@ -50,7 +50,7 @@ namespace Pathfinder.Core
 			_container.Singleton<IScriptLog, ScriptLog>();
 
 			_container.PerRequest<IVariableReplacer, VariableReplacer>();
-			_container.PerRequest<ICommandProcessor, CommandProcessor>();
+			_container.Singleton<ICommandProcessor, CommandProcessor>();
 
 			var now = DateTime.Now.ToString("s");
 			var logFileName = string.Format("{0}-log.txt", now);
@@ -70,9 +70,17 @@ namespace Pathfinder.Core
 			_container.PerRequest<IHighlighter, MonoHighlighter>();
 			_container.PerRequest<IHighlighter, RoomNameHighlighter>();
 			_container.PerRequest<IHighlighter, BoldHighlighter>();
+			_container.Instance<IHighlighter>(new SimpleHighlighter("says|whispers", HighlightKeys.Whisper, settings));
+
 			_container.Instance<IHighlighter>(new SimpleHighlighter("Tayek", "Tayek", settings));
 			_container.Instance<IHighlighter>(new SimpleHighlighter("steelsilk", "steelsilk", settings));
+			_container.Instance<IHighlighter>(new SimpleHighlighter("^You've gained a new rank.*$", "newrank", settings));
+			_container.Instance<IHighlighter>(new SimpleHighlighter("^Your formation of a targeting pattern.*$", "target", settings));
+			_container.Instance<IHighlighter>(new SimpleHighlighter("^(You begin to target|You begin to weave mana lines into a target pattern).*$", "target", settings));
 
+
+			settings.Add(new HighlightSetting{ Id = "newrank", Color = "#0000FF"  });
+			settings.Add(new HighlightSetting{ Id = "target", Color = "#33FF08" });
 			settings.Add(new HighlightSetting{ Id = "Tayek", Color = "#0000FF"  });
 			settings.Add(new HighlightSetting{ Id = "steelsilk", Color = "#296B00"  });
 		}

@@ -79,15 +79,21 @@ namespace Pathfinder.Mac.Beta
 			_scriptLog.Info += (sender, e) => {
 				var log = "[{0}]: ({1}) {2}\n".ToFormat(e.Name, e.LineNumber, e.Data);
 
-				var tag = TextTag.For(log, "ADFF2F");
-
 				BeginInvokeOnMainThread(()=> {
+
+					var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
+
+					if(!hasLineFeed)
+						log = "\n" + log;
+
+					var tag = TextTag.For(log, "ADFF2F");
+
 					Append(tag, MainTextView);
 				});
 			};
 
 			_scriptLog.NotifyStarted += (sender, e) => {
-				var log = "[{0}]: script started\n".ToFormat(e.Name);
+				var log = "[{0}]: {1} - script started\n".ToFormat(e.Name, e.Started.ToString("G"));
 
 				var tag = TextTag.For(log, "ADFF2F");
 
@@ -97,7 +103,7 @@ namespace Pathfinder.Mac.Beta
 			};
 
 			_scriptLog.NotifyAborted += (sender, e) => {
-				var log = "[{0}]: total runtime {1} seconds\n".ToFormat(e.Name, e.Runtime.Seconds);
+				var log = "[{0}]: total runtime {1} seconds\n".ToFormat(e.Name, Math.Round(e.Runtime.TotalSeconds, 2));
 
 				var tag = TextTag.For(log, "ADFF2F");
 
@@ -179,7 +185,7 @@ namespace Pathfinder.Mac.Beta
 
 			_gameServer.GameState.TextLog += (msg) => {
 				BeginInvokeOnMainThread(() => {
-					Log(msg.Replace("&lt;", "<"), MainTextView);
+					Log(msg, MainTextView);
 
 					LeftHandLabel.StringValue = string.Format("L: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
 					RightHandLabel.StringValue = string.Format("R: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
@@ -245,6 +251,11 @@ namespace Pathfinder.Mac.Beta
 
 			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + replaced + "\n";
 
+			var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
+
+			if(!hasLineFeed)
+				prompt = "\n" + prompt;
+
 			Log(prompt, MainTextView);
 
 			_commandProcessor.Process(replaced);
@@ -281,6 +292,8 @@ namespace Pathfinder.Mac.Beta
 
 		private void Append(TextTag tag, NSTextView textView)
 		{
+			var text = tag.Text.Replace("&lt;", "<").Replace("&gt;", ">");
+
 			var defaultSettings = new DefaultSettings();
 
 			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
@@ -289,7 +302,7 @@ namespace Pathfinder.Mac.Beta
 			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
 
 			textView.TextStorage.BeginEditing();
-			textView.TextStorage.Append(tag.Text.CreateString(color.ToNSColor(), font));
+			textView.TextStorage.Append(text.CreateString(color.ToNSColor(), font));
 			textView.TextStorage.EndEditing();
 
 			var start = textView.TextStorage.Value.Length - 2;

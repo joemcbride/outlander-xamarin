@@ -22,10 +22,10 @@ namespace Pathfinder.Core
 
 		public string Display()
 		{
-			return string.Format("{0,-15} {1,7} {2,3}/34 {3}{4:F}",
+			return string.Format("{0,16}: {1,7} {2,7} {3}{4:F}",
 				Name.Replace("_", " "),
 				Ranks,
-				LearningRate.Id,
+				"({0}/34)".ToFormat(LearningRate.Id),
 				PosNeg(Gained),
 				Gained);
 		}

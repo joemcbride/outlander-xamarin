@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
+using Pathfinder.Core.Client.Scripting;
 
 namespace Pathfinder.Core.Client.Tests
 {

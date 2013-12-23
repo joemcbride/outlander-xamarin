@@ -27,7 +27,7 @@ namespace Pathfinder.Core
 				Interlocked.Decrement(ref _roundTime);
 				var value = Interlocked.Read(ref _roundTime);
 				FireChanged(value);
-				if(value == 0)
+				if(value <= 0)
 					_timer.Stop();
 			};
 		}
@@ -36,7 +36,7 @@ namespace Pathfinder.Core
 
 		public void Set(long roundTime)
 		{
-			Interlocked.Add(ref _roundTime, roundTime);
+			Interlocked.Exchange(ref _roundTime, roundTime + 1);
 
 			var value = Interlocked.Read(ref _roundTime);
 			FireChanged(value);
@@ -47,6 +47,9 @@ namespace Pathfinder.Core
 
 		private void FireChanged(long roundTime)
 		{
+			if(roundTime < 0)
+				roundTime = 0;
+
 			_services.Get<IGameState>().Set(ComponentKeys.Roundtime, roundTime.ToString());
 			var ev = Changed;
 			if(ev != null)

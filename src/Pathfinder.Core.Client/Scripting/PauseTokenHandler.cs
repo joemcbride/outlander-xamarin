@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Pathfinder.Core.Client
+namespace Pathfinder.Core.Client.Scripting
 {
 	public class PauseTokenHandler : TokenHandler
 	{
@@ -34,17 +34,23 @@ namespace Pathfinder.Core.Client
 				var task = Task.Delay(pauseTime, Context.CancelToken);
 				task.Wait();
 
-				double roundTime;
-				if(double.TryParse(_gameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
-				{
-					task = Task.Delay(TimeSpan.FromSeconds(roundTime), Context.CancelToken);
-					task.Wait();
-				}
-				TaskSource.TrySetResult(new CompletionEventArgs());
+				DelayIfRoundtime(()=>TaskSource.TrySetResult(new CompletionEventArgs()));
 			}
 			catch(AggregateException)
 			{
 				TaskSource.TrySetCanceled();
+			}
+		}
+
+		private void DelayIfRoundtime(Action complete)
+		{
+			double roundTime;
+			if(double.TryParse(_gameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
+			{
+				DelayEx.Delay(TimeSpan.FromSeconds(roundTime), Context.CancelToken, complete);
+			}
+			else {
+				complete();
 			}
 		}
 	}

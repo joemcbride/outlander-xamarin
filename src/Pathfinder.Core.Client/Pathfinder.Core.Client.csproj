@@ -65,6 +65,9 @@
     <Compile Include="Scripting\ScriptCommandTokenHandler.cs" />
     <Compile Include="Scripting\ScriptTokenHandler.cs" />
     <Compile Include="Scripting\MatchWait.cs" />
+    <Compile Include="Scripting\DelayEx.cs" />
+    <Compile Include="Scripting\MatchTokenHandler.cs" />
+    <Compile Include="Scripting\MatchWaitTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

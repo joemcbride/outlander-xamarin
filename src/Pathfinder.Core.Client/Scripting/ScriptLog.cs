@@ -8,8 +8,8 @@ namespace Pathfinder.Core.Client
 		event EventHandler<ScriptLogInfo> NotifyStarted;
 		event EventHandler<ScriptLogInfo> NotifyAborted;
 		void Log(string name, string data, int lineNumber);
-		void Started(string name);
-		void Aborted(string name, TimeSpan runtime);
+		void Started(string name, DateTime started);
+		void Aborted(string name, DateTime started, TimeSpan runtime);
 	}
 
 	public class ScriptLog : IScriptLog
@@ -23,14 +23,14 @@ namespace Pathfinder.Core.Client
 			FireInfoLog(new ScriptLogInfo{ Name = name, Data = data, LineNumber = lineNumber });
 		}
 
-		public void Started(string name)
+		public void Started(string name, DateTime started)
 		{
-			FireStartedLog(new ScriptLogInfo{ Name = name });
+			FireStartedLog(new ScriptLogInfo{ Name = name, Started = started });
 		}
 
-		public void Aborted(string name, TimeSpan runtime)
+		public void Aborted(string name, DateTime started, TimeSpan runtime)
 		{
-			FireAbortedLog(new ScriptLogInfo{ Name = name, Runtime = runtime });
+			FireAbortedLog(new ScriptLogInfo{ Name = name, Started = started, Runtime = runtime });
 		}
 
 		private void FireInfoLog(ScriptLogInfo text)
@@ -66,6 +66,7 @@ namespace Pathfinder.Core.Client
 		public string Name { get; set; }
 		public string Data { get; set; }
 		public int LineNumber { get; set; }
+		public DateTime Started { get; set; }
 		public TimeSpan Runtime { get; set; }
 	}
 }

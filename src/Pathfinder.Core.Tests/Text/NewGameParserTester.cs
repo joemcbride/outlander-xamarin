@@ -172,5 +172,16 @@ namespace Pathfinder.Core.Text.Tests
 
 			Assert.AreEqual(expected, result.Chunk.Text);
 		}
+
+		[Test]
+		public void handles_boarding_ferry()
+		{
+			const string data = "[Assuming you mean the ferry Hodierna's Grace.]\nThe Captain stops you and requests a transportation fee of 35 kronars as you board the craft.\nYou hand him your kronars and climb aboard.\n\n<nav/>\n<streamWindow id='main' title='Story' subtitle=\" - [\"Hodierna's Grace\"]\" location='center' target='drop'/>\n<streamWindow id='room' title='Room' subtitle=\" - [\"Hodierna's Grace\"]\" location='center' target='drop' ifClosed='' resident='true'/>\n<component id='room desc'>A few weary travelers lean against a railing at the bow of this ferry, anxiously waiting to reach the opposite bank.  An elderly S'Kra Mur stands alone at the stern, thoughtfully watching the shallow wake of the ferry shiver and become still.</component>\n<component id='room objs'>You also see the north bank docks.</component>\n<component id='room players'></component>\n<component id='room exits'>Obvious paths: none.<compass></compass></component>\n<component id='room extra'></component>";
+			const string expected = "[Assuming you mean the ferry Hodierna's Grace.]\nThe Captain stops you and requests a transportation fee of 35 kronars as you board the craft.\nYou hand him your kronars and climb aboard.";
+
+			var result = theParser.Parse(Chunk.For(data));
+
+			Assert.AreEqual(expected, result.Chunk.Text.TrimEnd());
+		}
 	}
 }
