@@ -32,8 +32,8 @@ Script arguments become local variables:
 
 Command line commands
 
-	#script abort <name>
-	#script vars <name>
+	#script abort <name> - stop the script
+	#script vars <name> - display script variables
 
 Commands
 
