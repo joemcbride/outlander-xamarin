@@ -1,13 +1,13 @@
 Outlander
 ==========
 
-A Front End for Dragonrealms.  A work in progress.
+A Front End for [Dragonrealms](http://www.play.net/dr).  A work in progress.
 
 Requirements
 ====
 
 * OSX 10.6 or higher
-* [Mono 3.2.4](http://www.go-mono.com/mono-downloads/download.html) or higher
+* [Mono 3.2.5](http://www.go-mono.com/mono-downloads/download.html) or higher
 
 Scripting
 ====
