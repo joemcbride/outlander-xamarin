@@ -1,7 +1,7 @@
 using System;
-using DynamicExpresso;
 using System.Linq;
 using System.Threading.Tasks;
+using DynamicExpresso;
 using Pathfinder.Core.Client.Scripting;
 
 namespace Pathfinder.Core.Client
