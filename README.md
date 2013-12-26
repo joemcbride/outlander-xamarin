@@ -3,12 +3,12 @@ Outlander
 
 A Front End for [Dragonrealms](http://www.play.net/dr).  A work in progress.
 
-[Screenshot](https://github.com/joemcbride/outlander/blob/master/releases/ss.png?raw=true)
+[Screenshot](/releases/ss.png?raw=true)
 
 Download
 ====
 
-[Version 0.1](https://github.com/joemcbride/outlander/blob/master/releases/Outlander.0.1.app.zip?raw=true)
+[Version 0.1](/releases/Outlander.0.1.app.zip?raw=true)
 
 Requirements
 ====
@@ -18,6 +18,8 @@ Requirements
 
 Scripting
 ====
+
+[Sample Scripts] (/scripts)
 
 	.myscript one two "three four"
 
