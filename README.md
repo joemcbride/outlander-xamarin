@@ -38,7 +38,7 @@ Command line commands
 Commands
 
 * var myvar value
-	* Creates a local variable that can be refereced later in the script as %myvar
+	* Creates a local variable that can be referenced later in the script as %myvar
 * label:
 * match
 	* match &lt;label&gt; &lt;text&gt;
