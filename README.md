@@ -41,18 +41,20 @@ Commands
 	* Creates a local variable that can be refereced later in the script as %myvar
 * label:
 * match
-	* match <label> <text>
+	* match &lt;label&gt; &lt;text&gt;
 	* match start You see
 * matchre
-	* matchre <label> <text>
+	* matchre &lt;label&gt; &lt;text&gt;
 	* matchre start first|second|third|fourth
 * matchwait
 * goto
 * pause 0.5
 * waitfor
-* put collect rock
+* put
+	* put &lt;command&gt;
+	* put collect rock
 * if () then
-* else if
+* else if ()
 * else
 	* if ($Outdoorsmanship.LearningRate >= 18) then goto END
 	* else goto START
