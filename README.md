@@ -3,6 +3,8 @@ Outlander
 
 A Front End for [Dragonrealms](http://www.play.net/dr).  A work in progress.
 
+[Screenshot](https://github.com/joemcbride/outlander/blob/master/releases/ss.png?raw=true)
+
 Download
 ====
 
