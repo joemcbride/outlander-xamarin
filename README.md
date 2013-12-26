@@ -54,6 +54,8 @@ Commands
 	* put &lt;command&gt;
 	* put collect rock
 * if () then
+	* Note that an equals comparison requires double ==, instead of just a single =
+	* if ( "%guild" == "Ranger" ) then goto WIN
 * else if ()
 * else
 	* if ($Outdoorsmanship.LearningRate >= 18) then goto END
