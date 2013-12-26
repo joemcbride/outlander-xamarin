@@ -75,7 +75,7 @@ namespace Pathfinder.Core
 			_container.Instance<IHighlighter>(new SimpleHighlighter("says|whispers", HighlightKeys.Whisper, settings));
 
 			_container.Instance<IHighlighter>(new SimpleHighlighter("Tayek", "Tayek", settings));
-			_container.Instance<IHighlighter>(new SimpleHighlighter("steelsilk", "steelsilk", settings));
+			//_container.Instance<IHighlighter>(new SimpleHighlighter("steelsilk", "steelsilk", settings));
 			_container.Instance<IHighlighter>(new SimpleHighlighter("^You've gained a new rank.*$", "newrank", settings));
 			_container.Instance<IHighlighter>(new SimpleHighlighter("^Your formation of a targeting pattern.*$", "target", settings));
 			_container.Instance<IHighlighter>(new SimpleHighlighter("^(You begin to target|You begin to weave mana lines into a target pattern).*$", "target", settings));
