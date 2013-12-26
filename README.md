@@ -58,6 +58,9 @@ Commands
 * else
 	* if ($Outdoorsmanship.LearningRate >= 18) then goto END
 	* else goto START
+* echo
+	* echo &lt;data&gt;
+	* echo $charactername - echos the current value of $charactername to the game window
 
 Global Variables
 ====
