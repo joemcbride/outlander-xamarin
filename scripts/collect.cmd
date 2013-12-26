@@ -3,6 +3,7 @@
 #
 
 var item %1
+var maxexp 34
 
 Collect:
 	match Kick You manage to collect
@@ -27,7 +28,7 @@ Kick:
 
 CheckEXP:
 	pause 0.2
-	if ($Outdoorsmanship.LearningRate >= 18) then goto END
+	if ($Outdoorsmanship.LearningRate >= %maxexp) then goto END
 	goto Collect
 
 END:
