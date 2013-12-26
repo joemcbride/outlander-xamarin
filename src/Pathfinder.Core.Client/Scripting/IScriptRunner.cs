@@ -88,7 +88,14 @@ namespace Pathfinder.Core.Client.Scripting
 
 				var vars = script.ScriptVars.Select(p => "{0}: {1}".ToFormat(p.Key, p.Value));
 
-				_scriptLog.Log(script.Name, "script vars\n{0}\n".ToFormat(string.Join("\n", vars)), -1);
+				var runtime = DateTime.Now - script.StartTime;
+
+				_scriptLog.Log(
+					script.Name,
+					"script vars\n{0}\ntotal runtime {1} seconds\n".ToFormat(
+						string.Join("\n", vars),
+						Math.Round(runtime.TotalSeconds, 2)),
+					 -2);
 			});
 		}
 
