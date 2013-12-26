@@ -7,7 +7,7 @@ Requirements
 ====
 
 * OSX 10.6 or higher
-* [Mono 3.2.5](http://www.go-mono.com/mono-downloads/download.html) or higher
+* [Mono 3.2.5](http://download.xamarin.com/MonoFrameworkMDK/Macx86/MonoFramework-MDK-3.2.5.macos10.xamarin.x86.pkg) or higher - note that this is currently a developer download
 
 Scripting
 ====
