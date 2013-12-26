@@ -29,14 +29,24 @@ Command line commands
 Commands
 
 * var myvar value
+	* Creates a local variable that can be refereced later in the script as %myvar
 * label:
 * match
+	* match <label> <text>
+	* match start You see
 * matchre
+	* matchre <label> <text>
+	* matchre start first|second|third|fourth
 * matchwait
 * goto
 * pause 0.5
 * waitfor
 * put collect rock
+* if () then
+* else if
+* else
+	* if ($Outdoorsmanship.LearningRate >= 18) then goto END
+	* else goto START
 
 Global Variables
 ====
@@ -72,11 +82,11 @@ Global variables are prefixed with a $.
 * $righthand
 * $righthandnoun
 * $righthandnounid
+* $roomtitle
 * $roomdesc
 * $roomobjs
 * $roomplayers
 * $roomexits
 * $roomextra
-* $roomtitle
 * $roundtime
 * $prompt
