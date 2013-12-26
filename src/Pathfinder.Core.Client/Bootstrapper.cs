@@ -46,6 +46,8 @@ namespace Pathfinder.Core
 			_container.PerRequest<ITagTransformer, ComponentTagTransformer>();
 			_container.PerRequest<ITagTransformer, StreamWindowTagTransformer>();
 
+			_container.PerRequest<IIfBlocksParser, IfBlocksParser>();
+
 			_container.PerRequest<IScript, Script>();
 			_container.Singleton<IScriptLog, ScriptLog>();
 
@@ -78,11 +80,10 @@ namespace Pathfinder.Core
 			_container.Instance<IHighlighter>(new SimpleHighlighter("^Your formation of a targeting pattern.*$", "target", settings));
 			_container.Instance<IHighlighter>(new SimpleHighlighter("^(You begin to target|You begin to weave mana lines into a target pattern).*$", "target", settings));
 
-
 			settings.Add(new HighlightSetting{ Id = "newrank", Color = "#0000FF"  });
 			settings.Add(new HighlightSetting{ Id = "target", Color = "#33FF08" });
 			settings.Add(new HighlightSetting{ Id = "Tayek", Color = "#0000FF"  });
-			settings.Add(new HighlightSetting{ Id = "steelsilk", Color = "#296B00"  });
+			//settings.Add(new HighlightSetting{ Id = "steelsilk", Color = "#296B00"  });
 		}
 	}
 }

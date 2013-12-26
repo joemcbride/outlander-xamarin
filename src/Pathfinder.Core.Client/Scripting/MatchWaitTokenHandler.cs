@@ -14,7 +14,7 @@ namespace Pathfinder.Core.Client.Scripting
 		protected override void execute()
 		{
 			_scriptLog = Context.Get<IScriptLog>();
-			_scriptLog.Log(Context.Name, "waiting for match", Context.LineNumber);
+			_scriptLog.Log(Context.Name, "matchwait", Context.LineNumber);
 
 			_gameServer = Context.Get<IGameServer>();
 			_gameServer.GameState.TextLog += Check;
@@ -39,10 +39,12 @@ namespace Pathfinder.Core.Client.Scripting
 
 				if(match)
 				{
-					_scriptLog.Log(Context.Name, "matched '" + matchedText + "'", Context.LineNumber);
 					_gameServer.GameState.TextLog -= Check;
 					Context.MatchWait.Clear();
-					DelayIfRoundtime(() => TaskSource.SetResult(new CompletionEventArgs { Goto = item.Goto }));
+					DelayIfRoundtime(() => {
+						_scriptLog.Log(Context.Name, "match goto " + item.Goto, Context.LineNumber);
+						TaskSource.SetResult(new CompletionEventArgs { Goto = item.Goto });
+					});
 					break;
 				}
 			}

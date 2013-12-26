@@ -23,7 +23,7 @@ namespace Pathfinder.Core.Client.Tests
 
 		public void Aborted(string name, DateTime startTime, TimeSpan runtime)
 		{
-			Builder.AppendLine("{0} aborted::{1}".ToFormat(name, runtime));
+			Builder.AppendLine("{0} finished".ToFormat(name));
 		}
 	}
 }

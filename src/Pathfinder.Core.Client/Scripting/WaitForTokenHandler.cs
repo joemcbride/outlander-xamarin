@@ -12,7 +12,7 @@ namespace Pathfinder.Core.Client.Scripting
 
 		protected override void execute()
 		{
-			Context.Get<IScriptLog>().Log(Context.Name, "waiting for " + Token.Value, Context.LineNumber);
+			Context.Get<IScriptLog>().Log(Context.Name, "waitfor " + Token.Value, Context.LineNumber);
 
 			_gameServer = Context.Get<IGameServer>();
 			_gameServer.GameState.TextLog += Check;

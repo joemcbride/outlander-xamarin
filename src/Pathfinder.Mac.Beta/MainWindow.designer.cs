@@ -28,6 +28,9 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextView ExpTextView { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField GameTextField { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField HealthTextField { get; set; }
 
 		[Outlet]
@@ -35,9 +38,6 @@ namespace Pathfinder.Mac.Beta
 
 		[Outlet]
 		MonoMac.AppKit.NSButton LoginButton { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSButton LogoutButton { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextView MainTextView { get; set; }
@@ -74,9 +74,9 @@ namespace Pathfinder.Mac.Beta
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (RoomTextView != null) {
-				RoomTextView.Dispose ();
-				RoomTextView = null;
+			if (GameTextField != null) {
+				GameTextField.Dispose ();
+				GameTextField = null;
 			}
 
 			if (ArrivalsTextView != null) {
@@ -119,11 +119,6 @@ namespace Pathfinder.Mac.Beta
 				LoginButton = null;
 			}
 
-			if (LogoutButton != null) {
-				LogoutButton.Dispose ();
-				LogoutButton = null;
-			}
-
 			if (MainTextView != null) {
 				MainTextView.Dispose ();
 				MainTextView = null;
@@ -142,6 +137,11 @@ namespace Pathfinder.Mac.Beta
 			if (RightHandLabel != null) {
 				RightHandLabel.Dispose ();
 				RightHandLabel = null;
+			}
+
+			if (RoomTextView != null) {
+				RoomTextView.Dispose ();
+				RoomTextView = null;
 			}
 
 			if (RoundtimeLabel != null) {

@@ -32,6 +32,9 @@ namespace Pathfinder.Core.Client
 
 				if(command == "resume")
 					scriptRunner.Resume(scriptToken);
+
+				if(command == "vars")
+					scriptRunner.Vars(scriptToken);
 			}
 
 			TaskSource.TrySetResult(new CompletionEventArgs());

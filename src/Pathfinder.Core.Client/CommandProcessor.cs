@@ -13,6 +13,7 @@ namespace Pathfinder.Core.Client
 	{
 		string Eval(string command, ScriptContext context = null);
 		Task Process(string command, ScriptContext context = null);
+		Task Echo(string command, ScriptContext context = null);
 	}
 
 	public class CommandProcessor : ICommandProcessor
@@ -66,6 +67,22 @@ namespace Pathfinder.Core.Client
 				server.SendCommand(replaced);
 				completionSource.TrySetResult(null);
 			}
+
+			return completionSource.Task;
+		}
+
+		public Task Echo(string command, ScriptContext context = null)
+		{
+			var completionSource = new TaskCompletionSource<object>();
+
+			var gameState = _services.Get<IGameState>();
+			var replaced = Eval(command, context);
+
+			if(context != null)
+				_scriptLog.Log(context.Name, "echo {0}".ToFormat(replaced), context.LineNumber);
+
+			gameState.Echo(replaced);
+			completionSource.TrySetResult(null);
 
 			return completionSource.Task;
 		}

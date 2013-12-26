@@ -55,7 +55,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState.FireTextLog("You finish playing your zills.");
 
 			Assert.True(task.IsCompleted);
-			Assert.AreEqual("waiting for You finish playing\n", theLog.Builder.ToString());
+			Assert.AreEqual("waitfor You finish playing\n", theLog.Builder.ToString());
 		}
 	}
 }

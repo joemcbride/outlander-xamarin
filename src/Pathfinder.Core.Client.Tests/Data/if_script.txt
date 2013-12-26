@@ -1,0 +1,39 @@
+Concentrate:
+	put power
+	goto Cast
+
+Cast:
+	if ("%snapCast" = "OFF") then
+	{
+		waitfor fully prepared
+		line 1
+	} else if ("something1" = "another") then {
+		pause 1
+		line 2
+	} else {
+		pause 7
+		line 3
+	}
+	put cast
+	matchre ManaCheck You strain
+	matchre ExpCheck snap
+	matchwait 4
+	goto ExpCheck
+
+ExpCheck:
+	pause 1
+	if ($%magicToTrain.LearningRate >= %maxexp) then goto END
+	goto ManaCheck
+
+ManaCheck:
+	if ($mana < 20) then {
+		echo
+		echo Waiting on mana - $mana/40 %
+		echo
+		waiteval $mana >= 40
+	}
+	goto Charge
+
+End:
+	pause
+	put #parse MAGIC DONE

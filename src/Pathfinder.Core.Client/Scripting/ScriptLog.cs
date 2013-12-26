@@ -20,7 +20,7 @@ namespace Pathfinder.Core.Client
 
 		public void Log(string name, string data, int lineNumber)
 		{
-			FireInfoLog(new ScriptLogInfo{ Name = name, Data = data, LineNumber = lineNumber });
+			FireInfoLog(new ScriptLogInfo{ Name = name, Data = data, LineNumber = lineNumber + 1 });
 		}
 
 		public void Started(string name, DateTime started)

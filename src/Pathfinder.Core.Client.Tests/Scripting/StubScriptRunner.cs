@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Pathfinder.Core.Client.Scripting;
 using Pathfinder.Core.Tests;
-using System.Threading.Tasks;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -14,6 +14,7 @@ namespace Pathfinder.Core.Client.Tests
 		public ScriptToken StopToken { get; set; }
 		public ScriptToken PauseToken { get; set; }
 		public ScriptToken ResumeToken { get; set; }
+		public ScriptToken VarsToken { get; set; }
 
 		public IEnumerable<IScript> Scripts()
 		{
@@ -40,6 +41,11 @@ namespace Pathfinder.Core.Client.Tests
 		public void Resume(ScriptToken token)
 		{
 			ResumeToken = token;
+		}
+
+		public void Vars(ScriptToken token)
+		{
+			VarsToken = token;
 		}
 	}
 }

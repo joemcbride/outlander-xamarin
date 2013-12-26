@@ -14,6 +14,7 @@ namespace Pathfinder.Core.Client.Scripting
 		void Stop(ScriptToken token);
 		void Pause(ScriptToken token);
 		void Resume(ScriptToken token);
+		void Vars(ScriptToken token);
 	}
 
 	public class ScriptRunner : IScriptRunner
@@ -78,6 +79,16 @@ namespace Pathfinder.Core.Client.Scripting
 		public void Resume(ScriptToken token)
 		{
 			FindByName(token.Name).IfNotNull(script => {
+			});
+		}
+
+		public void Vars(ScriptToken token)
+		{
+			FindByName(token.Name).IfNotNull(script => {
+
+				var vars = script.ScriptVars.Select(p => "{0}: {1}".ToFormat(p.Key, p.Value));
+
+				_scriptLog.Log(script.Name, "script vars\n{0}\n".ToFormat(string.Join("\n", vars)), -1);
 			});
 		}
 

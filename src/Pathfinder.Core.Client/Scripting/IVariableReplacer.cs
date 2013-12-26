@@ -10,7 +10,7 @@ namespace Pathfinder.Core.Client
 
 	public class VariableReplacer : IVariableReplacer
 	{
-		private const string Local_Vars_Regex = "%(\\d+)";
+		private const string Local_Vars_Regex = "%([a-zA-z0-9\\.]+)";
 		private const string Global_Vars_Regex = "\\$([a-zA-z0-9\\.]+)";
 
 		public string Replace(string data, ScriptContext context)

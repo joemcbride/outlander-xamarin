@@ -27,6 +27,10 @@ namespace Pathfinder.Mac.Beta
 		private ExpTracker _expTracker;
 		private HighlightSettings _highlightSettings;
 
+		private Timer _spellTimer;
+		private string _spell;
+		private int _count;
+
 		#region Constructors
 
 		// Called when created from unmanaged code
@@ -51,6 +55,13 @@ namespace Pathfinder.Mac.Beta
 			_bootStrapper = new Bootstrapper();
 			_commandCache = new CommandCache();
 			_expTracker = new ExpTracker();
+
+			_spellTimer = new Timer();
+			_spellTimer.Interval = 1000;
+			_spellTimer.Elapsed += (sender, e) => {
+				_count++;
+				BeginInvokeOnMainThread(()=>SpellLabel.StringValue = "S: {0} ({1})".ToFormat(_spell, _count));
+			};
 		}
 
 		#endregion
@@ -77,7 +88,15 @@ namespace Pathfinder.Mac.Beta
 			};
 
 			_scriptLog.Info += (sender, e) => {
-				var log = "[{0}]: ({1}) {2}\n".ToFormat(e.Name, e.LineNumber, e.Data);
+				string log;
+				if(e.LineNumber > -1)
+				{
+					log = "[{0}({1})]:  {2}\n".ToFormat(e.Name, e.LineNumber, e.Data);
+				}
+				else
+				{
+					log = "[{0}]:  {1}\n".ToFormat(e.Name, e.Data);
+				}
 
 				BeginInvokeOnMainThread(()=> {
 
@@ -143,8 +162,19 @@ namespace Pathfinder.Mac.Beta
 					});
 
 					t.As<SpellTag>().IfNotNull(s => {
-						BeginInvokeOnMainThread(()=>{
+						BeginInvokeOnMainThread(() => {
+							_spell = s.Spell;
+							_count = 0;
 							SpellLabel.StringValue = string.Format("S: {0}", s.Spell);
+
+							if(!string.Equals(_spell, "None"))
+							{
+								_spellTimer.Start();
+							}
+							else
+							{
+								_spellTimer.Stop();
+							}
 						});
 					});
 
@@ -194,11 +224,12 @@ namespace Pathfinder.Mac.Beta
 
 			LoginButton.Activated += (sender, e) =>
 			{
+				var game = GameTextField.StringValue;
 				var account = UsernameTextField.StringValue;
 				var password = PasswordTextField.StringValue;
 				var character = CharacterTextField.StringValue;
 
-				if(string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(character))
+				if(string.IsNullOrWhiteSpace(game) || string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(character))
 				{
 					LogSystem("Please enter all information\n");
 					return;
@@ -206,7 +237,7 @@ namespace Pathfinder.Mac.Beta
 
 				LogSystem("\nAuthenticating...\n");
 
-				var token = _gameServer.Authenticate("DR", account, password, character);
+				var token = _gameServer.Authenticate(game, account, password, character);
 				if(token != null)
 				{
 					LogSystem("Authenticated...\n");
@@ -216,11 +247,6 @@ namespace Pathfinder.Mac.Beta
 				{
 					LogSystem("Unable to authenticate.\n");
 				}
-			};
-
-			LogoutButton.Activated += (sender, e) =>
-			{
-				LogSystem("\n\nConnection closed.\n\n");
 			};
 
 			SubmitButton.Activated += (sender, e) =>
@@ -234,7 +260,6 @@ namespace Pathfinder.Mac.Beta
 		private void UpdateVitals()
 		{
 			BeginInvokeOnMainThread(()=>{
-
 				HealthTextField.StringValue = string.Format("Health {0}%", _gameServer.GameState.Get(ComponentKeys.Health));
 				ManaTextField.StringValue = string.Format("Mana {0}%", _gameServer.GameState.Get(ComponentKeys.Mana));
 				StaminaTextField.StringValue = string.Format("Stamina {0}%", _gameServer.GameState.Get(ComponentKeys.Stamina));

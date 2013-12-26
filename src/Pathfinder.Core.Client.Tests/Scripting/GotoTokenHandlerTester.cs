@@ -12,6 +12,7 @@ namespace Pathfinder.Core.Client.Tests
 		private StubGameServer theGameServer;
 		private StubGameState theGameState;
 		private ScriptContext theScriptContext;
+		private InMemoryScriptLog theScriptLog;
 		private InMemoryServiceLocator theServices;
 		private GotoTokenHandler theHandler;
 
@@ -20,9 +21,11 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			theGameState = new StubGameState();
 			theGameServer = new StubGameServer(theGameState);
+			theScriptLog = new InMemoryScriptLog();
 
 			theServices = new InMemoryServiceLocator();
 			theServices.Add<IGameServer>(theGameServer);
+			theServices.Add<IScriptLog>(theScriptLog);
 
 			theScriptContext = new ScriptContext("gototoken", CancellationToken.None, theServices, null);
 			theHandler = new GotoTokenHandler();
@@ -40,9 +43,10 @@ namespace Pathfinder.Core.Client.Tests
 
 			var task = theHandler.Execute(theScriptContext, token);
 
+			task.Wait();
+
 			Assert.IsTrue(task.IsCompleted);
 			Assert.AreEqual(token.Value, task.Result.Goto);
 		}
 	}
-	
 }

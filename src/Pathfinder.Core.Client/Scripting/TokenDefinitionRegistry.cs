@@ -33,7 +33,7 @@ namespace Pathfinder.Core.Client
 
 			registry.New(d => {
 				d.Type = "script";
-				d.Pattern = "^\\.([a-zA-Z0-9]+)";
+				d.Pattern = "^\\.(\\w+)";
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
 
@@ -97,7 +97,7 @@ namespace Pathfinder.Core.Client
 
 			registry.New(d => {
 				d.Type = "label";
-				d.Pattern = "^([a-zA-Z0-9]+):";
+				d.Pattern = "^([\\w\\.]+):";
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
 					var token = new Token
@@ -145,7 +145,7 @@ namespace Pathfinder.Core.Client
 				d.Pattern = "^match\\b";
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
-					const string Goto_Regex = "^match\\b\\s([a-zA-z0-9\\.]+)\\s(.*)";
+					const string Goto_Regex = "^match\\b\\s([\\w\\.]+)\\s(.*)";
 					var gotoMatch = Regex.Match(source, Goto_Regex);
 					var token = new MatchToken
 					{
@@ -165,7 +165,7 @@ namespace Pathfinder.Core.Client
 				d.Pattern = "^matchre\\b";
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
-					const string Goto_Regex = "^matchre\\b\\s([a-zA-z0-9\\.]+)\\s(.*)";
+					const string Goto_Regex = "^matchre\\b\\s([\\w\\.]+)\\s(.*)";
 					var gotoMatch = Regex.Match(source, Goto_Regex);
 					var token = new MatchToken
 					{
@@ -225,7 +225,60 @@ namespace Pathfinder.Core.Client
 				};
 			});
 
+			registry.New(d => {
+				d.Type = "echo";
+				d.Pattern = "^echo";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim()
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "var";
+				d.Pattern = "^var";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim()
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "if";
+				d.Pattern = "^if";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new IfToken
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
 			return registry;
 		}
+	}
+
+	public class IfToken : Token
+	{
+		public IfBlocks Blocks { get; set; } 
 	}
 }

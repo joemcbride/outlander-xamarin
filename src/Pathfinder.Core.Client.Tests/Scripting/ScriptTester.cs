@@ -30,6 +30,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IScriptLog>(theLog);
 			theServices.Add<IVariableReplacer>(new VariableReplacer());
 			theServices.Add<ICommandProcessor>(new CommandProcessor(theServices, theServices.Get<IVariableReplacer>(), theLog));
+			theServices.Add<IIfBlocksParser>(new IfBlocksParser());
 
 			theScript = new Script(theServices, Tokenizer.With(TokenDefinitionRegistry.Default()));
 		}
@@ -38,7 +39,7 @@ namespace Pathfinder.Core.Client.Tests
 		public void runs_simple_script()
 		{
 			const string script = "start:\nput %1\ngoto end\nend:";
-			const string expected = "script started\npassing label: start\nsending command: collect rock\npassing label: end\n";
+			const string expected = "script started\npassing label: start\nsending command: collect rock\ngoto end\npassing label: end\n";
 
 			var scriptTask = theScript.Run("script", script, "collect rock");
 

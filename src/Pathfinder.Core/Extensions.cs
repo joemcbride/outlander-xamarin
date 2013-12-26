@@ -94,5 +94,13 @@ namespace Pathfinder.Core
 			if (!string.IsNullOrWhiteSpace(item))
 				action(item);
 		}
+
+		public static int Normalize(this int number)
+		{
+			if(number < 0)
+				return 0;
+
+			return number;
+		}
     }
 }

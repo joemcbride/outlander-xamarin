@@ -117,5 +117,17 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("CheckEXP", token.Goto);
 			Assert.AreEqual(pattern, token.Pattern);
 		}
+
+		[Test]
+		public void creates_if_token()
+		{
+			const string line = "if ($Outdoorsmanship.LearningRate >= %maxexp) then goto END";
+
+			var token = theTokenizer.Tokenize(line).Single().As<IfToken>();
+			Assert.AreEqual("if", token.Type);
+			Assert.AreEqual("($Outdoorsmanship.LearningRate >= %maxexp) then goto END", token.Value);
+			//Assert.AreEqual("($Outdoorsmanship.LearningRate >= %maxexp)", token.If);
+			//Assert.AreEqual("goto END", token.Then);
+		}
 	}
 }

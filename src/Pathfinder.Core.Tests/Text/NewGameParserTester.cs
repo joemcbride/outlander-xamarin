@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
-using Pathfinder.Core.Text;
-using System.Reflection;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using NUnit.Framework;
+using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core.Text.Tests
 {	
