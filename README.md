@@ -68,6 +68,7 @@ Planned Commands
 ====
 
 * setvariable
+* save
 * #parse
 * action
 * containsre
