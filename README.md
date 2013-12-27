@@ -64,6 +64,14 @@ Commands
 	* echo &lt;data&gt;
 	* echo $charactername - echos the current value of $charactername to the game window
 
+Planned Commands
+====
+
+* setvariable
+* action
+* containsre
+* gosub
+
 Global Variables
 ====
 
