@@ -68,6 +68,7 @@ Planned Commands
 ====
 
 * setvariable
+* #parse
 * action
 * containsre
 * gosub
