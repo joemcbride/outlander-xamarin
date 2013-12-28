@@ -1,13 +1,7 @@
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace Pathfinder.Core.Client.Scripting
 {
-
 	public class MatchResult
 	{
 		public bool Success { get; set; }
@@ -28,5 +22,4 @@ namespace Pathfinder.Core.Client.Scripting
 			return new MatchResult { Success = true, Args = new CompletionEventArgs { Goto = gotoDef } };
 		}
 	}
-	
 }

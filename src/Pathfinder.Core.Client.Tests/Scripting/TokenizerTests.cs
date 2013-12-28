@@ -140,5 +140,25 @@ namespace Pathfinder.Core.Client.Tests
 			//Assert.AreEqual("($Outdoorsmanship.LearningRate >= %maxexp)", token.If);
 			//Assert.AreEqual("goto END", token.Then);
 		}
+
+		[Test]
+		public void creates_var_token()
+		{
+			const string line = "var something another";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("var", token.Type);
+			Assert.AreEqual("something another", token.Value);
+		}
+
+		[Test]
+		public void creates_var_token_from_setvariable()
+		{
+			const string line = "setvariable something another";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("var", token.Type);
+			Assert.AreEqual("something another", token.Value);
+		}
 	}
 }
