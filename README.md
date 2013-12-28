@@ -39,6 +39,8 @@ Commands
 
 * var myvar value
 	* Creates a local variable that can be referenced later in the script as %myvar
+* setvariable myvar value
+	* acts the same as var
 * label:
 * match
 	* match &lt;label&gt; &lt;text&gt;
@@ -50,6 +52,8 @@ Commands
 * goto
 * pause 0.5
 * waitfor
+* waitforre
+	* a regex enabled waitfor
 * put
 	* put &lt;command&gt;
 	* put collect rock
@@ -67,7 +71,6 @@ Commands
 Planned Commands
 ====
 
-* setvariable
 * save
 * #parse
 * action
