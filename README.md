@@ -67,11 +67,13 @@ Commands
 * echo
 	* echo &lt;data&gt;
 	* echo $charactername - echos the current value of $charactername to the game window
+* save
+	* save my.label
+	* saves the value my.label to the %s variable
 
 Planned Commands
 ====
 
-* save
 * #parse
 * action
 * containsre
