@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
 using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using Pathfinder.Core.Client;
-using MonoMac.CoreGraphics;
 
 namespace Pathfinder.Mac.Beta
 {

@@ -47,6 +47,7 @@ namespace Pathfinder.Mac.Beta
 			}
 			set {
 				_label = value;
+				NeedsDisplay = true;
 			}
 		}
 
@@ -72,6 +73,7 @@ namespace Pathfinder.Mac.Beta
 			}
 			set {
 				_backgroundColor = value;
+				NeedsDisplay = true;
 			}
 		}
 
@@ -90,12 +92,13 @@ namespace Pathfinder.Mac.Beta
 			}
 			set {
 				_font = value;
+				NeedsDisplay = true;
 			}
 		}
 
 		public override void DrawRect (RectangleF dirtyRect)
 		{
-			var height = 18.0f;
+			var height = base.Bounds.Height;
 			var calcValue = base.Bounds.Width * (Value * 0.01f);
 
 			var context = NSGraphicsContext.CurrentContext.GraphicsPort;
@@ -110,7 +113,7 @@ namespace Pathfinder.Mac.Beta
 			context.SetFillColor(BackgroundColor.ToCGColor());
 			context.FillRect(new RectangleF(0, 0, calcValue, height));
 
-			var attrStr = "{0} {1}%".ToFormat(Label, Value).CreateString("#ffffff".ToNSColor(), Font);
+			var attrStr = "{0}".ToFormat(Label).CreateString("#ffffff".ToNSColor(), Font);
 
 			var storage   = new NSTextStorage ();
 			storage.SetString(attrStr);

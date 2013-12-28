@@ -4,9 +4,15 @@ using Interlocked = System.Threading.Interlocked;
 
 namespace Pathfinder.Core
 {
+	public class RoundtimeArgs
+	{
+		public long Roundtime { get; set; }
+		public bool Reset { get; set; }
+	}
+
 	public interface IRoundtimeHandler
 	{
-		event EventHandler<long> Changed;
+		event EventHandler<RoundtimeArgs> Changed;
 		void Set(long roundTime);
 	}
 
@@ -26,26 +32,30 @@ namespace Pathfinder.Core
 			{
 				Interlocked.Decrement(ref _roundTime);
 				var value = Interlocked.Read(ref _roundTime);
-				FireChanged(value);
+				FireChanged(value, false);
 				if(value <= 0)
 					_timer.Stop();
 			};
 		}
 
-		public event EventHandler<long> Changed = delegate { };
+		public event EventHandler<RoundtimeArgs> Changed = delegate { };
 
 		public void Set(long roundTime)
 		{
 			Interlocked.Exchange(ref _roundTime, roundTime + 1);
 
 			var value = Interlocked.Read(ref _roundTime);
-			FireChanged(value);
 
-			if(!_timer.Enabled)
+			bool reset = false;
+			if(!_timer.Enabled) {
 				_timer.Start();
+				reset = true;
+			}
+
+			FireChanged(value, reset);
 		}
 
-		private void FireChanged(long roundTime)
+		private void FireChanged(long roundTime, bool reset)
 		{
 			if(roundTime < 0)
 				roundTime = 0;
@@ -54,7 +64,7 @@ namespace Pathfinder.Core
 			var ev = Changed;
 			if(ev != null)
 			{
-				ev(this, roundTime);
+				ev(this, new RoundtimeArgs { Roundtime = roundTime, Reset = reset });
 			}
 		}
 	}

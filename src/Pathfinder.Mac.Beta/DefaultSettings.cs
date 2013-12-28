@@ -17,5 +17,4 @@ namespace Pathfinder.Mac.Beta
 		public NSFont Font { get; set; }
 		public NSFont MonoFont { get; set; }
 	}
-	
 }

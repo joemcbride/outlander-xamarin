@@ -58,6 +58,9 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField RoundtimeLabel { get; set; }
 
 		[Outlet]
+		Pathfinder.Mac.Beta.VitalsBar RTLabel { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField SpellLabel { get; set; }
 
 		[Outlet]
@@ -172,6 +175,11 @@ namespace Pathfinder.Mac.Beta
 			if (UsernameTextField != null) {
 				UsernameTextField.Dispose ();
 				UsernameTextField = null;
+			}
+
+			if (RTLabel != null) {
+				RTLabel.Dispose ();
+				RTLabel = null;
 			}
 		}
 	}

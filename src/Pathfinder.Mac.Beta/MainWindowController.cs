@@ -71,15 +71,27 @@ namespace Pathfinder.Mac.Beta
 		{
 			base.AwakeFromNib();
 
+			HealthLabel.Label = "Health 100%";
 			HealthLabel.BackgroundColor = "#800000";
-			ManaLabel.Label = "Mana";
+			HealthLabel.Value = 0;
+			ManaLabel.Label = "Mana 100%";
+			ManaLabel.Value = 0;
 			ConcentrationLabel.BackgroundColor = "#009999";
-			ConcentrationLabel.Label = "Concentration";
+			ConcentrationLabel.Label = "Concentration 100%";
 			ConcentrationLabel.TextOffset = new PointF(55, 1);
+			ConcentrationLabel.Value = 0;
 			StaminaLabel.BackgroundColor = "#004000";
-			StaminaLabel.Label = "Stamina";
+			StaminaLabel.Label = "Stamina 100%";
+			StaminaLabel.Value = 0;
 			SpiritLabel.BackgroundColor = "#400040";
-			SpiritLabel.Label = "Spirit";
+			SpiritLabel.Label = "Spirit 100%";
+			SpiritLabel.Value = 0;
+
+			RTLabel.Label = string.Empty;
+			RTLabel.Value = 0.0f;
+			RTLabel.BackgroundColor = "#0000FF";
+			RTLabel.TextOffset = new PointF(6, 2);
+			RTLabel.Font = NSFont.FromFontName("Geneva", 16);
 
 			Window.Title = "Outlander";
 
@@ -282,10 +294,19 @@ namespace Pathfinder.Mac.Beta
 		{
 			BeginInvokeOnMainThread(()=>{
 				HealthLabel.Value = _gameServer.GameState.Get(ComponentKeys.Health).AsFloat();
+				HealthLabel.Label = "Health {0}%".ToFormat(HealthLabel.Value);
+
 				ManaLabel.Value = _gameServer.GameState.Get(ComponentKeys.Mana).AsFloat();
+				ManaLabel.Label = "Mana {0}%".ToFormat(ManaLabel.Value);
+
 				StaminaLabel.Value = _gameServer.GameState.Get(ComponentKeys.Stamina).AsFloat();
+				StaminaLabel.Label = "Stamina {0}%".ToFormat(StaminaLabel.Value);
+
 				ConcentrationLabel.Value = _gameServer.GameState.Get(ComponentKeys.Concentration).AsFloat();
+				ConcentrationLabel.Label = "Concentration {0}%".ToFormat(ConcentrationLabel.Value);
+
 				SpiritLabel.Value = _gameServer.GameState.Get(ComponentKeys.Spirit).AsFloat();
+				SpiritLabel.Label = "Spirit {0}%".ToFormat(SpiritLabel.Value);
 			});
 		}
 
@@ -372,14 +393,33 @@ namespace Pathfinder.Mac.Beta
 			textView.TextStorage.EndEditing();
 		}
 
-		private void SetRoundtime(long count)
+		private long _rtMax = 0;
+
+		private void SetRoundtime(RoundtimeArgs args)
 		{
-			if(count < 0)
+			if(args.Roundtime < 0)
 			{
-				count = 0;
+				args.Roundtime = 0;
 			}
 
-			BeginInvokeOnMainThread(() => RoundtimeLabel.StringValue = string.Format("RT: {0}", count));
+			if(args.Reset)
+				_rtMax = args.Roundtime;
+
+			BeginInvokeOnMainThread(() => {
+				RTLabel.Value = ((float)args.Roundtime / (float)_rtMax) * 100.0f;
+				RTLabel.Label = "{0}".ToFormat(args.Roundtime);
+				if(args.Roundtime == 0)
+					RTLabel.Label = string.Empty;
+				if(args.Roundtime < 10)
+				{
+					RTLabel.TextOffset = new PointF(6, 2);
+				}
+				else
+				{
+					RTLabel.TextOffset = new PointF(12, 2);
+				}
+				//RoundtimeLabel.StringValue = "RT: {0}".ToFormat(args.Roundtime);
+			});
 		}
 
 		public override void KeyUp(NSEvent theEvent)

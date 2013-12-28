@@ -8,6 +8,8 @@ namespace Pathfinder.Core.Client
 		{
 			Context.Get<IScriptLog>().Log(Context.Name, "saving {0}".ToFormat(Token.Value), Context.LineNumber);
 			Context.LocalVars.Set("s", Token.Value);
+
+			TaskSource.TrySetResult(new CompletionEventArgs());
 		}
 	}
 }
