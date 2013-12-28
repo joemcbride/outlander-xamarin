@@ -9,8 +9,13 @@ namespace Pathfinder.Core.Client
 	{
 		private IDictionary<string, SkillExp> _skills = new Dictionary<string, SkillExp>();
 
+		public DateTime? StartedTracking { get; private set; }
+
 		public void Update(SkillExp skill)
 		{
+			if(!StartedTracking.HasValue)
+				StartedTracking = DateTime.Now;
+
 			SkillExp target = null;
 			bool calcDiff = false;
 
@@ -56,25 +61,6 @@ namespace Pathfinder.Core.Client
 		public IEnumerable<SkillExp> SkillsWithExp()
 		{
 			return _skills.Values.Where(x => x.LearningRate.Id > 0);
-		}
-
-		public string StringDisplay()
-		{
-			var builder = new StringBuilder();
-
-			SkillsWithExp()
-				.OrderBy(x => x.Name)
-				.Apply(exp => builder.AppendLine(exp.Display()));
-
-			return builder.ToString();
-		}
-
-		private string PosNeg(double gained)
-		{
-			if(gained == 0)
-				return " ";
-
-			return gained > 0 ? "+" : "-";
 		}
 
 		private double ParseRanks(string ranks)

@@ -22,9 +22,12 @@ namespace Pathfinder.Core
 
 		public string Display()
 		{
-			return string.Format("{0,16}: {1,7} {2,7} {3}{4:F}",
+			var rankSplit = Ranks.Split(new string[]{ "." }, StringSplitOptions.None);
+
+			return string.Format("{0,16}: {1,4} {2}% {3,7} {4}{5:F}",
 				Name.Replace("_", " "),
-				Ranks,
+				rankSplit[0],
+				rankSplit[1],
 				"({0}/34)".ToFormat(LearningRate.Id),
 				PosNeg(Gained),
 				Gained);

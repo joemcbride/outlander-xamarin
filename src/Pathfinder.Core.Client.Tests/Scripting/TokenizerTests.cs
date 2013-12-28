@@ -52,6 +52,17 @@ namespace Pathfinder.Core.Client.Tests
 		}
 
 		[Test]
+		public void creates_waitforre_token()
+		{
+			const string line = "waitforre You finish playing|Something else";
+
+			var tokens = theTokenizer.Tokenize(line).ToList();
+			Assert.AreEqual(1, tokens.Count);
+			Assert.AreEqual("waitforre", tokens[0].Type);
+			Assert.AreEqual("You finish playing|Something else", tokens[0].Value);
+		}
+
+		[Test]
 		public void creates_pause_token()
 		{
 			const string line = "pause 0.5";

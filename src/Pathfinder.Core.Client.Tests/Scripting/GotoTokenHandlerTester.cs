@@ -27,7 +27,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IGameServer>(theGameServer);
 			theServices.Add<IScriptLog>(theScriptLog);
 
-			theScriptContext = new ScriptContext("gototoken", CancellationToken.None, theServices, null);
+			theScriptContext = new ScriptContext("1", "gototoken", CancellationToken.None, theServices, null);
 			theHandler = new GotoTokenHandler();
 		}
 

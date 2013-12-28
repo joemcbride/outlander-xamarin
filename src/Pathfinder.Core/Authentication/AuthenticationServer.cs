@@ -80,10 +80,12 @@ namespace Pathfinder.Core.Authentication
             catch (SocketException se)
             {
                 Debug.WriteLine("SocketException : {0}", se.ToString());
+				_logger.Error(se);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Unexpected exception : {0}", e.ToString());
+				_logger.Error(e);
             }
 
             return false;
@@ -140,10 +142,12 @@ namespace Pathfinder.Core.Authentication
             catch (SocketException se)
             {
                 Debug.WriteLine("SocketException : {0}", se.ToString());
+				_logger.Error(se);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Unexpected exception : {0}", e.ToString());
+				_logger.Error(e);
             }
         }
 

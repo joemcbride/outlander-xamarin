@@ -7,80 +7,15 @@ using System.Threading;
 
 namespace Pathfinder.Core.Client.Scripting
 {
-	public class IfBlocks
-	{
-		public IfBlocks()
-		{
-			IfEvalLineNumber = -1;
-			IfBlockLineNumber = -1;
-			ElseIfLineNumber = -1;
-			ElseIfBlockLineNumber = -1;
-			ElseBlockLineNumber = -1;
-		}
-
-		public int IfEvalLineNumber { get; set; }
-		public string IfEval { get; set; }
-
-		public int IfBlockLineNumber { get; set; }
-		public string IfBlock { get; set; }
-
-		public int ElseIfLineNumber { get; set; }
-		public string ElseIf { get; set; }
-
-		public int ElseIfBlockLineNumber { get; set; }
-		public string ElseIfBlock { get; set; }
-
-		public int ElseBlockLineNumber { get; set; }
-		public string ElseBlock { get; set; }
-
-		public int LastLineNumber
-		{
-			get
-			{
-				var lastLine = -1;
-				var block = string.Empty;
-
-				if(ElseBlockLineNumber > -1)
-				{
-					lastLine = ElseBlockLineNumber;
-					block = ElseBlock;
-				}
-				else if(ElseIfBlockLineNumber > -1)
-				{
-					lastLine = ElseIfBlockLineNumber;
-					block = ElseIfBlock;
-				}
-				else if(IfBlockLineNumber > -1)
-				{
-					lastLine = IfBlockLineNumber;
-					block = IfBlock;
-				}
-
-				// want to be on the last line since the for loop
-				// will ++ this number
-				lastLine += (CountLineNumbers(block) - 1).Normalize();
-
-				return lastLine;
-			}
-		}
-
-		public int CountLineNumbers(string block)
-		{
-			block = block.EnsureEmpty();
-			var count = 1;
-			count += block.Where(c => c == '\n').Count();
-			return count;
-		}
-	}
-
 	public interface IScript
 	{
+		string Id { get; }
 		string Name { get; }
 		DateTime StartTime { get; }
 		IDictionary<string, string> ScriptVars { get; }
 
 		void Stop();
-		Task Run(string name, string script, params string[] args);
+		Task Run(string id, string name, string script, params string[] args);
 	}
 
 	public class Script : IScript
@@ -116,16 +51,18 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
 			_tokenHandlers["goto"] = new GotoTokenHandler();
-			_tokenHandlers["waitfor"] = new WaitForTokenHandler();
+			_tokenHandlers["waitfor"] = serviceLocator.Get<WaitForTokenHandler>();
+			_tokenHandlers["waitforre"] = serviceLocator.Get<WaitForReTokenHandler>();
 			_tokenHandlers["pause"] = new PauseTokenHandler();
 			_tokenHandlers["put"] = new SendCommandTokenHandler();
 			_tokenHandlers["echo"] = new EchoTokenHandler();
 			_tokenHandlers["match"] = new MatchTokenHandler();
 			_tokenHandlers["matchre"] = new MatchTokenHandler();
-			_tokenHandlers["matchwait"] = new MatchWaitTokenHandler();
+			_tokenHandlers["matchwait"] = serviceLocator.Get<MatchWaitTokenHandler>();
 			_tokenHandlers["if"] = new IfTokenHandler();
 		}
 
+		public string Id { get; private set; }
 		public string Name { get; private set; }
 		public DateTime StartTime { get; private set; }
 
@@ -141,9 +78,10 @@ namespace Pathfinder.Core.Client.Scripting
 			_taskCancelationSource.Cancel();
 		}
 
-		public Task Run(string name, string script, params string[] args)
+		public Task Run(string id, string name, string script, params string[] args)
 		{
 			StartTime = DateTime.Now;
+			Id = id;
 			Name = name;
 
 			_log.Started(name, StartTime);
@@ -155,7 +93,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_localVars["0"] = string.Join(" ", args);
 			args.Apply((x, idx) => _localVars["{0}".ToFormat(idx + 1)] = x);
 
-			_scriptContext = new ScriptContext(Name, _taskCancelationSource.Token, _serviceLocator, _localVars);
+			_scriptContext = new ScriptContext(Id, Name, _taskCancelationSource.Token, _serviceLocator, _localVars);
 
 			_scriptLines = script
 				.Split(new string[]{ "\n", "\r" }, StringSplitOptions.None)
@@ -164,7 +102,7 @@ namespace Pathfinder.Core.Client.Scripting
 
 			_scriptLines.Apply((line, num) => {
 				if(string.IsNullOrWhiteSpace(line)) return;
-				var match = Regex.Match(line, "^(\\w.*):");
+				var match = Regex.Match(line, RegexPatterns.Label);
 				if(match.Success) {
 					_gotos[match.Groups[1].Value] = num;
 				}
@@ -181,6 +119,7 @@ namespace Pathfinder.Core.Client.Scripting
 			catch(Exception exc)
 			{
 				_taskCompletionSource.TrySetException(exc);
+				_log.Log(_scriptContext.Name, "Error: " + exc.Message, _scriptContext.LineNumber);
 			}
 
 			return _taskCompletionSource.Task;
@@ -206,7 +145,7 @@ namespace Pathfinder.Core.Client.Scripting
 					var task = _tokenHandlers[token.Type].Execute(_scriptContext, token);
 					try
 					{
-						Task.WaitAll(task);
+						task.Wait(cancelToken);
 					}
 					catch(AggregateException)
 					{
@@ -217,7 +156,6 @@ namespace Pathfinder.Core.Client.Scripting
 					if(!string.IsNullOrWhiteSpace(task.Result.Goto))
 					{
 						i = _gotos[task.Result.Goto] - 1;
-						//_log.Log(Name, "moving to label {0}".ToFormat(task.Result.Goto), _scriptContext.LineNumber);
 					}
 					else {
 						i = _scriptContext.LineNumber;

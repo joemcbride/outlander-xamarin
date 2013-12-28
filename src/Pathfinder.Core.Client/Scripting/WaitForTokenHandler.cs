@@ -1,41 +1,21 @@
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Client.Scripting
 {
-	public class WaitForTokenHandler : TokenHandler
+	public class WaitForTokenHandler : WeakMatchingTokenHandler
 	{
-		private IGameServer _gameServer;
-
-		protected override void execute()
+		public WaitForTokenHandler(IGameState gameState)
+			: base(gameState)
 		{
-			Context.Get<IScriptLog>().Log(Context.Name, "waitfor " + Token.Value, Context.LineNumber);
-
-			_gameServer = Context.Get<IGameServer>();
-			_gameServer.GameState.TextLog += Check;
 		}
 
-		private void Check(string text)
+		public override Task<CompletionEventArgs> Execute(ScriptContext context, Token token)
 		{
-			if(text.Contains(Token.Value)) {
-				_gameServer.GameState.TextLog -= Check;
-				DelayIfRoundtime(() => TaskSource.SetResult(new CompletionEventArgs()));
-			}
-		}
+			context.Get<IScriptLog>().Log(context.Name, "waitfor " + token.Value, context.LineNumber);
 
-		private void DelayIfRoundtime(Action complete)
-		{
-			double roundTime;
-			if(double.TryParse(_gameServer.GameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
-			{
-				DelayEx.Delay(TimeSpan.FromSeconds(roundTime), Context.CancelToken, complete);
-			}
-			else {
-				complete();
-			}
+			return base.Execute(context, token);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 using System;
+using System.Threading;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
-using System.Threading;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -21,7 +21,7 @@ namespace Pathfinder.Core.Client.Tests
 			theLocator = new InMemoryServiceLocator();
 			theGameState = new StubGameState();
 			theVars = new SimpleDictionary<string, string>();
-			theContext = new ScriptContext("Name", CancellationToken.None, theLocator, theVars);
+			theContext = new ScriptContext("1", "Name", CancellationToken.None, theLocator, theVars);
 
 			theLocator.Add<IGameState>(theGameState);
 		}

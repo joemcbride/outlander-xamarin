@@ -37,7 +37,7 @@ namespace Pathfinder.Core.Client
 		public string Eval(string command, ScriptContext context = null)
 		{
 			if(context == null)
-				context = new ScriptContext(null, CancellationToken.None, _services, null);
+				context = new ScriptContext(Guid.NewGuid().ToString(), null, CancellationToken.None, _services, null);
 
 			return _variableReplacer.Replace(command, context);
 		}
@@ -49,7 +49,7 @@ namespace Pathfinder.Core.Client
 			var token = _tokenizer.Tokenize(command).FirstOrDefault();
 			if(token != null) {
 				if(context == null)
-					context = new ScriptContext(token.Type, CancellationToken.None, _services, null);
+					context = new ScriptContext(Guid.NewGuid().ToString(), token.Type, CancellationToken.None, _services, null);
 
 				var handler = _tokenHandlers[token.Type];
 				Task.Factory.StartNew(() => {

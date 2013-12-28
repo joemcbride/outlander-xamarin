@@ -32,12 +32,20 @@ namespace Pathfinder.Core.Client.Tests
 
 			theServices = new InMemoryServiceLocator();
 
+			var waitForTokenHandler = new WaitForTokenHandler(theGameState);
+			var waitForReTokenHandler = new WaitForReTokenHandler(theGameState);
+			var matchWaitTokenHandler = new MatchWaitTokenHandler(theGameState);
+
 			theServices.Add<IGameServer>(theGameServer);
 			theServices.Add<IGameState>(theGameState);
 			theServices.Add<IScriptLog>(theLogger);
 			theServices.Add<ICommandProcessor>(new CommandProcessor(theServices, theReplacer, theLogger));
 			theServices.Add<IVariableReplacer>(theReplacer);
 			theServices.Add<IIfBlocksParser>(new IfBlocksParser());
+			theServices.Add<WaitForTokenHandler>(waitForTokenHandler);
+			theServices.Add<WaitForReTokenHandler>(waitForReTokenHandler);
+			theServices.Add<MatchWaitTokenHandler>(matchWaitTokenHandler);
+			theServices.Add<IIfBlockExecuter>(new IfBlockExecuter(waitForTokenHandler, waitForReTokenHandler, matchWaitTokenHandler));
 
 			theRunner = new ScriptRunner(theServices, theLoader, theLogger);
 
@@ -54,6 +62,7 @@ namespace Pathfinder.Core.Client.Tests
 			var token = new ScriptToken();
 			token.Name = "myscript";
 			token.Args = new string[]{ "one", "two", "three four" };
+			token.Id = "myId";
 
 			var task = theRunner.Run(token);
 			task.Wait();
@@ -69,6 +78,7 @@ namespace Pathfinder.Core.Client.Tests
 			var token = new ScriptToken();
 			token.Name = "myscript";
 			token.Args = new string[]{ "one", "two", "three four" };
+			token.Id = "myId";
 
 			var task = theRunner.Run(token);
 
@@ -90,13 +100,17 @@ namespace Pathfinder.Core.Client.Tests
 			var token = new ScriptToken();
 			token.Name = "myscript";
 			token.Args = new string[]{ "one", "two", "three four" };
+			token.Id = "myId";
 
 			var task = theRunner.Run(token);
 
 			task.Wait();
 
-			Assert.AreEqual(expected, theLogger.Builder.ToString());
-			Assert.AreEqual(0, theRunner.Scripts().Count());
+			task.ContinueWith(t => {
+
+				Assert.AreEqual(expected, theLogger.Builder.ToString());
+				Assert.AreEqual(0, theRunner.Scripts().Count());
+			});
 		}
 
 		[Test]
@@ -105,20 +119,24 @@ namespace Pathfinder.Core.Client.Tests
 			theRunner.Create = theRunner.DefaultCreate;
 
 			const string scriptData = "\nstart:\n\tif (\"%1\" == \"one\") then\n\t\techo one\n\telse if (\"%2\" == \"two\") then\n\t\techo two\n\telse\n\t\techo three\n\n\tgoto end\n\nend:";
-			const string expected = "myscript started\npassing label: start\nif (\"one\" == \"one\")\nif result true\necho one\ngoto end\npassing label: end\nmyscript finished\n";
+			const string expected = "myscript started\npassing label: start\nif (\"one\" == \"one\")\nif result true\necho one\ngoto end\npassing label: end\n";
 
 			theLoader.AddData("myscript", scriptData);
 
 			var token = new ScriptToken();
 			token.Name = "myscript";
 			token.Args = new string[]{ "one", "two", "three four" };
+			token.Id = "myId";
 
 			var task = theRunner.Run(token);
 
 			task.Wait();
 
-			Assert.AreEqual(expected, theLogger.Builder.ToString());
-			Assert.AreEqual(0, theRunner.Scripts().Count());
+			task.ContinueWith(t => {
+
+				Assert.AreEqual(expected, theLogger.Builder.ToString());
+				Assert.AreEqual(0, theRunner.Scripts().Count());
+			});
 		}
 
 		[Test]
@@ -127,20 +145,24 @@ namespace Pathfinder.Core.Client.Tests
 			theRunner.Create = theRunner.DefaultCreate;
 
 			const string scriptData = "\nstart:\n\tif (\"%1\" == \"one\") then\n\t\techo one\n\telse if (\"%2\" == \"two\") then\n\t\techo two\n\telse {\n\t\techo three\n\t\techo four\n\t}\n\n\tgoto end\n\nend:";
-			const string expected = "myscript started\npassing label: start\nif (\"nope\" == \"one\")\nif result false\nif (\"nope\" == \"two\")\nif result false\necho three\necho four\ngoto end\npassing label: end\nmyscript finished\n";
+			const string expected = "myscript started\npassing label: start\nif (\"nope\" == \"one\")\nif result false\nif (\"nope\" == \"two\")\nif result false\necho three\necho four\ngoto end\npassing label: end\n";
 
 			theLoader.AddData("myscript", scriptData);
 
 			var token = new ScriptToken();
 			token.Name = "myscript";
 			token.Args = new string[]{ "nope", "nope", "three four" };
+			token.Id = "myId";
 
 			var task = theRunner.Run(token);
 
 			task.Wait();
 
-			Assert.AreEqual(expected, theLogger.Builder.ToString());
-			Assert.AreEqual(0, theRunner.Scripts().Count());
+			task.ContinueWith(t => {
+
+				Assert.AreEqual(expected, theLogger.Builder.ToString());
+				Assert.AreEqual(0, theRunner.Scripts().Count());
+			});
 		}
 	}
 }

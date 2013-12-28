@@ -66,6 +66,7 @@
     <Compile Include="Scripting\IfTokenHandlerTester.cs" />
     <Compile Include="GrammerTester.cs" />
     <Compile Include="Scripting\VarTokenHandlerTester.cs" />
+    <Compile Include="Scripting\WaitForReTokenHandlerTester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

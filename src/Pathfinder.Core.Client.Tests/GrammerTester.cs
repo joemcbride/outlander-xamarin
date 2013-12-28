@@ -23,6 +23,71 @@ namespace Pathfinder.Core.Client.Tests
 			theParser = new IfBlocksParser();
 		}
 
+//		[Test]
+//		public void parses_if_without_parens()
+//		{
+//			var ws = Terminals.WhiteSpace.Repeat(0);
+//			var ws1 = Terminals.WhiteSpace.Repeat();
+//
+//			var valueParser = Terminals.Set('(')
+//				.Then(Terminals.AnyChar.Repeat().Until(ws.Then(')')).Named("value"))
+//				.Then(Terminals.Set(')'))
+//				.SeparatedBy(ws)
+//				.Or(Terminals.WhiteSpace.Inverse().Repeat().Named("value"));
+//
+//			var nextLine =
+//				Terminals.WhiteSpace.Inverse().Repeat().Until(Terminals.Eol)
+//					.Then(ws1)
+//					.Then(Terminals.AnyChar.Repeat().Until(Terminals.Eol)).Named("value");
+//
+//			var bracketParser = Terminals.Set('{')
+//				.Then(Terminals.AnyChar.Repeat().Until(ws.Then('}')).Named("value"))
+//				.Then(Terminals.Set('}'))
+//				.SeparatedBy(ws)
+//				.Or(nextLine);
+//
+//			var ifParser = Terminals.Literal("if")
+//				.Then(ws1)
+//				.Then(valueParser.Named("if"))
+//				.Then(ws1)
+//				.Then(Terminals.Literal("then"))
+//				.Then(ws1);
+//
+//			var thenParser = Terminals.Literal("then")
+//				.Then(ws1)
+//				.Then(bracketParser.Named("then"));
+//
+//			var if2 = Terminals.Literal("if")
+//				.Then(ws1);
+//
+//			const string input = "if OFF == OFF then goto somewhere";
+//
+//			var grammar = new Grammar(
+//				              ws
+//				.Then(Terminals.AnyChar.Repeat(0).Until(ws.Then(Terminals.Literal("if"))))
+//				.Then(ws)
+//				.Then(thenParser)
+//				//.Then(Terminals.AnyChar.Repeat(0).Until(Terminals.Eol))
+//				.SeparatedBy(ws));
+//
+//			var blocks = grammar.Match(input);
+//
+//			if(blocks.Success)
+//			{
+//				if(!string.IsNullOrWhiteSpace(blocks.StringValue))
+//				{
+//					var interpreter = new DynamicExpresso.Interpreter();
+//					var result = (bool)interpreter.Eval(blocks.StringValue);
+//				}
+//			}
+//
+////			Assert.AreEqual("\"%snapCast\" = \"OFF\"", blocks.IfEval);
+////			Assert.AreEqual("{\n\t\twaitfor fully prepared\n\t}", blocks.IfBlock);
+////
+////			Assert.IsNull(blocks.ElseIf);
+////			Assert.IsNull(blocks.ElseIfBlock);
+//		}
+
 		[Test]
 		public void parses_if_else()
 		{

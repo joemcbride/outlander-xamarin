@@ -8,14 +8,14 @@ using Pathfinder.Core.Client.Scripting;
 namespace Pathfinder.Core.Client.Tests
 {
 	[TestFixture]
-	public class WaitForTokenHandlerTester
+	public class WaitForReTokenHandlerTester
 	{
 		private StubGameServer theGameServer;
 		private StubGameState theGameState;
 		private ScriptContext theScriptContext;
 		private InMemoryScriptLog theLog;
 		private InMemoryServiceLocator theServices;
-		private WaitForTokenHandler theHandler;
+		private WaitForReTokenHandler theHandler;
 
 		[SetUp]
 		public void SetUp()
@@ -33,7 +33,7 @@ namespace Pathfinder.Core.Client.Tests
 
 			theScriptContext = new ScriptContext("1", "waitfor", CancellationToken.None, theServices, null);
 
-			theHandler = new WaitForTokenHandler(theGameState);
+			theHandler = new WaitForReTokenHandler(theGameState);
 		}
 
 		[Test]
@@ -41,9 +41,9 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			var token = new Token
 			{
-				Type = "waitfor",
-				Text = "waitfor You finish playing",
-				Value = "You finish playing"
+				Type = "waitforre",
+				Text = "waitforre You take a step back|Now what did the|I could not find",
+				Value = "You take a step back|Now what did the|I could not find"
 			};
 
 			var task = theHandler.Execute(theScriptContext, token);
@@ -52,10 +52,10 @@ namespace Pathfinder.Core.Client.Tests
 
 			Assert.False(task.IsCompleted);
 
-			theGameState.FireTextLog("You finish playing your zills.");
+			theGameState.FireTextLog("I could not find what you were referring to.");
 
 			Assert.True(task.IsCompleted);
-			Assert.AreEqual("waitfor You finish playing\n", theLog.Builder.ToString());
+			Assert.AreEqual("waitforre You take a step back|Now what did the|I could not find\n", theLog.Builder.ToString());
 		}
 	}
 }

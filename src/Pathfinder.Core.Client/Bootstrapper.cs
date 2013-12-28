@@ -42,10 +42,14 @@ namespace Pathfinder.Core
 			_container.Singleton<IScriptLoader, ScriptLoader>();
 			_container.Singleton<IScriptRunner, ScriptRunner>();
 			_container.Singleton<IRoundtimeHandler, RoundtimeHandler>();
+			_container.Singleton<WaitForTokenHandler>();
+			_container.Singleton<WaitForReTokenHandler>();
+			_container.Singleton<MatchWaitTokenHandler>();
 
 			_container.PerRequest<ITagTransformer, ComponentTagTransformer>();
 			_container.PerRequest<ITagTransformer, StreamWindowTagTransformer>();
 
+			_container.PerRequest<IIfBlockExecuter, IfBlockExecuter>();
 			_container.PerRequest<IIfBlocksParser, IfBlocksParser>();
 
 			_container.PerRequest<IScript, Script>();

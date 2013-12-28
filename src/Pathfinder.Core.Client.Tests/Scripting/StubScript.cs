@@ -26,8 +26,9 @@ namespace Pathfinder.Core.Client.Tests
 			Stopped = true;
 		}
 
-		public Task Run(string name, string script, params string[] args)
+		public Task Run(string id, string name, string script, params string[] args)
 		{
+			Id = id;
 			Name = name;
 			Script = script;
 			Args = args;
@@ -39,11 +40,8 @@ namespace Pathfinder.Core.Client.Tests
 			return CompletionSource.Task;
 		}
 
-		public string Name
-		{
-			get;
-			set;
-		}
+		public string Id { get; set; }
+		public string Name { get; set; }
 		public System.Collections.Generic.IDictionary<string, string> ScriptVars {
 			get {
 				throw new NotImplementedException();

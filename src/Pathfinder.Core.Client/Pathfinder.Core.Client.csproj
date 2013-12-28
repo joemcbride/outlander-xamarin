@@ -71,6 +71,14 @@
     <Compile Include="Scripting\IfTokenHandler.cs" />
     <Compile Include="Scripting\IfBlocksParser.cs" />
     <Compile Include="Scripting\VarTokenHandler.cs" />
+    <Compile Include="Scripting\EchoTokenHandler.cs" />
+    <Compile Include="Scripting\IfBlocks.cs" />
+    <Compile Include="RegexPatterns.cs" />
+    <Compile Include="Scripting\MatchResult.cs" />
+    <Compile Include="Scripting\IWaitForMatcher.cs" />
+    <Compile Include="Scripting\WeakMatchingTokenHandler.cs" />
+    <Compile Include="Scripting\WaitForReTokenHandler.cs" />
+    <Compile Include="Scripting\WaitforRegexMatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

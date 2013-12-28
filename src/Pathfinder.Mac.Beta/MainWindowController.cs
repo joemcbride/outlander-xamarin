@@ -60,7 +60,7 @@ namespace Pathfinder.Mac.Beta
 			_spellTimer.Interval = 1000;
 			_spellTimer.Elapsed += (sender, e) => {
 				_count++;
-				BeginInvokeOnMainThread(()=>SpellLabel.StringValue = "S: {0} ({1})".ToFormat(_spell, _count));
+				BeginInvokeOnMainThread(()=>SpellLabel.StringValue = "S: ({0}) {1}".ToFormat(_count, _spell));
 			};
 		}
 
@@ -112,11 +112,18 @@ namespace Pathfinder.Mac.Beta
 			};
 
 			_scriptLog.NotifyStarted += (sender, e) => {
+
 				var log = "[{0}]: {1} - script started\n".ToFormat(e.Name, e.Started.ToString("G"));
 
-				var tag = TextTag.For(log, "ADFF2F");
-
 				BeginInvokeOnMainThread(()=> {
+
+					var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
+
+					if(!hasLineFeed)
+						log = "\n" + log;
+
+					var tag = TextTag.For(log, "ADFF2F");
+
 					Append(tag, MainTextView);
 				});
 			};
@@ -124,9 +131,15 @@ namespace Pathfinder.Mac.Beta
 			_scriptLog.NotifyAborted += (sender, e) => {
 				var log = "[{0}]: total runtime {1} seconds\n".ToFormat(e.Name, Math.Round(e.Runtime.TotalSeconds, 2));
 
-				var tag = TextTag.For(log, "ADFF2F");
-
 				BeginInvokeOnMainThread(()=> {
+
+					var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
+
+					if(!hasLineFeed)
+						log = "\n" + log;
+
+					var tag = TextTag.For(log, "ADFF2F");
+
 					Append(tag, MainTextView);
 				});
 			};
@@ -206,9 +219,13 @@ namespace Pathfinder.Mac.Beta
 						{
 							var color = x.IsNew ? _highlightSettings.Get(HighlightKeys.Whisper).Color : string.Empty;
 							return TextTag.For(x.Display() + "\n", color, true);
-						});
+						}).ToList();
+				var now = DateTime.Now;
+				tags.Add(TextTag.For("Last updated: {0:hh\\:mm\\:ss tt}\n".ToFormat(now), string.Empty, true));
+				if(_expTracker.StartedTracking.HasValue)
+					tags.Add(TextTag.For("Tracking for: {0:hh\\:mm\\:ss}\n".ToFormat(now - _expTracker.StartedTracking.Value), string.Empty, true));
 
-				BeginInvokeOnMainThread(()=>{
+				BeginInvokeOnMainThread(()=> {
 					ReplaceText(tags, ExpTextView);
 				});
 			};

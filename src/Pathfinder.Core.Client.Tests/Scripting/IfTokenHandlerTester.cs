@@ -36,13 +36,19 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IGameState>(theGameState);
 			theServices.Add<IScriptLog>(theLog);
 			theServices.Add<IVariableReplacer>(theReplacer);
+			theServices.Add<IIfBlockExecuter>(
+				new IfBlockExecuter(
+					new WaitForTokenHandler(theGameState),
+					new WaitForReTokenHandler(theGameState),
+					new MatchWaitTokenHandler(theGameState)
+				));
 
 			theCommandProcessor = new CommandProcessor(theServices, theReplacer, theLog);
 			theServices.Add<ICommandProcessor>(theCommandProcessor);
 
 			theLocalVars = new SimpleDictionary<string, string>();
 
-			theScriptContext = new ScriptContext("if", CancellationToken.None, theServices, theLocalVars);
+			theScriptContext = new ScriptContext("1", "if", CancellationToken.None, theServices, theLocalVars);
 
 			theHandler = new IfTokenHandler();
 		}

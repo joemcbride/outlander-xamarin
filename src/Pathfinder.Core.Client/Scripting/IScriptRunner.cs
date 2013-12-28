@@ -57,28 +57,31 @@ namespace Pathfinder.Core.Client.Scripting
 			_scripts.Add(script);
 
 			return Task.Factory.StartNew(() => {
-				var task = script.Run(token.Name, data, token.Args);
+				var task = script.Run(token.Id, token.Name, data, token.Args);
 
 				task.ContinueWith(t => {
-					RemoveByName(token.Name);
+					RemoveById(token.Id);
 				});
 			});
 		}
 
 		public void Stop(ScriptToken token)
 		{
-			RemoveByName(token.Name);
+			if(!string.IsNullOrWhiteSpace(token.Id))
+				RemoveById(token.Id);
+			else
+				RemoveByName(token.Name);
 		}
 
 		public void Pause(ScriptToken token)
 		{
-			FindByName(token.Name).IfNotNull(script => {
+			FindById(token.Id).IfNotNull(script => {
 			});
 		}
 
 		public void Resume(ScriptToken token)
 		{
-			FindByName(token.Name).IfNotNull(script => {
+			FindById(token.Id).IfNotNull(script => {
 			});
 		}
 
@@ -106,12 +109,31 @@ namespace Pathfinder.Core.Client.Scripting
 			}
 		}
 
+		private IScript FindById(string id)
+		{
+			lock (LockObject) {
+				return _scripts.FirstOrDefault(x => x.Id == id);
+			}
+		}
+
 		private void RemoveByName(string name)
 		{
 			lock (LockObject) {
 				var script = _scripts.FirstOrDefault(x => x.Name == name);
 				script.IfNotNull(s => {
-					_scriptLog.Aborted(name, s.StartTime, DateTime.Now - s.StartTime);
+					_scriptLog.Aborted(s.Name, s.StartTime, DateTime.Now - s.StartTime);
+					s.Stop();
+					_scripts.Remove(s);
+				});
+			}
+		}
+
+		private void RemoveById(string id)
+		{
+			lock (LockObject) {
+				var script = _scripts.FirstOrDefault(x => x.Id == id);
+				script.IfNotNull(s => {
+					_scriptLog.Aborted(s.Name, s.StartTime, DateTime.Now - s.StartTime);
 					s.Stop();
 					_scripts.Remove(s);
 				});

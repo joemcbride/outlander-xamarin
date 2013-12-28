@@ -12,7 +12,7 @@ namespace Pathfinder.Core.Client
 		{
 			var ifToken = Token as IfToken;
 
-			var something = new Something();
+			var executer = Context.Get<IIfBlockExecuter>();
 
 			bool setComplete = true;
 
@@ -21,13 +21,13 @@ namespace Pathfinder.Core.Client
 			try
 			{
 				var executeBlock = string.Empty;
-				if(something.Evaluate(ifToken.Blocks.IfEval, Context))
+				if(executer.Evaluate(ifToken.Blocks.IfEval, Context))
 				{
 					executeBlock = ifToken.Blocks.IfBlock;
 					Context.LineNumber = ifToken.Blocks.IfBlockLineNumber;
 				}
 				else if (!string.IsNullOrWhiteSpace(ifToken.Blocks.ElseIf)
-					&& something.Evaluate(ifToken.Blocks.ElseIf, Context))
+					&& executer.Evaluate(ifToken.Blocks.ElseIf, Context))
 				{
 					executeBlock = ifToken.Blocks.ElseIfBlock;
 					Context.LineNumber = ifToken.Blocks.ElseIfBlockLineNumber;
@@ -38,7 +38,7 @@ namespace Pathfinder.Core.Client
 					Context.LineNumber = ifToken.Blocks.ElseBlockLineNumber;
 				}
 
-				var task = something.ExecuteBlocks(executeBlock, Context);
+				var task = executer.ExecuteBlocks(executeBlock, Context);
 				task.Wait();
 				if(string.IsNullOrWhiteSpace(task.Result.Goto))
 				{
@@ -63,26 +63,33 @@ namespace Pathfinder.Core.Client
 		}
 	}
 
-	public class Something
+	public interface IIfBlockExecuter
+	{
+		bool Evaluate(string block, ScriptContext context);
+		Task<CompletionEventArgs> ExecuteBlocks(string blocks, ScriptContext context);
+	}
+
+	public class IfBlockExecuter : IIfBlockExecuter
 	{
 		private readonly Tokenizer _tokenizer;
-		private readonly ISimpleDictionary<string, TokenHandler> _tokenHandlers;
+		private readonly ISimpleDictionary<string, ITokenHandler> _tokenHandlers;
 
-		public Something()
+		public IfBlockExecuter(WaitForTokenHandler waitForTokenHandler, WaitForReTokenHandler waitForReTokenHandler, MatchWaitTokenHandler matchWaitTokenHandler)
 		{
 			_tokenizer = new Tokenizer(TokenDefinitionRegistry.Default().Definitions());
-			_tokenHandlers = new SimpleDictionary<string, TokenHandler>();
+			_tokenHandlers = new SimpleDictionary<string, ITokenHandler>();
 
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
 			_tokenHandlers["goto"] = new GotoTokenHandler();
-			_tokenHandlers["waitfor"] = new WaitForTokenHandler();
+			_tokenHandlers["waitfor"] = waitForTokenHandler;
+			_tokenHandlers["waitforre"] = waitForReTokenHandler;
 			_tokenHandlers["pause"] = new PauseTokenHandler();
 			_tokenHandlers["put"] = new SendCommandTokenHandler();
 			_tokenHandlers["echo"] = new EchoTokenHandler();
 			_tokenHandlers["match"] = new MatchTokenHandler();
 			_tokenHandlers["matchre"] = new MatchTokenHandler();
-			_tokenHandlers["matchwait"] = new MatchWaitTokenHandler();
+			_tokenHandlers["matchwait"] = matchWaitTokenHandler;
 		}
 
 		public bool Evaluate(string block, ScriptContext context)

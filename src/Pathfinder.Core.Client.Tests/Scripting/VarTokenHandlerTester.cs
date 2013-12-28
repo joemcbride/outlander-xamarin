@@ -34,7 +34,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IScriptLog>(theScriptLog);
 			theServices.Add<IVariableReplacer>(theReplacer);
 
-			theScriptContext = new ScriptContext("vartoken", CancellationToken.None, theServices, theLocalVars);
+			theScriptContext = new ScriptContext("1", "vartoken", CancellationToken.None, theServices, theLocalVars);
 			theHandler = new VarTokenHandler();
 		}
 

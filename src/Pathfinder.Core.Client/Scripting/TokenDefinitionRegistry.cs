@@ -48,6 +48,7 @@ namespace Pathfinder.Core.Client
 
 					var token = new ScriptToken
 					{
+						Id = Guid.NewGuid().ToString(),
 						Name = match.Groups[1].Value,
 						Text = source,
 						Type = def.Type,
@@ -97,7 +98,7 @@ namespace Pathfinder.Core.Client
 
 			registry.New(d => {
 				d.Type = "label";
-				d.Pattern = "^([\\w\\.]+):";
+				d.Pattern = RegexPatterns.Label;
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
 					var token = new Token
@@ -127,7 +128,22 @@ namespace Pathfinder.Core.Client
 
 			registry.New(d => {
 				d.Type = "waitfor";
-				d.Pattern = "^waitfor";
+				d.Pattern = "^waitfor\\b";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim()
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "waitforre";
+				d.Pattern = "^waitforre\\b";
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
 					var token = new Token

@@ -29,7 +29,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IVariableReplacer>(new VariableReplacer());
 			theServices.Add<ICommandProcessor>(new CommandProcessor(theServices, theServices.Get<IVariableReplacer>(), theLogger));
 
-			theScriptContext = new ScriptContext("sendcommand", CancellationToken.None,  theServices, null);
+			theScriptContext = new ScriptContext("1", "sendcommand", CancellationToken.None,  theServices, null);
 
 			theHandler = new SendCommandTokenHandler();
 		}

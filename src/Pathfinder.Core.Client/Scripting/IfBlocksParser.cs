@@ -19,6 +19,13 @@ namespace Pathfinder.Core.Client
 	{
 		private const string If_Blocks_Regex = "^[\\s]*(if)\\s";
 
+		private readonly Grammar _grammar;
+
+		public IfBlocksParser()
+		{
+			_grammar = BuildGrammar();
+		}
+
 		public IEnumerable<IfBlocks> For(string script)
 		{
 			var rmatches = Regex.Matches(script, If_Blocks_Regex, RegexOptions.Multiline);
@@ -53,6 +60,45 @@ namespace Pathfinder.Core.Client
 		}
 
 		public IfBlocks BlockFor(string snippet, int line = 0)
+		{
+			var match = _grammar.Match(snippet);
+
+			var ifEvalMatch = match["ifBlock"]["if"];
+			var ifEval = ifEvalMatch.Value;
+
+			var ifBlockMatch = match["ifBlock"]["block"];
+			var ifBlock = ifBlockMatch.Value;
+
+			var elseIfMatch = match["elseif"]["if"];
+			var elseIf = elseIfMatch.Value;
+
+			var elseIfBlockMatch = match["elseif"]["block"];
+			var elseIfBlock = elseIfBlockMatch.Value;
+
+			var elseBlockMatch = match["else"]["block"];
+			var elseBlock = elseBlockMatch.Value;
+
+			var blocks = new IfBlocks();
+
+			ifEval.IfNotNull(v => blocks.IfEval = v.ToString());
+			blocks.IfEvalLineNumber = LineFromPos(snippet, ifEvalMatch.Index) + line;
+
+			ifBlock.IfNotNull(v => blocks.IfBlock = v.ToString());
+			blocks.IfBlockLineNumber = LineFromPos(snippet, ifBlockMatch.Index) + line;
+
+			elseIf.IfNotNull(v => blocks.ElseIf = v.ToString());
+			blocks.ElseIfLineNumber = LineFromPos(snippet, elseIfMatch.Index) + line;
+
+			elseIfBlock.IfNotNull(v => blocks.ElseIfBlock = v.ToString());
+			blocks.ElseIfBlockLineNumber = LineFromPos(snippet, elseIfBlockMatch.Index) + line;
+
+			elseBlock.IfNotNull(v => blocks.ElseBlock = v.ToString());
+			blocks.ElseBlockLineNumber = LineFromPos(snippet, elseBlockMatch.Index) + line;
+
+			return blocks;
+		}
+
+		private Grammar BuildGrammar()
 		{
 			// optional repeating whitespace
 			var ws = Terminals.WhiteSpace.Repeat(0);
@@ -98,7 +144,7 @@ namespace Pathfinder.Core.Client
 				.Then(ws)
 				.Then(bracketParser.Named("block"));
 
-			var grammar = new Grammar(
+			return new Grammar(
 				ws
 				.Then(Terminals.AnyChar.Repeat(0).Until(ws.Then(Terminals.Literal("if"))))
 				.Then(ifParser.Named("ifBlock"))
@@ -109,42 +155,6 @@ namespace Pathfinder.Core.Client
 				.Then(Terminals.End)
 				.SeparatedBy(ws)
 			);
-
-			var match = grammar.Match(snippet);
-
-			var ifEvalMatch = match["ifBlock"]["if"];
-			var ifEval = ifEvalMatch.Value;
-
-			var ifBlockMatch = match["ifBlock"]["block"];
-			var ifBlock = ifBlockMatch.Value;
-
-			var elseIfMatch = match["elseif"]["if"];
-			var elseIf = elseIfMatch.Value;
-
-			var elseIfBlockMatch = match["elseif"]["block"];
-			var elseIfBlock = elseIfBlockMatch.Value;
-
-			var elseBlockMatch = match["else"]["block"];
-			var elseBlock = elseBlockMatch.Value;
-
-			var blocks = new IfBlocks();
-
-			ifEval.IfNotNull(v => blocks.IfEval = v.ToString());
-			blocks.IfEvalLineNumber = LineFromPos(snippet, ifEvalMatch.Index) + line;
-
-			ifBlock.IfNotNull(v => blocks.IfBlock = v.ToString());
-			blocks.IfBlockLineNumber = LineFromPos(snippet, ifBlockMatch.Index) + line;
-
-			elseIf.IfNotNull(v => blocks.ElseIf = v.ToString());
-			blocks.ElseIfLineNumber = LineFromPos(snippet, elseIfMatch.Index) + line;
-
-			elseIfBlock.IfNotNull(v => blocks.ElseIfBlock = v.ToString());
-			blocks.ElseIfBlockLineNumber = LineFromPos(snippet, elseIfBlockMatch.Index) + line;
-
-			elseBlock.IfNotNull(v => blocks.ElseBlock = v.ToString());
-			blocks.ElseBlockLineNumber = LineFromPos(snippet, elseBlockMatch.Index) + line;
-
-			return blocks;
 		}
 	}
 }

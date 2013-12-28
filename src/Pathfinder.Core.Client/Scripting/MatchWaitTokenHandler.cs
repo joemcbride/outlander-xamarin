@@ -1,33 +1,47 @@
 using System;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Pathfinder.Core.Client.Scripting
 {
-	public class MatchWaitTokenHandler : TokenHandler
+	public class MatchWaitTokenHandler : WeakMatchingTokenHandler
 	{
-		private IGameServer _gameServer;
-		private IScriptLog _scriptLog;
-
-		protected override void execute()
+		public MatchWaitTokenHandler(IGameState gameState)
+			: base(gameState)
 		{
-			_scriptLog = Context.Get<IScriptLog>();
-			_scriptLog.Log(Context.Name, "matchwait", Context.LineNumber);
-
-			_gameServer = Context.Get<IGameServer>();
-			_gameServer.GameState.TextLog += Check;
 		}
 
-		private void Check(string text)
+		public override Task<CompletionEventArgs> Execute(ScriptContext context, Token token)
+		{
+			context.Get<IScriptLog>().Log(context.Name, "matchwait", context.LineNumber);
+
+			return base.Execute(context, token);
+		}
+
+		protected override IWaitForMatcher BuildMatcher(ScriptContext context, Token token)
+		{
+			return new MatchWaitMatcher(context, token);
+		}
+	}
+
+	public class MatchWaitMatcher : WaitForMatcher
+	{
+		public MatchWaitMatcher(ScriptContext context, Token token)
+			: base(context, token)
+		{
+		}
+
+		public override MatchResult Checkmatch(string text)
 		{
 			var matches = Context.MatchWait.Matches().ToList();
 
+			var result = MatchResult.False();
+
 			foreach(var item in matches)
 			{
-				bool match = false;
-				string matchedText = item.Pattern;
+				var match = false;
+				var matchedText = item.Pattern;
 				if(item.IsRegex) {
 					var regexMatch = Regex.Match(text, item.Pattern);
 					match = regexMatch.Success;
@@ -39,27 +53,14 @@ namespace Pathfinder.Core.Client.Scripting
 
 				if(match)
 				{
-					_gameServer.GameState.TextLog -= Check;
 					Context.MatchWait.Clear();
-					DelayIfRoundtime(() => {
-						_scriptLog.Log(Context.Name, "match goto " + item.Goto, Context.LineNumber);
-						TaskSource.SetResult(new CompletionEventArgs { Goto = item.Goto });
-					});
+					result = MatchResult.True(item.Goto);
+					Context.Get<IScriptLog>().Log(Context.Name, "match goto " + item.Goto, Context.LineNumber);
 					break;
 				}
 			}
-		}
 
-		private void DelayIfRoundtime(Action complete)
-		{
-			double roundTime;
-			if(double.TryParse(_gameServer.GameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
-			{
-				DelayEx.Delay(TimeSpan.FromSeconds(roundTime), Context.CancelToken, complete);
-			}
-			else {
-				complete();
-			}
+			return result;
 		}
 	}
 }

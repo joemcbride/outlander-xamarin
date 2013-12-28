@@ -33,7 +33,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IGameState>(theGameState);
 			theServices.Add<IScriptLog>(theLogger);
 
-			theScriptContext = new ScriptContext("pausetoken", theCancelSource.Token, theServices, null);
+			theScriptContext = new ScriptContext("1", "pausetoken", theCancelSource.Token, theServices, null);
 
 			theHandler = new PauseTokenHandler();
 		}

@@ -13,8 +13,9 @@ namespace Pathfinder.Core.Client
 		private readonly IServiceLocator _services;
 		private readonly ISimpleDictionary<string, string> _localvars;
 
-		public ScriptContext(string name, CancellationToken cancelToken, IServiceLocator services, ISimpleDictionary<string, string> localVars)
+		public ScriptContext(string id, string name, CancellationToken cancelToken, IServiceLocator services, ISimpleDictionary<string, string> localVars)
 		{
+			Id = id;
 			Name = name;
 			CancelToken = cancelToken;
 			_services = services;
@@ -22,6 +23,7 @@ namespace Pathfinder.Core.Client
 			MatchWait = new MatchWait();
 		}
 
+		public string Id { get; set; }
 		public string Name { get; private set; }
 		public int LineNumber { get; set; }
 		//public int JumpLines { get; set; }

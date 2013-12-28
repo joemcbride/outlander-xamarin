@@ -30,9 +30,9 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IGameServer>(theGameServer);
 			theServices.Add<IScriptLog>(theLog);
 
-			theScriptContext = new ScriptContext("matchwait", CancellationToken.None, theServices, null);
+			theScriptContext = new ScriptContext("1", "matchwait", CancellationToken.None, theServices, null);
 
-			theHandler = new MatchWaitTokenHandler();
+			theHandler = new MatchWaitTokenHandler(theGameState);
 		}
 
 		[Test]
