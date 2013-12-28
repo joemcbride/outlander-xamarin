@@ -3,6 +3,7 @@ using System.Globalization;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using Pathfinder.Core.Client;
+using MonoMac.CoreGraphics;
 
 namespace Pathfinder.Mac.Beta
 {
@@ -32,6 +33,17 @@ namespace Pathfinder.Mac.Beta
 			hexColor.FromHexToOSXRGB(out red, out green, out blue);
 
 			return NSColor.FromDeviceRgba(red, green, blue, 1.0f);
+		}
+
+		public static CGColor ToCGColor(this string hexColor)
+		{
+			float red;
+			float green;
+			float blue;
+
+			hexColor.FromHexToOSXRGB(out red, out green, out blue);
+
+			return new CGColor(red, green, blue);
 		}
 	}
 }

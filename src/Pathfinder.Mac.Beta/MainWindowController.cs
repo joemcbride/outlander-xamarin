@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -69,6 +70,16 @@ namespace Pathfinder.Mac.Beta
 		public override void AwakeFromNib()
 		{
 			base.AwakeFromNib();
+
+			HealthLabel.BackgroundColor = "#800000";
+			ManaLabel.Label = "Mana";
+			ConcentrationLabel.BackgroundColor = "#009999";
+			ConcentrationLabel.Label = "Concentration";
+			ConcentrationLabel.TextOffset = new PointF(55, 1);
+			StaminaLabel.BackgroundColor = "#004000";
+			StaminaLabel.Label = "Stamina";
+			SpiritLabel.BackgroundColor = "#400040";
+			SpiritLabel.Label = "Spirit";
 
 			Window.Title = "Outlander";
 
@@ -265,23 +276,16 @@ namespace Pathfinder.Mac.Beta
 					LogSystem("Unable to authenticate.\n");
 				}
 			};
-
-			SubmitButton.Activated += (sender, e) =>
-			{
-				var command = CommandTextField.StringValue;
-				CommandTextField.StringValue = string.Empty;
-				SendCommand(command);
-			};
 		}
 
 		private void UpdateVitals()
 		{
 			BeginInvokeOnMainThread(()=>{
-				HealthTextField.StringValue = string.Format("Health {0}%", _gameServer.GameState.Get(ComponentKeys.Health));
-				ManaTextField.StringValue = string.Format("Mana {0}%", _gameServer.GameState.Get(ComponentKeys.Mana));
-				StaminaTextField.StringValue = string.Format("Stamina {0}%", _gameServer.GameState.Get(ComponentKeys.Stamina));
-				ConcentrationTextField.StringValue = string.Format("Conc {0}%", _gameServer.GameState.Get(ComponentKeys.Concentration));
-				SpiritTextField.StringValue = string.Format("Spirit {0}%", _gameServer.GameState.Get(ComponentKeys.Spirit));
+				HealthLabel.Value = _gameServer.GameState.Get(ComponentKeys.Health).AsFloat();
+				ManaLabel.Value = _gameServer.GameState.Get(ComponentKeys.Mana).AsFloat();
+				StaminaLabel.Value = _gameServer.GameState.Get(ComponentKeys.Stamina).AsFloat();
+				ConcentrationLabel.Value = _gameServer.GameState.Get(ComponentKeys.Concentration).AsFloat();
+				SpiritLabel.Value = _gameServer.GameState.Get(ComponentKeys.Spirit).AsFloat();
 			});
 		}
 

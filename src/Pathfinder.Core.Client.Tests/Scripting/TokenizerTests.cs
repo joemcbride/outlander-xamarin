@@ -137,8 +137,6 @@ namespace Pathfinder.Core.Client.Tests
 			var token = theTokenizer.Tokenize(line).Single().As<IfToken>();
 			Assert.AreEqual("if", token.Type);
 			Assert.AreEqual("($Outdoorsmanship.LearningRate >= %maxexp) then goto END", token.Value);
-			//Assert.AreEqual("($Outdoorsmanship.LearningRate >= %maxexp)", token.If);
-			//Assert.AreEqual("goto END", token.Then);
 		}
 
 		[Test]

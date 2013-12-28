@@ -22,7 +22,7 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField CommandTextField { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField ConcentrationTextField { get; set; }
+		Pathfinder.Mac.Beta.VitalsBar ConcentrationLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextView ExpTextView { get; set; }
@@ -31,7 +31,7 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField GameTextField { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField HealthTextField { get; set; }
+		Pathfinder.Mac.Beta.VitalsBar HealthLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField LeftHandLabel { get; set; }
@@ -43,7 +43,7 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextView MainTextView { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField ManaTextField { get; set; }
+		Pathfinder.Mac.Beta.VitalsBar ManaLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSSecureTextField PasswordTextField { get; set; }
@@ -61,10 +61,10 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField SpellLabel { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField SpiritTextField { get; set; }
+		Pathfinder.Mac.Beta.VitalsBar SpiritLabel { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField StaminaTextField { get; set; }
+		Pathfinder.Mac.Beta.VitalsBar StaminaLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton SubmitButton { get; set; }
@@ -74,11 +74,6 @@ namespace Pathfinder.Mac.Beta
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (GameTextField != null) {
-				GameTextField.Dispose ();
-				GameTextField = null;
-			}
-
 			if (ArrivalsTextView != null) {
 				ArrivalsTextView.Dispose ();
 				ArrivalsTextView = null;
@@ -94,9 +89,9 @@ namespace Pathfinder.Mac.Beta
 				CommandTextField = null;
 			}
 
-			if (ConcentrationTextField != null) {
-				ConcentrationTextField.Dispose ();
-				ConcentrationTextField = null;
+			if (ConcentrationLabel != null) {
+				ConcentrationLabel.Dispose ();
+				ConcentrationLabel = null;
 			}
 
 			if (ExpTextView != null) {
@@ -104,9 +99,14 @@ namespace Pathfinder.Mac.Beta
 				ExpTextView = null;
 			}
 
-			if (HealthTextField != null) {
-				HealthTextField.Dispose ();
-				HealthTextField = null;
+			if (GameTextField != null) {
+				GameTextField.Dispose ();
+				GameTextField = null;
+			}
+
+			if (HealthLabel != null) {
+				HealthLabel.Dispose ();
+				HealthLabel = null;
 			}
 
 			if (LeftHandLabel != null) {
@@ -124,9 +124,9 @@ namespace Pathfinder.Mac.Beta
 				MainTextView = null;
 			}
 
-			if (ManaTextField != null) {
-				ManaTextField.Dispose ();
-				ManaTextField = null;
+			if (ManaLabel != null) {
+				ManaLabel.Dispose ();
+				ManaLabel = null;
 			}
 
 			if (PasswordTextField != null) {
@@ -154,14 +154,14 @@ namespace Pathfinder.Mac.Beta
 				SpellLabel = null;
 			}
 
-			if (SpiritTextField != null) {
-				SpiritTextField.Dispose ();
-				SpiritTextField = null;
+			if (SpiritLabel != null) {
+				SpiritLabel.Dispose ();
+				SpiritLabel = null;
 			}
 
-			if (StaminaTextField != null) {
-				StaminaTextField.Dispose ();
-				StaminaTextField = null;
+			if (StaminaLabel != null) {
+				StaminaLabel.Dispose ();
+				StaminaLabel = null;
 			}
 
 			if (SubmitButton != null) {

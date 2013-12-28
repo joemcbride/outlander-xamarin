@@ -16,6 +16,14 @@ namespace Pathfinder.Core
 			return item as T;
 		}
 
+		public static float AsFloat(this string value)
+		{
+			if(string.IsNullOrWhiteSpace(value))
+				return 0.0f;
+
+			return float.Parse(value);
+		}
+
 		public static string EnsureEmpty(this string value)
 		{
 			if (string.IsNullOrWhiteSpace(value))
