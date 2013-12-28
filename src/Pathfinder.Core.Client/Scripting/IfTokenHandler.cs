@@ -90,6 +90,7 @@ namespace Pathfinder.Core.Client
 			_tokenHandlers["match"] = new MatchTokenHandler();
 			_tokenHandlers["matchre"] = new MatchTokenHandler();
 			_tokenHandlers["matchwait"] = matchWaitTokenHandler;
+			_tokenHandlers["save"] = new SaveTokenHandler();
 		}
 
 		public bool Evaluate(string block, ScriptContext context)

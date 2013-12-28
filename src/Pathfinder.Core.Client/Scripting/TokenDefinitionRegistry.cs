@@ -287,6 +287,21 @@ namespace Pathfinder.Core.Client
 			});
 
 			registry.New(d => {
+				d.Type = "save";
+				d.Pattern = "^save";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim()
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
 				d.Type = "if";
 				d.Pattern = "^if";
 				d.Ignore = false;

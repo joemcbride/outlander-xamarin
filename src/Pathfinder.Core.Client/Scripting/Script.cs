@@ -60,6 +60,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["matchre"] = new MatchTokenHandler();
 			_tokenHandlers["matchwait"] = serviceLocator.Get<MatchWaitTokenHandler>();
 			_tokenHandlers["if"] = new IfTokenHandler();
+			_tokenHandlers["save"] = new SaveTokenHandler();
 		}
 
 		public string Id { get; private set; }

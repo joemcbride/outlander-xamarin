@@ -79,6 +79,7 @@
     <Compile Include="Scripting\WeakMatchingTokenHandler.cs" />
     <Compile Include="Scripting\WaitForReTokenHandler.cs" />
     <Compile Include="Scripting\WaitforRegexMatcher.cs" />
+    <Compile Include="Scripting\SaveTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
