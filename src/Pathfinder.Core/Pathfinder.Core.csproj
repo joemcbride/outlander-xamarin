@@ -99,6 +99,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="BuildAppDirectories.cs" />
     <Compile Include="RoundtimeHandler.cs" />
+    <Compile Include="DataTracker.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

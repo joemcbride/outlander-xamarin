@@ -20,6 +20,8 @@ namespace Pathfinder.Core
 
 		event TextLogHandler TextLog;
 
+		DataTracker<IEnumerable<Tag>> TagTracker { get; }
+
 		Action<IEnumerable<Tag>> Tags { get; set; }
 		Action<SkillExp> Exp { get; set; }
 	}
@@ -33,6 +35,7 @@ namespace Pathfinder.Core
 
 		public event TextLogHandler TextLog = delegate { };
 
+		public DataTracker<IEnumerable<Tag>> TagTracker { get; private set; }
 		public Action<IEnumerable<Tag>> Tags { get; set; }
 		public Action<SkillExp> Exp { get; set; }
 
@@ -41,6 +44,8 @@ namespace Pathfinder.Core
 			_parser = parser;
 			_roundtimeHandler = roundtimeHandler;
 			_components.Set(ComponentKeys.Prompt, ">");
+
+			TagTracker = new DataTracker<IEnumerable<Tag>>();
 		}
 
 		public string Get(string key)
@@ -170,6 +175,8 @@ namespace Pathfinder.Core
 			if(tagsEv != null && tags != null){
 				tagsEv(tags);
 			}
+
+			TagTracker.Publish(tags);
 		}
 
 		private void ShowPrompt()

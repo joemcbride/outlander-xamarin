@@ -158,5 +158,25 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("var", token.Type);
 			Assert.AreEqual("something another", token.Value);
 		}
+
+		[Test]
+		public void creates_move_token()
+		{
+			const string line = "move something somewhere";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("move", token.Type);
+			Assert.AreEqual("something somewhere", token.Value);
+		}
+
+		[Test]
+		public void creates_nextroom_token()
+		{
+			const string line = "nextroom something somewhere";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("nextroom", token.Type);
+			Assert.AreEqual("something somewhere", token.Value);
+		}
 	}
 }

@@ -62,7 +62,7 @@ namespace Pathfinder.Core.Client
 				var replaced = Eval(command, context);
 
 				if(context != null)
-					_scriptLog.Log(context.Name, "sending command: {0}".ToFormat(replaced), context.LineNumber);
+					_scriptLog.Log(context.Name, "{0}".ToFormat(replaced), context.LineNumber);
 
 				server.SendCommand(replaced);
 				completionSource.TrySetResult(null);

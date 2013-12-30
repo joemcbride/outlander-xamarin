@@ -67,10 +67,8 @@ namespace Pathfinder.Mac.Beta
 
 		#endregion
 
-		public override void AwakeFromNib()
+		private void InitializeVitalsAndRTBars()
 		{
-			base.AwakeFromNib();
-
 			HealthLabel.Label = "Health 100%";
 			HealthLabel.BackgroundColor = "#800000";
 			HealthLabel.Value = 0;
@@ -86,12 +84,18 @@ namespace Pathfinder.Mac.Beta
 			SpiritLabel.BackgroundColor = "#400040";
 			SpiritLabel.Label = "Spirit 100%";
 			SpiritLabel.Value = 0;
-
 			RTLabel.Label = string.Empty;
 			RTLabel.Value = 0.0f;
 			RTLabel.BackgroundColor = "#0000FF";
 			RTLabel.TextOffset = new PointF(6, 2);
 			RTLabel.Font = NSFont.FromFontName("Geneva", 16);
+		}
+
+		public override void AwakeFromNib()
+		{
+			base.AwakeFromNib();
+
+			InitializeVitalsAndRTBars();
 
 			Window.Title = "Outlander";
 
@@ -418,7 +422,6 @@ namespace Pathfinder.Mac.Beta
 				{
 					RTLabel.TextOffset = new PointF(12, 2);
 				}
-				//RoundtimeLabel.StringValue = "RT: {0}".ToFormat(args.Roundtime);
 			});
 		}
 

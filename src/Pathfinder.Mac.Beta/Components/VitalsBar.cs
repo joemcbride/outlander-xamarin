@@ -105,7 +105,7 @@ namespace Pathfinder.Mac.Beta
 			context.SetStrokeColor("#999999".ToCGColor());
 			context.SetLineWidth (1.0F);
 
-			context.StrokeRect (new RectangleF(0, 0, base.Bounds.Width, height));
+			context.StrokeRect(new RectangleF(0, 0, base.Bounds.Width, height));
 
 			context.SetFillColor("#999999".ToCGColor());
 			context.FillRect(new RectangleF(0, 0, base.Bounds.Width, height));
@@ -115,14 +115,14 @@ namespace Pathfinder.Mac.Beta
 
 			var attrStr = "{0}".ToFormat(Label).CreateString("#ffffff".ToNSColor(), Font);
 
-			var storage   = new NSTextStorage ();
+			var storage   = new NSTextStorage();
 			storage.SetString(attrStr);
 
-			var layout    = new NSLayoutManager ();
-			var container = new NSTextContainer ();
+			var layout    = new NSLayoutManager();
+			var container = new NSTextContainer();
 
-			layout.AddTextContainer (container);
-			storage.AddLayoutManager (layout);
+			layout.AddTextContainer(container);
+			storage.AddLayoutManager(layout);
 
 			// Get size
 //			var size = layout.GetUsedRectForTextContainer (container).Size;

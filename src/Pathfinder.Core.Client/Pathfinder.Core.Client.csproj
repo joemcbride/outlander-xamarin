@@ -80,6 +80,8 @@
     <Compile Include="Scripting\WaitForReTokenHandler.cs" />
     <Compile Include="Scripting\WaitforRegexMatcher.cs" />
     <Compile Include="Scripting\SaveTokenHandler.cs" />
+    <Compile Include="Scripting\NextroomTokenHandler.cs" />
+    <Compile Include="Scripting\MoveTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

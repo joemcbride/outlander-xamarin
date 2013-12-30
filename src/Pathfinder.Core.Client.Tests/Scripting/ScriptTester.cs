@@ -42,7 +42,7 @@ namespace Pathfinder.Core.Client.Tests
 		public void runs_simple_script()
 		{
 			const string script = "start:\nput %1\ngoto end\nend:";
-			const string expected = "script started\npassing label: start\nsending command: collect rock\ngoto end\npassing label: end\n";
+			const string expected = "script started\npassing label: start\ncollect rock\ngoto end\npassing label: end\n";
 
 			var scriptTask = theScript.Run("1", "script", script, "collect rock");
 

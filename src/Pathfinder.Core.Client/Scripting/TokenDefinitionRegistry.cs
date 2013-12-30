@@ -319,6 +319,42 @@ namespace Pathfinder.Core.Client
 				};
 			});
 
+			registry.New(d => {
+				d.Type = "move";
+				d.Pattern = "^move";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "nextroom";
+				d.Pattern = "^nextroom";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
 			return registry;
 		}
 	}

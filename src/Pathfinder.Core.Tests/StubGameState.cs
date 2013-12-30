@@ -49,6 +49,11 @@ namespace Pathfinder.Core.Tests
 	{
 		private IDictionary<string, string> _state = new Dictionary<string, string>();
 
+		public StubGameState()
+		{
+			TagTracker = new DataTracker<IEnumerable<Tag>>();
+		}
+
 		public string LastReadData { get; set; }
 		public string LastEcho { get; set; }
 
@@ -88,6 +93,7 @@ namespace Pathfinder.Core.Tests
 
 		public event TextLogHandler TextLog;
 
+		public DataTracker<IEnumerable<Tag>> TagTracker { get; set; }
 		public Action<IEnumerable<Tag>> Tags { get; set; }
 		public Action<SkillExp> Exp { get; set; }
 	}

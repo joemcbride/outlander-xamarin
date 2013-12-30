@@ -61,6 +61,8 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["matchwait"] = serviceLocator.Get<MatchWaitTokenHandler>();
 			_tokenHandlers["if"] = new IfTokenHandler();
 			_tokenHandlers["save"] = new SaveTokenHandler();
+			_tokenHandlers["move"] = new MoveTokenHandler();
+			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
 		}
 
 		public string Id { get; private set; }

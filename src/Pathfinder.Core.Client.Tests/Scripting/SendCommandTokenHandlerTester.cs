@@ -50,7 +50,7 @@ namespace Pathfinder.Core.Client.Tests
 			var task = theHandler.Execute(theScriptContext, token);
 
 			Assert.True(task.IsCompleted);
-			Assert.AreEqual("sending command: play ditty masterful\n", theLogger.Builder.ToString());
+			Assert.AreEqual("play ditty masterful\n", theLogger.Builder.ToString());
 			Assert.AreEqual("play ditty masterful", theGameServer.LastCommand);
 		}
 	}
