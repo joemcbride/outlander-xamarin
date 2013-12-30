@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace Pathfinder.Core.Text
@@ -19,6 +16,26 @@ namespace Pathfinder.Core.Text
 			GameTime = element.Attribute("time").Value;
 			Time = GameTime.UnixTimeStampToDateTime();
 			Prompt = element.Value;
+		}
+	}
+
+	public class PromptChunkReader : IChunkReader
+	{
+		private ChunkReader<PromptTag> _reader;
+
+		public PromptChunkReader()
+		{
+			_reader = new ChunkReader<PromptTag>("<prompt", "</prompt");
+			_reader.Append = (builder, result, tag) => {
+				builder.Append(tag.Prompt);
+				result.AddTag(tag);
+				return 0;
+			};
+		}
+
+		public ReadResult Read(Chunk chunk)
+		{
+			return _reader.Read(chunk);
 		}
 	}
 }

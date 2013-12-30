@@ -51,7 +51,7 @@ namespace Pathfinder.Core.Text.Tests
 		[Test]
 		public void handles_login()
 		{
-			const string expected = "Please wait for connection to game server.\nGSw000100000553733\nWelcome to DragonRealms (R) v2.00\nCopyright 2013 Simutronics Corp.\nAll Rights Reserved\n\n\n\n\n<output class=\"mono\"/>\n\n----------------------------------------------------------------------------\n   Last login :  Saturday, December 7, 2013 at 16:54:49\n       Logoff :  Saturday, December 7, 2013 at 16:55:05\n----------------------------------------------------------------------------\n\n<output class=\"\"/>\n[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n";
+			const string expected = "Please wait for connection to game server.\nGSw000100000553733\nWelcome to DragonRealms (R) v2.00\nCopyright 2013 Simutronics Corp.\nAll Rights Reserved\n\n\n\n\n<output class=\"mono\"/>\n\n----------------------------------------------------------------------------\n   Last login :  Saturday, December 7, 2013 at 16:54:49\n       Logoff :  Saturday, December 7, 2013 at 16:55:05\n----------------------------------------------------------------------------\n\n<output class=\"\"/>\n[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n>";
 
 			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.login-data1.txt"))
 			using(var reader = new StreamReader(stream))
@@ -166,7 +166,7 @@ namespace Pathfinder.Core.Text.Tests
 		public void handles_roomname_and_paths()
 		{
 			const string data = "<resource picture=\"0\"/><style id=\"roomName\" />[Woodland Brook]\n<style id=\"\"/><preset id='roomDesc'>Water ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.</preset>  \nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n<compass><dir value=\"ne\"/><dir value=\"s\"/><dir value=\"nw\"/></compass><component id='room players'></component>\n<prompt time=\"1386489933\">R&gt;</prompt>\n";
-			const string expected = "[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n\n\n";
+			const string expected = "[Woodland Brook]\nWater ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.\nObvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.\n\nR>\n";
 
 			var result = theParser.Parse(Chunk.For(data));
 
@@ -182,6 +182,30 @@ namespace Pathfinder.Core.Text.Tests
 			var result = theParser.Parse(Chunk.For(data));
 
 			Assert.AreEqual(expected, result.Chunk.Text.TrimEnd());
+		}
+
+		[Test]
+		public void displays_prompts_correctly_with_look_at_character()
+		{
+			const string data = "<prompt time=\"1388365633\">&gt;</prompt>\n^---------------------^You see Someone, an Elothean.\nSomeone has an oval face, almond-shaped gold eyes and a straight nose.  He is bald, with tanned skin and a stout build.\nHe is short for an Elothean.\nHe appears to be young.\nHe has a long narrow mustache that droops to either side of the mouth on his upper lip and a long thin beard.\nHe is in good shape.\n\n^---------------------^He is wearing some coarse shalswar-hide leathers, a coarse shalswar-hide cowl, a gargoyle-hide targe, some lumium ring gloves, a green gem pouch, a pilgrim's badge, a thin oblong polished silver flask, a kertig prayer bead chain interspersed with faceted black diamond beads, a sandstone lockpick ring, some fitted silver trousers, a flowing silk cloak bejeweled with the crest of the Clerics' guild, a silver kyanite gwethdesuan, a silver jadeite gwethdesuan, a rusted iron skull suspended from a battered leather cord, a dark red spidersilk haversack clasped with a platinum clenched fist, an ornate platinum brooch set with an orichalcum icosahedron, a dark cambrinth armband inset with a multitude of tiny gemstone chips, an anloral wolf pin, a heavy leather pouch bearing the crest of the Clerics' Guild, a worn grey hitman's backpack with fraying straps and a slender alabaster staff with a silver cobra coiled along it.\n<prompt time=\"1388365636\">&gt;</prompt>";
+			const string expected = ">\nYou see Someone, an Elothean.\nSomeone has an oval face, almond-shaped gold eyes and a straight nose.  He is bald, with tanned skin and a stout build.\nHe is short for an Elothean.\nHe appears to be young.\nHe has a long narrow mustache that droops to either side of the mouth on his upper lip and a long thin beard.\nHe is in good shape.\n\nHe is wearing some coarse shalswar-hide leathers, a coarse shalswar-hide cowl, a gargoyle-hide targe, some lumium ring gloves, a green gem pouch, a pilgrim's badge, a thin oblong polished silver flask, a kertig prayer bead chain interspersed with faceted black diamond beads, a sandstone lockpick ring, some fitted silver trousers, a flowing silk cloak bejeweled with the crest of the Clerics' guild, a silver kyanite gwethdesuan, a silver jadeite gwethdesuan, a rusted iron skull suspended from a battered leather cord, a dark red spidersilk haversack clasped with a platinum clenched fist, an ornate platinum brooch set with an orichalcum icosahedron, a dark cambrinth armband inset with a multitude of tiny gemstone chips, an anloral wolf pin, a heavy leather pouch bearing the crest of the Clerics' Guild, a worn grey hitman's backpack with fraying straps and a slender alabaster staff with a silver cobra coiled along it.\n>";
+
+			string[] stringChunks = data.Split(new string[]{ "^---------------------^" }, StringSplitOptions.None);
+			var chunks = stringChunks.Select(c => Chunk.For(c)).ToList();
+
+			var builder = new StringBuilder();
+			var tags = new List<Tag>();
+
+			for (int i = 0; i < chunks.Count; i++) {
+				var chunk = chunks[i];
+				var result = theParser.Parse(chunk);
+				if(result.Chunk != null)
+					builder.Append(result.Chunk.Text.TrimStart());
+
+				tags.AddRange(result.Tags);
+			}
+
+			Assert.AreEqual(expected, builder.ToString());
 		}
 	}
 }

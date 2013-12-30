@@ -85,19 +85,6 @@ namespace Pathfinder.Core
 				trimmed = "\n" + trimmed;
 
 			Log(trimmed);
-
-			var dontShowPrompt = false;
-			var roomName = result.Tags.OfType<RoomNameTag>().FirstOrDefault();
-
-			if (roomName != null && trimmed.Contains(roomName.Name) && !(trimmed.Contains("Obvious paths") | trimmed.Contains("Obvious exits"))) {
-				dontShowPrompt = true;
-			}
-
-			if(trimmed.Contains("<output class=\"mono\"/>") && !trimmed.Contains("EXP HELP"))
-				dontShowPrompt = true;
-
-			if (!dontShowPrompt)
-				ShowPrompt();
 		}
 
 		public void ApplyTags(IEnumerable<Tag> tags)
@@ -179,10 +166,10 @@ namespace Pathfinder.Core
 			TagTracker.Publish(tags);
 		}
 
-		private void ShowPrompt()
-		{
-			Log("\n" + _components.Get(ComponentKeys.Prompt) + "\n");
-		}
+//		private void ShowPrompt()
+//		{
+//			Log("\n" + _components.Get(ComponentKeys.Prompt) + "\n");
+//		}
 
 		private void Log(string data)
 		{

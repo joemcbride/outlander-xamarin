@@ -22,7 +22,7 @@ namespace Pathfinder.Core.Text
 			_parsers = new List<IChunkReader>();
 			_parsers.Add(new StreamChunkReader());
 			_parsers.Add(new RoomNameChunkReader());
-			_parsers.Add(new ChunkReader<PromptTag>("<prompt", "</prompt"));
+			_parsers.Add(new PromptChunkReader());
 			// component needs to go before preset
 			_parsers.Add(new ChunkReader<ComponentTag>("<component", "</component"));
 			_parsers.Add(new PresetChunkReader());
