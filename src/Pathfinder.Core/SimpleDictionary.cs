@@ -15,6 +15,7 @@ namespace Pathfinder.Core
 		bool HasKey(TKey key);
 		TValue Get(TKey key);
 		void Set(TKey key, TValue value);
+		void Remove(TKey key);
 		IDictionary<TKey, TValue> Values();
 	}
 
@@ -65,6 +66,16 @@ namespace Pathfinder.Core
 			lock (LockObject) {
 				_components[key] = value;
 				System.Diagnostics.Debug.WriteLine("Setting {0}::{1}", key, value);
+			}
+		}
+
+		public void Remove(TKey key)
+		{
+			if(key == null || string.IsNullOrWhiteSpace(key.ToString()))
+				return;
+			lock(LockObject) {
+				if(_components.ContainsKey(key))
+					_components.Remove(key);
 			}
 		}
 

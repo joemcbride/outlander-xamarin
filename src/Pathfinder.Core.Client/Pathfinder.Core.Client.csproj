@@ -82,6 +82,7 @@
     <Compile Include="Scripting\SaveTokenHandler.cs" />
     <Compile Include="Scripting\NextroomTokenHandler.cs" />
     <Compile Include="Scripting\MoveTokenHandler.cs" />
+    <Compile Include="Scripting\IfArgTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

@@ -140,6 +140,28 @@ namespace Pathfinder.Core.Client.Tests
 		}
 
 		[Test]
+		public void creates_if_num_token()
+		{
+			const string line = "if_1 goto something";
+
+			var token = theTokenizer.Tokenize(line).Single().As<IfToken>();
+			Assert.AreEqual("if_", token.Type);
+			Assert.AreEqual("1", token.Blocks.IfEval);
+			Assert.AreEqual("goto something", token.Blocks.IfBlock);
+		}
+
+		[Test]
+		public void creates_if_num_2_token()
+		{
+			const string line = "if_13 goto somewhere";
+
+			var token = theTokenizer.Tokenize(line).Single().As<IfToken>();
+			Assert.AreEqual("if_", token.Type);
+			Assert.AreEqual("13", token.Blocks.IfEval);
+			Assert.AreEqual("goto somewhere", token.Blocks.IfBlock);
+		}
+
+		[Test]
 		public void creates_var_token()
 		{
 			const string line = "var something another";

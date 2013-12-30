@@ -60,6 +60,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["matchre"] = new MatchTokenHandler();
 			_tokenHandlers["matchwait"] = serviceLocator.Get<MatchWaitTokenHandler>();
 			_tokenHandlers["if"] = new IfTokenHandler();
+			_tokenHandlers["if_"] = new IfArgTokenHandler();
 			_tokenHandlers["save"] = new SaveTokenHandler();
 			_tokenHandlers["move"] = new MoveTokenHandler();
 			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
@@ -141,7 +142,7 @@ namespace Pathfinder.Core.Client.Scripting
 				var token = _tokenizer.Tokenize(line).FirstOrDefault();
 				if(token != null && !token.Ignore) {
 					var ifToken = token as IfToken;
-					if(ifToken != null)
+					if(ifToken != null && ifToken.ReplaceBlocks)
 					{
 						ifToken.Blocks = _ifBlocks[i];
 					}

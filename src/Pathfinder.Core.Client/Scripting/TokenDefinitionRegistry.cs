@@ -303,7 +303,7 @@ namespace Pathfinder.Core.Client
 
 			registry.New(d => {
 				d.Type = "if";
-				d.Pattern = "^if";
+				d.Pattern = "^if\\b";
 				d.Ignore = false;
 				d.BuildToken =  (source, match, def)=> {
 
@@ -314,6 +314,30 @@ namespace Pathfinder.Core.Client
 						Text = source,
 						Type = def.Type,
 						Value = value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "if_";
+				d.Pattern = "^if_(\\d+)";
+				d.Ignore = false;
+				d.BuildToken =  (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new IfToken
+					{
+						Text = source,
+						Type = def.Type,
+						Value = match.Value,
+						ReplaceBlocks = false,
+						Blocks = new IfBlocks
+						{
+							IfEval = match.Groups[1].Value,
+							IfBlock = value
+						}
 					};
 					return token;
 				};
@@ -361,6 +385,12 @@ namespace Pathfinder.Core.Client
 
 	public class IfToken : Token
 	{
+		public IfToken()
+		{
+			ReplaceBlocks = true;
+		}
+
+		public bool ReplaceBlocks { get; set; }
 		public IfBlocks Blocks { get; set; } 
 	}
 }
