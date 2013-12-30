@@ -70,6 +70,12 @@ Commands
 * save
 	* save my.label
 	* saves the value my.label to the %s variable
+* move
+	* move northeast
+	* sends the northeast command and pauses until the player moves to another room
+* nextroom
+	* pauses until the player moves to another room
+
 
 Planned Commands
 ====
