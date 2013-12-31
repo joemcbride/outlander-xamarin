@@ -1,0 +1,17 @@
+Please wait for connection to game server.
+GSw000100000553733
+Welcome to DragonRealms (R) v2.00
+Copyright 2013 Simutronics Corp.
+All Rights Reserved
+<output class="mono"/>
+
+----------------------------------------------------------------------------
+   Last login :  Saturday, December 7, 2013 at 16:54:49
+       Logoff :  Saturday, December 7, 2013 at 16:55:05
+----------------------------------------------------------------------------
+
+<output class=""/>
+[Woodland Brook]
+Water ripples rapidly around a rough-bark log of an old willow tree protruding out of the brook at an angle.  Periwinkle creepers twist up the trunk, decorating it with deep purple flowers.  High up on the log a kingfisher has made a nest, and occasionally the tiny blue and orange bird pokes an inquisitive head out and eyes the brook for prey.
+Obvious paths: <d>northeast</d>, <d>south</d>, <d>northwest</d>.
+>

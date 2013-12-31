@@ -50,6 +50,8 @@ namespace Pathfinder.Core.Client.Scripting
 			});
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
+			_tokenHandlers["unvar"] = new UnVarTokenHandler();
+			_tokenHandlers["hasvar"] = new HasVarTokenHandler();
 			_tokenHandlers["goto"] = new GotoTokenHandler();
 			_tokenHandlers["waitfor"] = serviceLocator.Get<WaitForTokenHandler>();
 			_tokenHandlers["waitforre"] = serviceLocator.Get<WaitForReTokenHandler>();

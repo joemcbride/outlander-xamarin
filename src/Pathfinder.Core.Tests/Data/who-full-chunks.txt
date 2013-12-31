@@ -1,0 +1,114 @@
+<output class="mono"/>
+Brave Adventurers Questing:
+Gelvit           Kalkomar         Zxyrusfall       Ziuorjorp      
+Rugeon           Rikulf           Phaen            Danoryiel      
+Kemosiris        Eyota            Sorcemar         Lushk          
+Ironjonn         Gnimm            Drakilor         Fawnya         
+Sparkk           Darmisk          Ponni            Eshum          
+Yrus             Renucci          Magurt           Venantius      
+Zucco            Demophon         Teflawn          Hollendra      
+Khaen            Halastar         Gept             Lueh           
+Lagury           Lour             Griiger          Erlo           
+Zhu              Banisad          Dinestedis       Sangret        
+Gabin            Cynisca          Styllian         Magdar         
+Racho            Luach            Heartsfyre       Baggs          
+Rayyoln          Opticus          Wyand            Camai          
+Yageshoa         Drayden          Zalan            Tsarenzi       
+^---------------------^Azmod            Trees            Saragos          Guaranzo       
+Grinn            Clauddvon        Illumanari       Gestas         
+Juulman          Karissa          Atanamir         Quazzarz       
+Achtivious       Tsaremun         Skawra           Tsaru          
+Aequendis        Arietha          Aftermath        Eladrin        
+Eyuve            Caressa          Keldyn           Rascardian     
+Codiax           Calde            Brisknite        Rekon          
+Kaliraja         Mordimer         Aleyden          Kalyndara      
+Arislynn         Khreos           Dogushan         Slowdog        
+Meigs            Yanbelev         Jerodan          Missys         
+Zeeve            Veraciuos        Valyzar          Quizle         
+Nilassa          Snales           Sylvaeus         Aettsamme      
+Thanious         Injah            Tiddeggur        Javelot        
+Brazz            Suehara          Vallcer          Taleicia       
+Fimicolu         Airaman          Zarachie         Faehlan        
+^---------------------^Tazzmachazz      Mistianna        Dreamheart       Tarlof         
+Qorn             Anilore          Khearkrash       Zinsbog        
+Dysmas           Synevalentine    Zaxor            Baraune        
+Vandergrift      Twid             Yead             Madyna         
+Jaged            Aayveia          Ahpuch           Ambroisa       
+Khran            Veela            Vyshkaldi        Hackett        
+Leilanie         Ronok            Tanath           Amsho          
+Dreaderic        Shilane          Kurlay           Grimmjaw       
+Hayakute         Xeraphic         Tenike           Kenzaze        
+Rubei            Jondong          Seldaren         Lermaan        
+Naper            Dakoem           Dondaldinho      Zaorn          
+Sladen           Ballantyne       Rmel             Sommeliere     
+Malhath          Psyanide         Ikevindy         Saracus        
+Caale            Czrethh          Vanxa            Falut          
+Shanken          Thessy           Dumie            Artilius       
+^---------------------^Valherun         Iliriana         Adlyn            Pamplona       
+Levinas          Akriana          Larstian         Vendena        
+Hawkz            Kaynta           Azolei           Gamalon        
+Ritanel          Firmoon          Jochua           Tucktayuctuc   
+Kezie            Squanto          Joshuan          Eckan          
+Pranx            Asrea            Leonned          Vincenze       
+Falkonis         Gustaaf          Venarstrualis    Thorn          
+Fitzgerald       Vianae           Eurick           Jerhedrin      
+Tiinx            Xyariz           Stylia           Shenae         
+Soulsailor       Tenion           Yoca             Calgakus       
+Drinden          Zulo             Buluc            Fayenangel     
+Crupikte         Osus             Reihn            Grumblid       
+Ranaar           Elentaris        Acadi            Tayek          
+Zerlez           Putput           Tsarion          Damart         
+Elfverhan        Arimane          Maybeth          Oogamooga      
+^---------------------^Kerowyne         Profesie         Ceranora         Lemb           
+Bovi             Kann             Kammae           Treibor        
+Myrissan         Shakaari         Baeleth          Junzaa         
+Nibareh          Rhotaby          Tyler            Scillienta     
+Limani           Brahmer          Wealand          Leofwine       
+Cayra            Nemme            Mhisra           Caraamon       
+Mithyl           Bryinn           Foehammar        Bjaine         
+Marna            Kaelie           Staddin          Archipelago    
+Maessel          Seabrin          Cyiarriah        Shinarah       
+Kjakian          Kollum           Nebby            Vormulac       
+Leilany          Abselom          Kaliph           Qaletaqa       
+Mordibar         Ryylewkai        Kurtus           Aylay          
+Kosetta          Gleneva          Warchyld         Govahgn        
+Kaxis            Gandoft          Kintryn          Leucius        
+Sundell          Merrila          Jiol             Druesyllia     
+^---------------------^Mazrian          Ventuul          Vahga            Angelicamoon   
+Vaahn            Ghurien          Sonjaa           Depouch        
+Tisquantum       Pitkin           Stormreaver      Akudyn         
+Aysta            Alice            Yonack           Meganlique     
+Snidge           Saxxin           Sinatra          Regalorn       
+Penethol         Kristov          Solvar           Nivag          
+Annona           Rufhus           Ilryle           Ysei           
+Azagthoth        Shotokuu         Dante            Lilliwea       
+Parcere          Monedero         Rairken          Mundy          
+Aramius          Johsey           Tallav           Serakk         
+Genrage          Cindari          Deaglan          Torrcks        
+Jawamba          Jimpsy           Azaylea          Vymos          
+Galnoth          Bistro           Buuwl            Kyriae         
+Evro             Elanterar        Drachefeuer      Deldrentia     
+Bisu             Riverlynn        Sneeky           Alesea         
+^---------------------^Ragesh           Coulin           Ririko           Guadrul        
+Andruss          Whirlingblade    Ariahanna        Milabeth       
+Deeter           Tramin           Vicktor          Selphina       
+Glizten          Redeth           Aluriaz          Lenaea         
+Lijarna          Inful            Varvefth         Grenz          
+Valif            Darkscale        Fahijeck         Ryuho          
+Xineo            Rizitel          Aterri           Osaya          
+Medwardl         Aaoskar          Daawnn           Halzo          
+Toba             Juja             Logness          Kytref         
+Belphoebe        Jiral            Ndin             Xykon          
+Jalika           Tasyra           Cainger          Herlaine       
+Divy             Thires           Zillk            Artarashai     
+Aervyn           Araio            Dyamond          Fuindir        
+Somniumvisum     Kehlbins         Malakye          Sorhatani      
+Lasciel        
+
+Active Players: 413
+Active Mentors: 0
+
+Staff on duty: 
+Socharis       
+
+^---------------------^<output class=""/>

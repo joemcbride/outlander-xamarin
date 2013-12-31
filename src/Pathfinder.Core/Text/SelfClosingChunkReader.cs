@@ -8,12 +8,14 @@ namespace Pathfinder.Core.Text
 		private ReadState _state = new ReadState();
 		private readonly string _startTag;
 		private readonly string _endTag;
+		private readonly bool _skipNewLineAfterTag;
 
 		public Action<StringBuilder, ReadResult, TTag> Append = null;
 
-		public SelfClosingChunkReader(string startTag)
+		public SelfClosingChunkReader(string startTag, bool skipNewLineAfterTag = false)
 		{
 			_startTag = startTag;
+			_skipNewLineAfterTag = skipNewLineAfterTag;
 			_endTag = "/>";
 		}
 
@@ -50,10 +52,11 @@ namespace Pathfinder.Core.Text
 				}
 
 				if(_state.Tracking && currentText.EndsWith(_endTag)){
-					_state.WaitForEnd = false;
-					_state.WaitForPop = false;
-					_state.Tracking = false;
-					_state.Text.Clear();
+//					_state.WaitForEnd = false;
+//					_state.WaitForPop = false;
+//					_state.Tracking = false;
+//					_state.Text.Clear();
+					_state.Reset();
 
 					var tag = Tag.For<TTag>(currentText);
 
@@ -61,6 +64,11 @@ namespace Pathfinder.Core.Text
 						Append(builder, result, tag);
 					} else {
 						result.AddTag(tag);
+					}
+
+					if(_skipNewLineAfterTag && (i+1) < text.Length && text[(i+1)] == '\n')
+					{
+						i++;
 					}
 				}
 			}

@@ -14,7 +14,7 @@ namespace Pathfinder.Core.Text
 			_reader.Append = (builder, result, tag) => {
 				var skip = 0;
 				if(tag.Id.Equals("roomdesc")) {
-					builder.Append(tag.Value + "\n");
+					builder.Append(tag.Value);
 					skip = 2;
 				}
 

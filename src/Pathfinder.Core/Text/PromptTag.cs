@@ -17,25 +17,27 @@ namespace Pathfinder.Core.Text
 			Time = GameTime.UnixTimeStampToDateTime();
 			Prompt = element.Value;
 		}
-	}
 
-	public class PromptChunkReader : IChunkReader
-	{
-		private ChunkReader<PromptTag> _reader;
-
-		public PromptChunkReader()
+		public override bool Equals(object obj)
 		{
-			_reader = new ChunkReader<PromptTag>("<prompt", "</prompt");
-			_reader.Append = (builder, result, tag) => {
-				builder.Append(tag.Prompt);
-				result.AddTag(tag);
-				return 0;
-			};
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != this.GetType()) return false;
+			return Equals((PromptTag)obj);
 		}
 
-		public ReadResult Read(Chunk chunk)
+		public bool Equals(PromptTag other)
 		{
-			return _reader.Read(chunk);
+			if (ReferenceEquals(null, other)) return false;
+			if (ReferenceEquals(this, other)) return true;
+
+			return string.Equals(GameTime, other.GameTime) && string.Equals(Prompt, other.Prompt);
+		}
+
+		public override int GetHashCode()
+		{
+			return (GameTime != null ? GameTime.GetHashCode() : 0) ^
+				(Prompt != null ? GameTime.GetHashCode() : 0);
 		}
 	}
 }

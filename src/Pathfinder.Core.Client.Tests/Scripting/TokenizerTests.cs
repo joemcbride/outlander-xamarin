@@ -182,6 +182,28 @@ namespace Pathfinder.Core.Client.Tests
 		}
 
 		[Test]
+		public void creates_unvar_token()
+		{
+			const string line = "unvar something";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("unvar", token.Type);
+			Assert.AreEqual("unvar something", token.Text);
+			Assert.AreEqual("something", token.Value);
+		}
+
+		[Test]
+		public void creates_hasvar_token()
+		{
+			const string line = "hasvar something newvar";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("hasvar", token.Type);
+			Assert.AreEqual("hasvar something newvar", token.Text);
+			Assert.AreEqual("something newvar", token.Value);
+		}
+
+		[Test]
 		public void creates_move_token()
 		{
 			const string line = "move something somewhere";

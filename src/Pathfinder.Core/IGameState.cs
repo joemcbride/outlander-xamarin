@@ -80,11 +80,7 @@ namespace Pathfinder.Core
 			if (result.Chunk == null || string.IsNullOrWhiteSpace(result.Chunk.Text) || string.IsNullOrWhiteSpace(result.Chunk.Text.Trim()))
 				return;
 
-			var trimmed = result.Chunk.Text.Trim();
-			if (trimmed.StartsWith("Obvious paths") || trimmed.StartsWith("Obvious exits"))
-				trimmed = "\n" + trimmed;
-
-			Log(trimmed);
+			Log(result.Chunk.Text);
 		}
 
 		public void ApplyTags(IEnumerable<Tag> tags)
@@ -186,6 +182,7 @@ namespace Pathfinder.Core
 				return data;
 
 			data = Regex.Replace(data, "[\r\n]{3,}", "\n\n");
+			//data = Regex.Replace(data, "\r", string.Empty);
 
 			_filters.Apply(x => data = Regex.Replace(data, x, string.Empty));
 

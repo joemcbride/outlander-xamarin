@@ -83,6 +83,8 @@
     <Compile Include="Scripting\NextroomTokenHandler.cs" />
     <Compile Include="Scripting\MoveTokenHandler.cs" />
     <Compile Include="Scripting\IfArgTokenHandler.cs" />
+    <Compile Include="Scripting\UnvarTokenHandler.cs" />
+    <Compile Include="Scripting\HasVarTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

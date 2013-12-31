@@ -16,15 +16,6 @@ namespace Pathfinder.Core.Text.Tests
 		}
 
 		[Test]
-		public void adds_newline_if_none()
-		{
-			const string data = "Obvious paths: <d>north</d>, <d>east</d>, <d>west</d>.";
-			const string expected = "\nObvious paths: <d>north</d>, <d>east</d>, <d>west</d>.";
-
-			Check(data, expected);
-		}
-
-		[Test]
 		public void removes_newlines()
 		{
 			const string data = "\n\nObvious paths: <d>north</d>, <d>east</d>, <d>west</d>.";
@@ -37,7 +28,7 @@ namespace Pathfinder.Core.Text.Tests
 		public void handles_exists()
 		{
 			const string data = "Obvious exits: <d>out</d>.";
-			const string expected = "\nObvious exits: <d>out</d>.";
+			const string expected = "Obvious exits: <d>out</d>.";
 
 			Check(data, expected);
 		}

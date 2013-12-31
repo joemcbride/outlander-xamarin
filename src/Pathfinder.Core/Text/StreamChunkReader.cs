@@ -11,7 +11,7 @@ namespace Pathfinder.Core.Text
 
 		public StreamChunkReader()
 		{
-			_reader = new ChunkReader<StreamTag>("<pushStream", "<popStream", true);
+			_reader = new ChunkReader<StreamTag>("<pushStream", "<popStream", checkEndTag: true, skipNewLineAfterTag: true);
 			_reader.Append = (builder, result, tag) => {
 
 				if(string.Equals(tag.Id, "assess"))

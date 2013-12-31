@@ -19,20 +19,22 @@ namespace Pathfinder.Core.Text
 		private readonly string _endTag;
 		private readonly string _endsWithTag;
 		private readonly bool _checkEndTag;
+		private readonly bool _skipNewLineAfterTag;
 
 		public Func<StringBuilder, ReadResult, TTag, int> Append = null;
 		public Action<StringBuilder, ReadState, ReadResult> AppendPartial = null;
 
 		public ChunkReader(string startTag, string endTag)
-			: this(startTag, endTag, false)
+			: this(startTag, endTag, false, false)
 		{
 		}
 
-		public ChunkReader(string startTag, string endTag, bool checkEndTag)
+		public ChunkReader(string startTag, string endTag, bool checkEndTag = false, bool skipNewLineAfterTag = false)
 		{
 			_startTag = startTag;
 			_endTag = endTag;
 			_checkEndTag = checkEndTag;
+			_skipNewLineAfterTag = skipNewLineAfterTag;
 			_endsWithTag = ">";
 
 			if(_checkEndTag)
@@ -96,6 +98,11 @@ namespace Pathfinder.Core.Text
 						i += move;
 					} else {
 						result.AddTag(tag);
+					}
+
+					if(_skipNewLineAfterTag && (i+1) < text.Length && text[(i+1)] == '\n')
+					{
+						i++;
 					}
 				}
 

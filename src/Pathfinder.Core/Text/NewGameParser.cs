@@ -23,23 +23,25 @@ namespace Pathfinder.Core.Text
 			_parsers.Add(new StreamChunkReader());
 			_parsers.Add(new RoomNameChunkReader());
 			_parsers.Add(new PromptChunkReader());
+			// needs to go before preset
+			_parsers.Add(new YouAlsoSeeChunkReader());
 			// component needs to go before preset
-			_parsers.Add(new ChunkReader<ComponentTag>("<component", "</component"));
+			_parsers.Add(new ChunkReader<ComponentTag>("<component", "</component", skipNewLineAfterTag: true));
 			_parsers.Add(new PresetChunkReader());
-			_parsers.Add(new ChunkReader<Tag>("<openDialog", "</openDialog"));
-			_parsers.Add(new ChunkReader<VitalsTag>("<dialogData", "</dialogData"));
+			_parsers.Add(new ChunkReader<Tag>("<openDialog", "</openDialog", skipNewLineAfterTag: true));
+			_parsers.Add(new ChunkReader<VitalsTag>("<dialogData", "</dialogData", skipNewLineAfterTag: true));
 			_parsers.Add(new ChunkReader<Tag>("<compass", "</compass"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<clearContainer"));
-			_parsers.Add(new SelfClosingChunkReader<AppTag>("<app"));
+			_parsers.Add(new SelfClosingChunkReader<AppTag>("<app", skipNewLineAfterTag: true));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<exposeContainer"));
 			_parsers.Add(new ChunkReader<Tag>("<inv", "</inv"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<container"));
-			_parsers.Add(new SelfClosingChunkReader<Tag>("<nav"));
+			_parsers.Add(new SelfClosingChunkReader<Tag>("<nav", skipNewLineAfterTag: false));
 			_parsers.Add(new SelfClosingChunkReader<RoundtimeTag>("<roundTime"));
 			_parsers.Add(new SelfClosingChunkReader<CasttimeTag>("<castTime"));
-			_parsers.Add(new SelfClosingChunkReader<StreamWindowTag>("<streamWindow"));
+			_parsers.Add(new SelfClosingChunkReader<StreamWindowTag>("<streamWindow", skipNewLineAfterTag: true));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<clearStream"));
-			_parsers.Add(new SelfClosingChunkReader<Tag>("<mode"));
+			_parsers.Add(new SelfClosingChunkReader<Tag>("<mode", skipNewLineAfterTag: true));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<switchQuickBar"));
 			_parsers.Add(new SelfClosingChunkReader<IndicatorTag>("<indicator"));
 			_parsers.Add(new SelfClosingChunkReader<Tag>("<resource"));
@@ -66,6 +68,10 @@ namespace Pathfinder.Core.Text
 				chunk = result.Chunk;
 				overallResult.AddTags(result.Tags);
 				if (result.Stop) {
+					if(chunk != null && !string.IsNullOrWhiteSpace(chunk.Text))
+					{
+						overallResult.Chunk = chunk;
+					}
 					return overallResult;
 				}
 
