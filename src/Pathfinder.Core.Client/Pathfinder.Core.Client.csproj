@@ -85,6 +85,7 @@
     <Compile Include="Scripting\IfArgTokenHandler.cs" />
     <Compile Include="Scripting\UnvarTokenHandler.cs" />
     <Compile Include="Scripting\HasVarTokenHandler.cs" />
+    <Compile Include="Scripting\ActionTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

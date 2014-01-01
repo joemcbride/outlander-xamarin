@@ -93,6 +93,7 @@ namespace Pathfinder.Core.Tests
 
 		public event TextLogHandler TextLog;
 
+		public DataTracker<string> TextTracker { get; set; }
 		public DataTracker<IEnumerable<Tag>> TagTracker { get; set; }
 		public Action<IEnumerable<Tag>> Tags { get; set; }
 		public Action<SkillExp> Exp { get; set; }

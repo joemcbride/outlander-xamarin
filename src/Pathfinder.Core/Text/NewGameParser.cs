@@ -25,7 +25,7 @@ namespace Pathfinder.Core.Text
 			_parsers.Add(new PromptChunkReader());
 			// needs to go before preset
 			_parsers.Add(new YouAlsoSeeChunkReader());
-			// component needs to go before preset
+			// component needs to go before presetd
 			_parsers.Add(new ChunkReader<ComponentTag>("<component", "</component", skipNewLineAfterTag: true));
 			_parsers.Add(new PresetChunkReader());
 			_parsers.Add(new ChunkReader<Tag>("<openDialog", "</openDialog", skipNewLineAfterTag: true));

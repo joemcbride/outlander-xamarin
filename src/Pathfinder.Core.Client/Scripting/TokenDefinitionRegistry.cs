@@ -35,7 +35,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "script";
 				d.Pattern = "^\\.(\\w+)";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 
 					var value = source.Substring(match.Groups[1].Index, source.Length - match.Groups[1].Index);
 					var args = source.Substring(match.Groups[1].Index + match.Groups[1].Length, source.Length - (match.Groups[1].Index + match.Groups[1].Length));
@@ -63,7 +63,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "scriptcommand";
 				d.Pattern = "^#script";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -85,7 +85,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "comment";
 				d.Pattern = "^#.*";
 				d.Ignore = true;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -100,7 +100,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "label";
 				d.Pattern = RegexPatterns.Label;
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -115,7 +115,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "goto";
 				d.Pattern = "^goto";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -130,7 +130,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "waitfor";
 				d.Pattern = "^waitfor\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -145,7 +145,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "waitforre";
 				d.Pattern = "^waitforre\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -160,7 +160,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "match";
 				d.Pattern = "^match\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					const string Goto_Regex = "^match\\b\\s([\\w\\.]+)\\s(.*)";
 					var gotoMatch = Regex.Match(source, Goto_Regex);
 					var token = new MatchToken
@@ -180,7 +180,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "matchre";
 				d.Pattern = "^matchre\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					const string Goto_Regex = "^matchre\\b\\s([\\w\\.]+)\\s(.*)";
 					var gotoMatch = Regex.Match(source, Goto_Regex);
 					var token = new MatchToken
@@ -200,7 +200,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "matchwait";
 				d.Pattern = "^matchwait";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -215,7 +215,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "pause";
 				d.Pattern = "^pause";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -230,7 +230,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "put";
 				d.Pattern = "^put";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -245,7 +245,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "echo";
 				d.Pattern = "^echo";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -260,7 +260,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "var";
 				d.Pattern = "^var";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -275,7 +275,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "var";
 				d.Pattern = "^setvariable";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -290,7 +290,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "unvar";
 				d.Pattern = "^unvar\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -305,7 +305,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "hasvar";
 				d.Pattern = "^hasvar\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -320,7 +320,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "save";
 				d.Pattern = "^save";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 					var token = new Token
 					{
 						Text = source,
@@ -335,7 +335,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "if";
 				d.Pattern = "^if\\b";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 
 					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
 
@@ -353,7 +353,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "if_";
 				d.Pattern = "^if_(\\d+)";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 
 					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
 
@@ -377,7 +377,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "move";
 				d.Pattern = "^move";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 
 					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
 
@@ -395,7 +395,7 @@ namespace Pathfinder.Core.Client
 				d.Type = "nextroom";
 				d.Pattern = "^nextroom";
 				d.Ignore = false;
-				d.BuildToken =  (source, match, def)=> {
+				d.BuildToken = (source, match, def)=> {
 
 					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
 
@@ -404,6 +404,26 @@ namespace Pathfinder.Core.Client
 						Text = source,
 						Type = def.Type,
 						Value = value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "action";
+				d.Pattern = "^action\\b(.*)\\bwhen\\b(.*)";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new ActionToken
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value,
+						Action = match.Groups[1].Value.Trim(),
+						When = match.Groups[2].Value.Trim()
 					};
 					return token;
 				};

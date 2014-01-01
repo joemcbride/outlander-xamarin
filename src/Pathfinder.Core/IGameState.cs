@@ -19,6 +19,7 @@ namespace Pathfinder.Core
 		ISimpleDictionary<string, string> GlobalVars();
 
 		event TextLogHandler TextLog;
+		DataTracker<string> TextTracker { get; }
 
 		DataTracker<IEnumerable<Tag>> TagTracker { get; }
 
@@ -34,6 +35,7 @@ namespace Pathfinder.Core
 		private readonly IRoundtimeHandler _roundtimeHandler;
 
 		public event TextLogHandler TextLog = delegate { };
+		public DataTracker<string> TextTracker { get; private set; }
 
 		public DataTracker<IEnumerable<Tag>> TagTracker { get; private set; }
 		public Action<IEnumerable<Tag>> Tags { get; set; }
@@ -45,6 +47,7 @@ namespace Pathfinder.Core
 			_roundtimeHandler = roundtimeHandler;
 			_components.Set(ComponentKeys.Prompt, ">");
 
+			TextTracker = new DataTracker<string>();
 			TagTracker = new DataTracker<IEnumerable<Tag>>();
 		}
 
@@ -162,11 +165,6 @@ namespace Pathfinder.Core
 			TagTracker.Publish(tags);
 		}
 
-//		private void ShowPrompt()
-//		{
-//			Log("\n" + _components.Get(ComponentKeys.Prompt) + "\n");
-//		}
-
 		private void Log(string data)
 		{
 			var textLog = TextLog;
@@ -174,6 +172,8 @@ namespace Pathfinder.Core
 			{
 				textLog(Filter(data));
 			}
+
+			TextTracker.Publish(Filter(data));
 		}
 
 		private string Filter(string data)
@@ -182,7 +182,6 @@ namespace Pathfinder.Core
 				return data;
 
 			data = Regex.Replace(data, "[\r\n]{3,}", "\n\n");
-			//data = Regex.Replace(data, "\r", string.Empty);
 
 			_filters.Apply(x => data = Regex.Replace(data, x, string.Empty));
 

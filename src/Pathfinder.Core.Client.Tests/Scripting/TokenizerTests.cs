@@ -222,5 +222,15 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("nextroom", token.Type);
 			Assert.AreEqual("something somewhere", token.Value);
 		}
+
+		[Test]
+		public void creates_action_token()
+		{
+			const string line = "action do something when some condition";
+
+			var token = theTokenizer.Tokenize(line).Single().As<ActionToken>();
+			Assert.AreEqual("do something", token.Action);
+			Assert.AreEqual("some condition", token.When);
+		}
 	}
 }
