@@ -60,17 +60,17 @@ namespace Pathfinder.Core.Authentication
 					throw new InvalidOperationException("Not connected");
                 }
 
-                var passwordToken = _socket.SendAndReceive("K");
+				var passwordToken = _socket.SendAndReceive("K").TrimEnd();
 
-                Debug.WriteLine(string.Format("Echoed passwordToken = {0}", passwordToken));
+				_logger.Info("Echoed passwordToken = {0}\n".ToFormat(passwordToken));
 
                 var hashedPassword = _passwordHashProvider.Hash(passwordToken, password);
 
-                var message = String.Format("A\t{0}\t{1}", account, hashedPassword);
+				var message = "A\t{0}\t{1}".ToFormat(account, hashedPassword);
 
                 var result = _socket.SendAndReceive(message);
 
-                Debug.WriteLine(string.Format("Rec: {0}", result));
+				_logger.Info("Rec: {0}\n".ToFormat(result));
 
                 if (result.Contains("KEY"))
                 {
@@ -104,10 +104,10 @@ namespace Pathfinder.Core.Authentication
         {
             String response;
 
-            response = _socket.SendAndReceive(String.Format("F\t{0}", gameCode));
+			response = _socket.SendAndReceive("F\t{0}".ToFormat(gameCode));
             //Debug.WriteLine("F: " + response);
 
-            response = _socket.SendAndReceive(String.Format("G\t{0}", gameCode));
+			response = _socket.SendAndReceive("G\t{0}".ToFormat(gameCode));
             //Debug.WriteLine("G: " + response);
 
             //response = SendCommand(String.Format("P\t{0}", gameCode));
@@ -115,6 +115,7 @@ namespace Pathfinder.Core.Authentication
 
             response = _socket.SendAndReceive("C");
             Debug.WriteLine("C: " + response);
+			_logger.Info("C: " + response + "\n");
 
             return _characterParser.Parse(response);
         }
@@ -125,7 +126,7 @@ namespace Pathfinder.Core.Authentication
 
             var data = _socket.SendAndReceive(connectString);
 
-            Debug.WriteLine(data);
+			_logger.Info(data);
 
             return _connectionTokenParser.Parse(data);
         }

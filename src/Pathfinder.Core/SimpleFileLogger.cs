@@ -54,7 +54,7 @@ namespace Pathfinder.Core
 			}
 		}
 
-		private async void WriteTextAsync(string filePath, string text)
+		private void WriteTextAsync(string filePath, string text)
 		{
 			try {
 				byte[] encodedText = Encoding.Unicode.GetBytes(text);
@@ -62,7 +62,7 @@ namespace Pathfinder.Core
 				using (FileStream sourceStream = new FileStream(filePath,
 					FileMode.Append, FileAccess.Write, FileShare.ReadWrite,
                         bufferSize: 4096, useAsync: true)) {
-					await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+					sourceStream.Write(encodedText, 0, encodedText.Length);
 				}
 			} catch (Exception exc) {
 				Debug.WriteLine(exc);

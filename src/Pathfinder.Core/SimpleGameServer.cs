@@ -26,14 +26,14 @@ namespace Pathfinder.Core
 
 		private readonly IGameState _gameState;
 		private readonly ILog _logger;
-		private readonly IServiceLocator _locator;
+		private readonly IServiceLocator _services;
 		private readonly StringBuilder _builder = new StringBuilder();
 		private IAsyncSocket _asyncSocket;
 
 		public SimpleGameServer(IGameState gameState, ILog logger, IServiceLocator locator)
 		{
 			_gameState = gameState;
-			_locator = locator;
+			_services = locator;
 			_logger = logger;
 		}
 
@@ -47,7 +47,7 @@ namespace Pathfinder.Core
 		{
 			var connectionString = String.Format(ConnectionStringTemplate, token.Key, StormFrontVersion, Environment.OSVersion.Platform);
 
-			_asyncSocket = _locator.Get<IAsyncSocket>();
+			_asyncSocket = _services.Get<IAsyncSocket>();
 			_asyncSocket.ReceiveMessage += HandleReceiveMessage;
 			_asyncSocket.Connect(token.GameHost, token.GamePort);
 			_asyncSocket.SendMessage(connectionString);
@@ -101,14 +101,14 @@ namespace Pathfinder.Core
 
 		public ConnectionToken Authenticate(string game, string account, string password, string character)
 		{
-			using (var authServer = _locator.Get<IAuthenticationServer>())
+			using (var authServer = _services.Get<IAuthenticationServer>())
 			{
 				authServer.Connect("eaccess.play.net", 7900);
 
 				var authenticated = authServer.Authenticate(account, password);
 
 				if (!authenticated) {
-					_logger.Warn("Authentication Failed.");
+					_logger.Warn("Authentication Failed.\n");
 					return null;
 				}
 
