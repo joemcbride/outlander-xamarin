@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Pathfinder.Core.Client
 {
-
 	public class ContinueTokenHandler : TokenHandler
 	{
 		private Action<ScriptContext, Token> _configure;
@@ -30,5 +24,4 @@ namespace Pathfinder.Core.Client
 			TaskSource.SetResult(new CompletionEventArgs {});
 		}
 	}
-	
 }

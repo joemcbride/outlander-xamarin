@@ -42,6 +42,9 @@ namespace Pathfinder.Core.Client.Scripting
 			_taskCompletionSource = new TaskCompletionSource<object>();
 			_taskCancelationSource = new CancellationTokenSource();
 
+			_actionReporter = new ActionReporter("id", _serviceLocator.Get<IScriptLog>(), _serviceLocator.Get<IIfBlockExecuter>());
+			_actionReporter.Subscribe(_actionTracker);
+
 			_ifBlocksParser = _serviceLocator.Get<IIfBlocksParser>();
 			_log = _serviceLocator.Get<IScriptLog>();
 
@@ -121,11 +124,13 @@ namespace Pathfinder.Core.Client.Scripting
 			catch(OperationCanceledException)
 			{
 				_taskCompletionSource.TrySetCanceled();
+				_actionTracker.EndTransmission();
 			}
 			catch(Exception exc)
 			{
 				_taskCompletionSource.TrySetException(exc);
 				_log.Log(_scriptContext.Name, "Error: " + exc.Message, _scriptContext.LineNumber);
+				_actionTracker.EndTransmission();
 			}
 
 			return _taskCompletionSource.Task;
@@ -143,6 +148,18 @@ namespace Pathfinder.Core.Client.Scripting
 				var line = _scriptLines[i];
 				var token = _tokenizer.Tokenize(line).FirstOrDefault();
 				if(token != null && !token.Ignore) {
+
+					var actionToken = token as ActionToken;
+					if(actionToken != null)
+					{
+						var actionContext = new ActionContext();
+						actionContext.ScriptName = _scriptContext.Name;
+						actionContext.LineNumber = i;
+						actionContext.Token = actionToken;
+						RunAction(actionContext, _actionTracker, _scriptContext.LocalVars);
+						continue;
+					}
+
 					var ifToken = token as IfToken;
 					if(ifToken != null && ifToken.ReplaceBlocks)
 					{
@@ -157,6 +174,7 @@ namespace Pathfinder.Core.Client.Scripting
 					{
 						canceled = true;
 						_taskCompletionSource.TrySetCanceled();
+						_actionTracker.EndTransmission();
 						break;
 					}
 					if(!string.IsNullOrWhiteSpace(task.Result.Goto))
@@ -172,5 +190,57 @@ namespace Pathfinder.Core.Client.Scripting
 			if(!canceled)
 				_taskCompletionSource.TrySetResult(null);
 		}
+
+		private ActionTracker _actionTracker = new ActionTracker();
+		private ActionReporter _actionReporter;
+
+		private CancellationToken RunAction(ActionContext actionContext, IDataTracker<ActionContext> tracker,  ISimpleDictionary<string, string> localVars)
+		{
+			var cancelSource = new CancellationTokenSource();
+
+			var context = new ScriptContext(
+				_scriptContext.Id,
+				_scriptContext.Name,
+				cancelSource.Token,
+				_serviceLocator,
+				localVars);
+
+			actionContext.ScriptContext = context;
+
+			_scriptContext.CancelToken.Register(() => {
+				cancelSource.Cancel();
+			});
+
+			Task.Factory.StartNew(() => {
+				var handler = new ActionTokenHandler(actionContext, tracker);
+				handler.Execute(context, actionContext.Token);
+			}, cancelSource.Token);
+
+			return cancelSource.Token;
+		}
 	}
+
+	public class ActionTracker : DataTracker<ActionContext>
+	{
+	}
+
+	public class ActionReporter : DataReporter<ActionContext>
+	{
+		private readonly IScriptLog _scriptLog;
+		private readonly IIfBlockExecuter _executer;
+
+		public ActionReporter(string id, IScriptLog scriptLog, IIfBlockExecuter executer)
+			: base(id)
+		{
+			_scriptLog = scriptLog;
+			_executer = executer;
+		}
+
+		public override void OnNext(ActionContext value)
+		{
+			_scriptLog.Log(value.ScriptName, "action triggered: {0}".ToFormat(value.Token.When), value.LineNumber);
+
+			_executer.ExecuteBlocks(value.Token.Action, value.ScriptContext);
+		}
+	}	
 }

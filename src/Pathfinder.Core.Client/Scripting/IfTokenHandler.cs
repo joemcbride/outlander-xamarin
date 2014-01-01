@@ -125,7 +125,7 @@ namespace Pathfinder.Core.Client
 		{
 			var taskSource = new TaskCompletionSource<CompletionEventArgs>();
 
-			var lines = blocks.Split(new string[]{ "\n" }, StringSplitOptions.None);
+			var lines = blocks.Split(new string[]{ "\n", ";" }, StringSplitOptions.None);
 
 			var setComplete = true;
 

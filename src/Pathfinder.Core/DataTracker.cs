@@ -3,7 +3,13 @@ using System.Collections.Generic;
 
 namespace Pathfinder.Core
 {
-	public class DataTracker<T> : IObservable<T>
+	public interface IDataTracker<T> : IObservable<T>
+	{
+		void Publish(T item);
+		void EndTransmission();
+	}
+
+	public class DataTracker<T> : IDataTracker<T>
 	{
 		private List<IObserver<T>> _observers;
 
@@ -55,7 +61,11 @@ namespace Pathfinder.Core
 		}
 	}
 
-	public class DataReporter<T> : IObserver<T>
+	public interface IDataReporter<T> : IObserver<T>
+	{
+	}
+
+	public class DataReporter<T> : IDataReporter<T>
 	{
 		private IDisposable _unsubscriber;
 		private string _Id;
