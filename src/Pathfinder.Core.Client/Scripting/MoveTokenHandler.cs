@@ -6,7 +6,6 @@ using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core.Client
 {
-
 	public class MoveTokenHandler : TokenHandler
 	{
 		private RoomTagReporter _tracker;
@@ -16,7 +15,7 @@ namespace Pathfinder.Core.Client
 			var processor = Context.Get<ICommandProcessor>();
 			var replaced = processor.Eval(Token.Value, Context);
 
-			Context.Get<IScriptLog>().Log(Context.Name, "moving " + replaced, Context.LineNumber);
+			Context.Get<IScriptLog>().Log(Context.Name, "waitformove " + replaced, Context.LineNumber);
 
 			Context.CancelToken.Register(() => {
 				_tracker.IfNotNull(t => t.Unsubscribe());
@@ -28,5 +27,4 @@ namespace Pathfinder.Core.Client
 			processor.Process(replaced, Context);
 		}
 	}
-	
 }

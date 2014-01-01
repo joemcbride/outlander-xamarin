@@ -347,22 +347,11 @@ namespace Pathfinder.Mac.Beta
 
 		private void Log(string text, NSTextView textView)
 		{
-//			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + "\r\n";
-//			var prompt2 = _gameServer.GameState.Get(ComponentKeys.Prompt) + "\n";
-//			var prompt3 = "\r\n" + _gameServer.GameState.Get(ComponentKeys.Prompt) + "\r\n";
-//			var prompt4 = "\n" + _gameServer.GameState.Get(ComponentKeys.Prompt) + "\n";
-//
-//			if((string.Equals(text, prompt)
-//			   && textView.TextStorage.Value.EndsWith(prompt))
-//				|| (string.Equals(text, prompt2)
-//					&& textView.TextStorage.Value.EndsWith(prompt2))
-//				|| (string.Equals(text, prompt3)
-//					&& textView.TextStorage.Value.EndsWith(prompt3))
-//				|| (string.Equals(text, prompt4)
-//					&& textView.TextStorage.Value.EndsWith(prompt4)))
-//			{
-//				return;
-//			}
+			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt);
+
+			if (string.Equals(text.Trim(), prompt)
+				&& textView.TextStorage.Value.Trim().EndsWith(prompt))
+				return;
 
 			var highlights = _services.Get<Highlights>();
 			highlights.For(text).Apply(t => Append(t, textView));
