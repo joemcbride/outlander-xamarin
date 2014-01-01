@@ -41,6 +41,12 @@ Commands
 	* Creates a local variable that can be referenced later in the script as %myvar
 * setvariable myvar value
 	* acts the same as var
+* unvar
+	* removes the variable
+* hasvar
+	* hasvar &lt;var to check&gt; &lt;result variable&gt;
+	* hasvar item hasitem
+	* assigns to variable hasitem True or False if item variable exists
 * label:
 * match
 	* match &lt;label&gt; &lt;text&gt;
@@ -75,6 +81,11 @@ Commands
 	* sends the northeast command and pauses until the player moves to another room
 * nextroom
 	* pauses until the player moves to another room
+* IF_N
+	* IF_1, IF_2, etc.
+	* checks that the script argument exists
+* action
+	* action &lt;command&gt; when &lt;pattern&gt;
 
 
 Planned Commands
