@@ -95,6 +95,7 @@ namespace Pathfinder.Core.Client
 			_tokenHandlers["save"] = new SaveTokenHandler();
 			_tokenHandlers["move"] = new MoveTokenHandler();
 			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
+			_tokenHandlers["send"] = new SendTokenHandler();
 		}
 
 		public bool Evaluate(string block, ScriptContext context)

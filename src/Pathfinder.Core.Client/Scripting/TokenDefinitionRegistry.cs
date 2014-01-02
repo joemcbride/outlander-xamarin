@@ -74,6 +74,24 @@ namespace Pathfinder.Core.Client
 				};
 			});
 
+			registry.New(d => {
+				d.Type = "send";
+				d.Pattern = "^#send";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
 			return registry;
 		}
 
@@ -424,6 +442,24 @@ namespace Pathfinder.Core.Client
 						Value = value,
 						Action = match.Groups[1].Value.Trim(),
 						When = match.Groups[2].Value.Trim()
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "send";
+				d.Pattern = "^send";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
 					};
 					return token;
 				};

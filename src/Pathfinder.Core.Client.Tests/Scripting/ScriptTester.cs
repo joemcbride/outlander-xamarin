@@ -31,9 +31,13 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IVariableReplacer>(new VariableReplacer());
 			theServices.Add<ICommandProcessor>(new CommandProcessor(theServices, theServices.Get<IVariableReplacer>(), theLog));
 			theServices.Add<IIfBlocksParser>(new IfBlocksParser());
-			theServices.Add<WaitForTokenHandler>(new WaitForTokenHandler(theGameState));
-			theServices.Add<WaitForReTokenHandler>(new WaitForReTokenHandler(theGameState));
-			theServices.Add<MatchWaitTokenHandler>(new MatchWaitTokenHandler(theGameState));
+			var waitFor = new WaitForTokenHandler(theGameState);
+			var waitForRe = new WaitForReTokenHandler(theGameState);
+			var matchWait = new MatchWaitTokenHandler(theGameState);
+			theServices.Add<WaitForTokenHandler>(waitFor);
+			theServices.Add<WaitForReTokenHandler>(waitForRe);
+			theServices.Add<MatchWaitTokenHandler>(matchWait);
+			theServices.Add<IIfBlockExecuter>(new IfBlockExecuter(waitFor, waitForRe, matchWait));
 
 			theScript = new Script(theServices, Tokenizer.With(TokenDefinitionRegistry.Default()));
 		}

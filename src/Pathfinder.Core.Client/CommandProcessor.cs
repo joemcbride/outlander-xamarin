@@ -32,6 +32,7 @@ namespace Pathfinder.Core.Client
 			_tokenizer = Tokenizer.With(TokenDefinitionRegistry.ClientCommands());
 			_tokenHandlers["script"] = new ScriptTokenHandler();
 			_tokenHandlers["scriptcommand"] = new ScriptCommandTokenHandler();
+			_tokenHandlers["send"] = new SendTokenHandler();
 		}
 
 		public string Eval(string command, ScriptContext context = null)

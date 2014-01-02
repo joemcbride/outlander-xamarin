@@ -69,6 +69,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["save"] = new SaveTokenHandler();
 			_tokenHandlers["move"] = new MoveTokenHandler();
 			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
+			_tokenHandlers["send"] = new SendTokenHandler();
 		}
 
 		public string Id { get; private set; }

@@ -86,6 +86,8 @@
     <Compile Include="Scripting\UnvarTokenHandler.cs" />
     <Compile Include="Scripting\HasVarTokenHandler.cs" />
     <Compile Include="Scripting\ActionTokenHandler.cs" />
+    <Compile Include="Scripting\SendTokenHandler.cs" />
+    <Compile Include="SendQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
