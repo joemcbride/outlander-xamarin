@@ -142,3 +142,8 @@ Global variables are prefixed with a $.
 * $roomextra
 * $roundtime
 * $prompt
+
+Credits
+====
+Icons provided by [game-icons.net](http://game-icons.net)
+Additional Icons provided by [Ravenmore Icon Pack](http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
