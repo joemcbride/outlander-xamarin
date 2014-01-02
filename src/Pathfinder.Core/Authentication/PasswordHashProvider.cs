@@ -11,16 +11,13 @@ namespace Pathfinder.Core.Authentication
     {
         public string Hash(string token, string password)
         {
-            byte[] tokenBytes = Encoding.UTF8.GetBytes(token);
+			byte[] encrypted = new byte[33];
+			for (int i = 0; i < 32 && password.Length > i && token.Length > i; i++)
+			{
+				encrypted[i] = (byte) ((token[i]  ^ (password[i] - 32)) + 32);
+			}
 
-            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-
-            for (var i = 0; i < passwordBytes.Length; i++)
-            {
-                passwordBytes[i] = (byte) (((passwordBytes[i] - 0x20) ^ tokenBytes[i]) + 0x20);
-            }
-
-            return Encoding.UTF8.GetString(passwordBytes);
+			return Encoding.UTF8.GetString(encrypted);
         }
     }
 }
