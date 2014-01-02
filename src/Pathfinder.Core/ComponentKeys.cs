@@ -21,6 +21,21 @@ namespace Pathfinder.Core
 		public const string Concentration = "concentration";
 		public const string Spirit = "spirit";
 
+		public const string Standing = "standing";
+		public const string Kneeling = "kneeling";
+		public const string Sitting = "sitting";
+		public const string Prone = "prone";
+
+		public const string Hidden = "hidden";
+		public const string Invisible = "invisible";
+
+		public const string Bleeding = "bleeding";
+		public const string Stunned = "stunned";
+		public const string Webbed = "webbed";
+		public const string Dead = "dead";
+
+		public const string Joined = "joined";
+
 		public const string RoomTitle = "roomtitle";
 		public const string RoomName = "roomname";
 		public const string RoomDescription = "roomdesc";

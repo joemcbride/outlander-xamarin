@@ -31,13 +31,28 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField GameTextField { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSImageView GroupedImage { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSImageView HealthImage { get; set; }
+
+		[Outlet]
 		Pathfinder.Mac.Beta.VitalsBar HealthLabel { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSImageView HiddenImage { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSImageView InvisibleImage { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField LeftHandLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton LoginButton { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSScrollView MainScrollView { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextView MainTextView { get; set; }
@@ -70,10 +85,16 @@ namespace Pathfinder.Mac.Beta
 		Pathfinder.Mac.Beta.VitalsBar StaminaLabel { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSImageView StandingImage { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton SubmitButton { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField UsernameTextField { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSImageView WebbedImage { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -152,6 +173,11 @@ namespace Pathfinder.Mac.Beta
 				RoundtimeLabel = null;
 			}
 
+			if (RTLabel != null) {
+				RTLabel.Dispose ();
+				RTLabel = null;
+			}
+
 			if (SpellLabel != null) {
 				SpellLabel.Dispose ();
 				SpellLabel = null;
@@ -167,6 +193,11 @@ namespace Pathfinder.Mac.Beta
 				StaminaLabel = null;
 			}
 
+			if (StandingImage != null) {
+				StandingImage.Dispose ();
+				StandingImage = null;
+			}
+
 			if (SubmitButton != null) {
 				SubmitButton.Dispose ();
 				SubmitButton = null;
@@ -177,9 +208,34 @@ namespace Pathfinder.Mac.Beta
 				UsernameTextField = null;
 			}
 
-			if (RTLabel != null) {
-				RTLabel.Dispose ();
-				RTLabel = null;
+			if (MainScrollView != null) {
+				MainScrollView.Dispose ();
+				MainScrollView = null;
+			}
+
+			if (HealthImage != null) {
+				HealthImage.Dispose ();
+				HealthImage = null;
+			}
+
+			if (HiddenImage != null) {
+				HiddenImage.Dispose ();
+				HiddenImage = null;
+			}
+
+			if (GroupedImage != null) {
+				GroupedImage.Dispose ();
+				GroupedImage = null;
+			}
+
+			if (WebbedImage != null) {
+				WebbedImage.Dispose ();
+				WebbedImage = null;
+			}
+
+			if (InvisibleImage != null) {
+				InvisibleImage.Dispose ();
+				InvisibleImage = null;
 			}
 		}
 	}

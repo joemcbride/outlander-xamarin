@@ -28,7 +28,9 @@ namespace Pathfinder.Core
 		private readonly ILog _logger;
 		private readonly IServiceLocator _services;
 		private readonly StringBuilder _builder = new StringBuilder();
+		private readonly Regex _gsRegex = new Regex("GSw\\d+", RegexOptions.Compiled);
 		private IAsyncSocket _asyncSocket;
+		private bool _matched;
 
 		public SimpleGameServer(IGameState gameState, ILog logger, IServiceLocator locator)
 		{
@@ -63,7 +65,7 @@ namespace Pathfinder.Core
 			if(_asyncSocket == null)
 				return;
 
-			_asyncSocket.SendMessage(command + "\r\n");
+			_asyncSocket.SendMessage(command + "\n");
 		}
 
 		private void HandleReceiveMessage(string message)
@@ -80,20 +82,22 @@ namespace Pathfinder.Core
 
 				_logger.Info(data);
 
-				try {
-
-					if(Regex.IsMatch(data, "GSw\\d+"))
+				try
+				{
+					if(!_matched)
 					{
-						var code = Regex.Match(data, "GSw\\d+").Value;
-						data = Regex.Replace(data, "GSw\\d+", string.Empty);
-						//data += "\nConnected to game server.\n\n";
-						SendCommand(code);
+						var match = _gsRegex.Match(data);
+						if(match.Success) {
+							_matched = true;
+							data = Regex.Replace(data, match.Value, string.Empty);
+							SendCommand(match.Value);
+						}
 					}
 
 					if(!string.IsNullOrWhiteSpace(data))
 						_gameState.Read(data);
 				}
-				catch(Exception exc){
+				catch(Exception exc) {
 					_logger.Error(exc);
 				}
 			}

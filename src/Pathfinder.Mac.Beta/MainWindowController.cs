@@ -61,7 +61,7 @@ namespace Pathfinder.Mac.Beta
 			_spellTimer.Interval = 1000;
 			_spellTimer.Elapsed += (sender, e) => {
 				_count++;
-				BeginInvokeOnMainThread(()=>SpellLabel.StringValue = "S: ({0}) {1}".ToFormat(_count, _spell));
+				BeginInvokeOnMainThread(() => SpellLabel.StringValue = "S: ({0}) {1}".ToFormat(_count, _spell));
 			};
 		}
 
@@ -91,6 +91,62 @@ namespace Pathfinder.Mac.Beta
 			RTLabel.Font = NSFont.FromFontName("Geneva", 16);
 		}
 
+		private void UpdateImages()
+		{
+			var state = _gameServer.GameState;
+
+			NSImage standing = null;
+			if(state.Get(ComponentKeys.Standing) == "1") {
+				standing = NSImage.ImageNamed("standing.png");
+			}
+			if(state.Get(ComponentKeys.Kneeling) == "1") {
+				standing = NSImage.ImageNamed("kneeling.png");
+			}
+			if(state.Get(ComponentKeys.Sitting) == "1") {
+				standing = NSImage.ImageNamed("sitting.png");
+			}
+			if(state.Get(ComponentKeys.Prone) == "1") {
+				standing = NSImage.ImageNamed("prone.png");
+			}
+			StandingImage.Image = standing;
+
+			NSImage health = null;
+			if(state.Get(ComponentKeys.Bleeding) == "1") {
+				health = NSImage.ImageNamed("bleeding.png");
+			}
+			if(state.Get(ComponentKeys.Stunned) == "1") {
+				health = NSImage.ImageNamed("stunned.png");
+			}
+			if(state.Get(ComponentKeys.Dead) == "1") {
+				health = NSImage.ImageNamed("dead.png");
+			}
+			HealthImage.Image = health;
+
+			NSImage hidden = null;
+			if(state.Get(ComponentKeys.Hidden) == "1") {
+				hidden = NSImage.ImageNamed("hidden.png");
+			}
+			HiddenImage.Image = hidden;
+
+			NSImage grouped = null;
+			if(state.Get(ComponentKeys.Joined) == "1") {
+				grouped = NSImage.ImageNamed("group.png");
+			}
+			GroupedImage.Image = grouped;
+
+			NSImage webbed = null;
+			if(state.Get(ComponentKeys.Webbed) == "1") {
+				webbed = NSImage.ImageNamed("web.png");
+			}
+			WebbedImage.Image = webbed;
+
+			NSImage invisible = null;
+			if(state.Get(ComponentKeys.Invisible) == "1") {
+				invisible = NSImage.ImageNamed("invisible.png");
+			}
+			InvisibleImage.Image = invisible;
+		}
+
 		public override void AwakeFromNib()
 		{
 			base.AwakeFromNib();
@@ -107,6 +163,8 @@ namespace Pathfinder.Mac.Beta
 			appSettings.HomeDirectory = homeDir;
 
 			new BuildAppDirectories().Build(appSettings);
+
+			UpdateImages();
 
 			_commandProcessor = _services.Get<ICommandProcessor>();
 			_scriptLog = _services.Get<IScriptLog>();
@@ -231,6 +289,8 @@ namespace Pathfinder.Mac.Beta
 
 					BeginInvokeOnMainThread(()=> {
 						LogRoom(builder.ToString(), RoomTextView);
+
+						UpdateImages();
 					});
 				});
 			};
@@ -378,9 +438,13 @@ namespace Pathfinder.Mac.Beta
 			var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
 			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
 
+			//var atEnd = MainScrollView.VerticalScroller.FloatValue == 1.0f;
+
 			textView.TextStorage.BeginEditing();
 			textView.TextStorage.Append(text.CreateString(color.ToNSColor(), font));
 			textView.TextStorage.EndEditing();
+
+			//System.Diagnostics.Debug.WriteLine("Scroller: {0}, {1}".ToFormat(MainScrollView.VerticalScroller.FloatValue, atEnd));
 
 			var start = textView.TextStorage.Value.Length - 2;
 			start = start > -1 ? start : 0;
