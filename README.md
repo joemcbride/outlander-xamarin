@@ -86,6 +86,9 @@ Commands
 	* checks that the script argument exists
 * action
 	* action &lt;command&gt; when &lt;pattern&gt;
+* send
+	* send &lt;command&gt;
+	* same as the put command, though will wait for roundtime
 
 
 Planned Commands
