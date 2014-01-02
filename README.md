@@ -34,6 +34,7 @@ Command line commands
 
 	#script abort <name> - stop the script
 	#script vars <name> - display script variables
+	#send <command> - queues the command to send after roundtime
 
 Commands
 
