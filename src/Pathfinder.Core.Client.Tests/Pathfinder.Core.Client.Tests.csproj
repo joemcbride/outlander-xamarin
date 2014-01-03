@@ -69,6 +69,7 @@
     <Compile Include="Scripting\WaitForReTokenHandlerTester.cs" />
     <Compile Include="Scripting\UnvarTokenHandlerTester.cs" />
     <Compile Include="Scripting\HasVarTokenHandlerTester.cs" />
+    <Compile Include="Settings\VariablesLoaderTester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -91,6 +92,7 @@
   <ItemGroup>
     <Folder Include="Scripting\" />
     <Folder Include="Data\" />
+    <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\if_script.txt">

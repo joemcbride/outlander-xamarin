@@ -88,6 +88,8 @@
     <Compile Include="Scripting\ActionTokenHandler.cs" />
     <Compile Include="Scripting\SendTokenHandler.cs" />
     <Compile Include="SendQueue.cs" />
+    <Compile Include="HighlightLoader.cs" />
+    <Compile Include="VariablesLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

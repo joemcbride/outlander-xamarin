@@ -19,6 +19,8 @@ namespace Pathfinder.Core.Client
 	{
 		private const string If_Blocks_Regex = "^[\\s]*(if)\\s";
 
+		// ^[\s]*?if (.*) then[\s]*?{([\s\S]*?)}
+
 		private readonly Grammar _grammar;
 
 		public IfBlocksParser()
@@ -44,7 +46,6 @@ namespace Pathfinder.Core.Client
 
 				var value = script.Substring(lineIdx, nextLineLength);
 				var block = BlockFor(value, LineFromPos(script, lineIdx));
-				//block.IfEvalLineNumber = LineFromPos(script, lineIdx);
 				list.Add(block);
 			}
 

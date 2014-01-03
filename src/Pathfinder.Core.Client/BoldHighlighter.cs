@@ -32,7 +32,7 @@ namespace Pathfinder.Core.Client
 
 			var start = 0;
 
-			var matches = Regex.Matches(text.Text, _pattern, RegexOptions.Singleline);
+			var matches = Regex.Matches(text.Text, _pattern, RegexOptions.Multiline);
 			foreach(Match match in matches)
 			{
 				TextTag.For(text.Text.Substring(start, match.Index - start), text).IfNotEmpty(tags.Add);

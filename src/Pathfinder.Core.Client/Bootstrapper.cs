@@ -60,6 +60,8 @@ namespace Pathfinder.Core
 
 			_container.Singleton<ISendQueue, SendQueue>();
 
+			_container.PerRequest<IVariablesLoader, VariablesLoader>();
+
 			var now = DateTime.Now.ToString("s");
 			var logFileName = string.Format("{0}-log.txt", now);
 			var errorsFileName = string.Format("{0}-errors.txt", now);

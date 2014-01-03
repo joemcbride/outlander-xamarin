@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 namespace Pathfinder.Core
 {
@@ -7,6 +8,7 @@ namespace Pathfinder.Core
 	{
 		bool Exists(string path);
 		string ReadAllText(string path);
+		void Save(string content, string path);
 	}
 
 	public class FileSystem : IFileSystem
@@ -19,6 +21,11 @@ namespace Pathfinder.Core
 		public string ReadAllText(string path)
 		{
 			return File.ReadAllText(path);
+		}
+
+		public void Save(string content, string path)
+		{
+			File.WriteAllText(path, content, Encoding.UTF8);
 		}
 	}
 }

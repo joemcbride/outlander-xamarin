@@ -70,6 +70,7 @@
     <Compile Include="InMemoryLogger.cs" />
     <Compile Include="Text\OutputChunkReaderTester.cs" />
     <Compile Include="SkillExpTester.cs" />
+    <Compile Include="StubFileSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
