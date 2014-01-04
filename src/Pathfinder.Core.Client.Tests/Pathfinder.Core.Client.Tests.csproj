@@ -71,6 +71,7 @@
     <Compile Include="Scripting\HasVarTokenHandlerTester.cs" />
     <Compile Include="Settings\VariablesLoaderTester.cs" />
     <Compile Include="Settings\HighlightsLoaderTester.cs" />
+    <Compile Include="HighlightsTester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

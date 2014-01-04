@@ -102,6 +102,9 @@
     <Compile Include="Text\PromptChunkReader.cs" />
     <Compile Include="AppDirectoriesBuilder.cs" />
     <Compile Include="ReaderWriterLockExtensions.cs" />
+    <Compile Include="RegexPatterns.cs">
+      <DependentUpon>SimpleSocket.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

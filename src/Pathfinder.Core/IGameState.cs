@@ -105,6 +105,12 @@ namespace Pathfinder.Core
 					{
 						Exp(skill);
 					}
+				} else if(string.Equals(ComponentKeys.RoomObjects, c.Id)) {
+					_components.Set(c.Id,Regex.Replace(c.Value, "<[^>]*>", string.Empty));
+					_components.Set(ComponentKeys.RoomObjectsH, c.Value);
+					var monsterMatch = Regex.Matches(c.Value, RegexPatterns.MonsterBold);
+					_components.Set(ComponentKeys.MonsterCount, monsterMatch.Count.ToString());
+					_components.Set(ComponentKeys.MonsterList, string.Join(", ", monsterMatch.OfType<Match>().Select(x=>x.Groups[2].Value).ToArray()));
 				} else {
 					_components.Set(c.Id, c.Value);
 				}

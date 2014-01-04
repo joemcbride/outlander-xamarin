@@ -301,7 +301,7 @@ namespace Pathfinder.Mac.Beta
 						var builder = new StringBuilder();
 						_gameServer.GameState.Get(ComponentKeys.RoomTitle).IfNotNullOrEmpty(s=>builder.AppendLine(s));
 						_gameServer.GameState.Get(ComponentKeys.RoomDescription).IfNotNullOrEmpty(s=>builder.AppendLine(s));
-						_gameServer.GameState.Get(ComponentKeys.RoomObjects).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+						_gameServer.GameState.Get(ComponentKeys.RoomObjectsH).IfNotNullOrEmpty(s=>builder.AppendLine(s));
 						_gameServer.GameState.Get(ComponentKeys.RoomPlayers).IfNotNullOrEmpty(s=>builder.AppendLine(s));
 						_gameServer.GameState.Get(ComponentKeys.RoomExists).IfNotNullOrEmpty(s=>builder.AppendLine(s));
 

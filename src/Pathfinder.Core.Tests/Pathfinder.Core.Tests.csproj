@@ -71,6 +71,7 @@
     <Compile Include="Text\OutputChunkReaderTester.cs" />
     <Compile Include="SkillExpTester.cs" />
     <Compile Include="StubFileSystem.cs" />
+    <Compile Include="GameStateTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

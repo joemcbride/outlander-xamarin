@@ -35,7 +35,11 @@ namespace Pathfinder.Core
 		public const string RoomDescription = "roomdesc";
 		public const string RoomExists = "roomexits";
 		public const string RoomObjects = "roomobjs";
+		public const string RoomObjectsH = "roomobjsh";
 		public const string RoomPlayers = "roomplayers";
+
+		public const string MonsterCount = "monstercount";
+		public const string MonsterList = "monsterlist";
 
 		public const string Spell = "spell";
 		public const string GameTime = "gametime";

@@ -234,6 +234,8 @@ namespace Pathfinder.Core.Text.Tests
 			Assert.AreEqual(expected, result.Builder.ToString());
 		}
 
+
+
 		private TestParseResult BuildResult(string data)
 		{
 			string[] stringChunks = data.Split(new string[]{ "^---------------------^" }, StringSplitOptions.None);

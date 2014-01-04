@@ -29,16 +29,16 @@ namespace Pathfinder.Core.Client
 			var matches = Regex.Matches(text.Text, Pattern, RegexOptions.Singleline);
 			foreach(Match match in matches)
 			{
-				TextTag.For(text.Text.Substring(start, match.Index - start), text).IfNotEmpty(tags.Add);
+				TextTag.For(text.Text.Substring(start, match.Index - start), text).IfNotNull(tags.Add);
 				start = match.Index + match.Length;
 				var matchedTag = TextTag.For(match.Groups[1].Value, text);
 				Modify(matchedTag, match);
-				matchedTag.IfNotEmpty(tags.Add);
+				matchedTag.IfNotNull(tags.Add);
 			}
 
 			if(start < text.Text.Length)
 			{
-				TextTag.For(text.Text.Substring(start, text.Text.Length - start), text).IfNotEmpty(tags.Add);
+				TextTag.For(text.Text.Substring(start, text.Text.Length - start), text).IfNotNull(tags.Add);
 			}
 
 			return tags;

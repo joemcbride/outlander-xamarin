@@ -42,6 +42,7 @@ namespace Pathfinder.Core.Client
 			return Regex
 					.Matches(highlights, "^#highlight {(.*)} {(.*)}$", RegexOptions.Multiline)
 					.OfType<Match>()
+					.OrderByDescending(x => x.Value.Length)
 					.Select(x => new Highlight { Color = x.Groups[1].Value, Pattern = x.Groups[2].Value });
 		}
 	}

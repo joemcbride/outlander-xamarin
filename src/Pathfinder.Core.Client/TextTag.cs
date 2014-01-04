@@ -35,9 +35,9 @@ namespace Pathfinder.Core.Client
 			return string.Format("[TextTag: Text={0}, Color={1}, Mono={2}]", Text, Color, Mono);
 		}
 
-		public void IfNotEmpty(Action<TextTag> action)
+		public void IfNotNull(Action<TextTag> action)
 		{
-			if(!string.IsNullOrWhiteSpace(Text) && action != null)
+			if(Text != null && action != null)
 				action(this);
 		}
 
