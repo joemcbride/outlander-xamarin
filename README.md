@@ -8,7 +8,7 @@ A Front End for [Dragonrealms](http://www.play.net/dr).  A work in progress.
 Download
 ====
 
-[Version 0.3](https://github.com/joemcbride/outlander/releases/tag/v0.3)
+[Version 0.4](https://github.com/joemcbride/outlander/releases/tag/v0.4)
 
 Requirements
 ====
