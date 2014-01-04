@@ -130,6 +130,8 @@ Global variables are prefixed with a $.
 * $lefthand
 * $lefthandnoun
 * $lefthandnounid
+* $monstercount
+* $monsterlist
 * $righthand
 * $righthandnoun
 * $righthandnounid
@@ -141,6 +143,16 @@ Global variables are prefixed with a $.
 * $roomextra
 * $roundtime
 * $prompt
+
+Configuration
+====
+
+Configuration settings can be found in the 'config' folder.  Currently only a 'Default' profile is supported.
+
+* Global variables can be defined in variables.cfg.  variables.cfg will be saved to disk whenever a global value gets updated through gameplay.
+	* #var {primary.container} {backpack}
+* Highlights can be defined in highlights.cfg
+	* #highlight {#296B00} {Weapon Master}
 
 Credits
 ====
