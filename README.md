@@ -159,7 +159,7 @@ Highlights can be defined in highlights.cfg
 
 To highlight an entire line use the folowing regex pattern:
 
-	#highlight {#296B00} {^.*is facing you at melee range.*$}
+	#highlight {#FFFF00} {^.*is facing you at melee range.*$}
 
 Credits
 ====
