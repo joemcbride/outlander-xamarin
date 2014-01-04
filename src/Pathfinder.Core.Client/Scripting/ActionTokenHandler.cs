@@ -15,6 +15,7 @@ namespace Pathfinder.Core.Client
 	{
 		public string ScriptName { get; set; }
 		public int LineNumber { get; set; }
+		public string Match { get; set; }
 		public ScriptContext ScriptContext { get; set; }
 		public ActionToken Token { get; set; }
 	}
@@ -33,8 +34,6 @@ namespace Pathfinder.Core.Client
 
 		protected override void execute()
 		{
-			//Context.Get<IScriptLog>().Log(Context.Name, "", token.LineNumber);
-
 			_reportPattern = new PatternReporter(_actionContext, _tracker);
 
 			var gameState = Context.Get<IGameState>();
@@ -62,6 +61,7 @@ namespace Pathfinder.Core.Client
 		{
 			if(Regex.IsMatch(item, _token.Token.When))
 			{
+				_token.Match = item;
 				_tracker.Publish(_token);
 			}
 		}

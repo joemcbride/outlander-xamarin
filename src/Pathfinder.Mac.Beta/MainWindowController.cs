@@ -61,6 +61,7 @@ namespace Pathfinder.Mac.Beta
 			_spellTimer.Interval = 1000;
 			_spellTimer.Elapsed += (sender, e) => {
 				_count++;
+				_gameServer.GameState.Set(ComponentKeys.SpellTime, _count.ToString());
 				BeginInvokeOnMainThread(() => SpellLabel.StringValue = "S: ({0}) {1}".ToFormat(_count, _spell));
 			};
 		}
@@ -273,11 +274,13 @@ namespace Pathfinder.Mac.Beta
 
 							if(!string.Equals(_spell, "None"))
 							{
+								_gameServer.GameState.Set(ComponentKeys.SpellTime, "0");
 								_spellTimer.Start();
 							}
 							else
 							{
 								_spellTimer.Stop();
+								_gameServer.GameState.Set(ComponentKeys.SpellTime, "0");
 							}
 						});
 					});

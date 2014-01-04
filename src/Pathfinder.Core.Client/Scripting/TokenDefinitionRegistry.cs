@@ -41,7 +41,7 @@ namespace Pathfinder.Core.Client
 					var args = source.Substring(match.Groups[1].Index + match.Groups[1].Length, source.Length - (match.Groups[1].Index + match.Groups[1].Length));
 
 					var splitArgs = Regex
-						.Matches(args, @"(?<match>\w+)|\""(?<match>[\w\s]*)""")
+						.Matches(args, "(?<match>[\\w:]+)|\"(?<match>[\\S\\s]*)\"")
 						.Cast<Match>()
 						.Select(m => m.Groups["match"].Value)
 						.ToArray();
@@ -77,6 +77,24 @@ namespace Pathfinder.Core.Client
 			registry.New(d => {
 				d.Type = "send";
 				d.Pattern = "^#send";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "globalvar";
+				d.Pattern = "^#var";
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
 

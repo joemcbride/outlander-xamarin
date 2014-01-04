@@ -35,6 +35,7 @@ Command line commands
 	#script abort <name> - stop the script
 	#script vars <name> - display script variables
 	#send <command> - queues the command to send after roundtime
+	#var myvar value - sets a global variable
 
 Commands
 
@@ -42,6 +43,8 @@ Commands
 	* Creates a local variable that can be referenced later in the script as %myvar
 * setvariable myvar value
 	* acts the same as var
+* #var myvar value
+	* acts the same as var, except creates a global variable
 * unvar
 	* removes the variable
 * hasvar
@@ -104,15 +107,16 @@ Global Variables
 
 Global variables are prefixed with a $.
 
-* $charactername
-* $spell
-* $game
-* $gametime
-* $health
-* $mana
-* $stamina
-* $spirit
-* $concentration
+* $charactername - your character name
+* $preparedspell - currently prepared spell, 'None' when there isn't one.
+* $spelltime - amount of time in seconds the spell has been prepared
+* $game - what game you are connected to, ex: 'DR'
+* $gametime - the time in game you are playing, a Unix timestamp, ex: 1388858263
+* $health - the percentange of your health
+* $mana - the percentange of your mana
+* $stamina - the percentange of your stamina
+* $spirit - the percentange of your spirit
+* $concentration - the percentange of your concentration
 * $&lt;skill_name&gt;.Ranks (ex: Shield_Usage.Ranks, Outdoorsmanship.Ranks, etc.)
 * $&lt;skill_name&gt;.LearningRate
 * $&lt;skill_name&gt;.LearningRateName
@@ -130,8 +134,8 @@ Global variables are prefixed with a $.
 * $lefthand
 * $lefthandnoun
 * $lefthandnounid
-* $monstercount
-* $monsterlist
+* $monstercount - the number of monsters in the room you are currently in; requires monsterbold to be set
+* $monsterlist - the names of the monsters in the room you are currently in; requires monsterbold to be set
 * $righthand
 * $righthandnoun
 * $righthandnounid

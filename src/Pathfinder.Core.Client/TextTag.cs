@@ -37,7 +37,7 @@ namespace Pathfinder.Core.Client
 
 		public void IfNotNull(Action<TextTag> action)
 		{
-			if(Text != null && action != null)
+			if(Text != null && Text != string.Empty && action != null)
 				action(this);
 		}
 

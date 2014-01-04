@@ -41,7 +41,8 @@ namespace Pathfinder.Core
 		public const string MonsterCount = "monstercount";
 		public const string MonsterList = "monsterlist";
 
-		public const string Spell = "spell";
+		public const string Spell = "preparedspell";
+		public const string SpellTime = "spelltime";
 		public const string GameTime = "gametime";
 		public const string GameTimeUpdate = "gametimeupdate";
 

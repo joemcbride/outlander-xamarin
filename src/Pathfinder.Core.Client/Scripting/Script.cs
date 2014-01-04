@@ -53,6 +53,7 @@ namespace Pathfinder.Core.Client.Scripting
 			});
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
+			_tokenHandlers["globalvar"] = new GlobalVarTokenHandler();
 			_tokenHandlers["unvar"] = new UnVarTokenHandler();
 			_tokenHandlers["hasvar"] = new HasVarTokenHandler();
 			_tokenHandlers["goto"] = new GotoTokenHandler();
@@ -148,8 +149,8 @@ namespace Pathfinder.Core.Client.Scripting
 
 				var line = _scriptLines[i];
 				var token = _tokenizer.Tokenize(line).FirstOrDefault();
-				if(token != null && !token.Ignore) {
-
+				if(token != null && !token.Ignore)
+				{
 					var actionToken = token as ActionToken;
 					if(actionToken != null)
 					{
@@ -241,7 +242,9 @@ namespace Pathfinder.Core.Client.Scripting
 		{
 			_scriptLog.Log(value.ScriptName, "action triggered: {0}".ToFormat(value.Token.When), value.LineNumber);
 
-			_executer.ExecuteBlocks(value.Token.Action, value.ScriptContext);
+			var result = Regex.Replace(value.Match, value.Token.When, value.Token.Action);
+
+			_executer.ExecuteBlocks(result, value.ScriptContext);
 		}
 	}	
 }

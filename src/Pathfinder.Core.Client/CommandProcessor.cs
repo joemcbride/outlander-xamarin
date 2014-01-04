@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using Pathfinder.Core.Client.Scripting;
+using System.Threading;
+using System.Linq;
 
 namespace Pathfinder.Core.Client
 {
@@ -22,7 +18,7 @@ namespace Pathfinder.Core.Client
 		private readonly IVariableReplacer _variableReplacer;
 		private readonly IScriptLog _scriptLog;
 		private readonly Tokenizer _tokenizer;
-		private ISimpleDictionary<string, ITokenHandler> _tokenHandlers = new SimpleDictionary<string, ITokenHandler>();
+		private readonly ISimpleDictionary<string, ITokenHandler> _tokenHandlers;
 
 		public CommandProcessor(IServiceLocator services, IVariableReplacer variableReplacer, IScriptLog scriptLog)
 		{
@@ -30,9 +26,12 @@ namespace Pathfinder.Core.Client
 			_variableReplacer = variableReplacer;
 			_scriptLog = scriptLog;
 			_tokenizer = Tokenizer.With(TokenDefinitionRegistry.ClientCommands());
+
+			_tokenHandlers = new SimpleDictionary<string, ITokenHandler>();
 			_tokenHandlers["script"] = new ScriptTokenHandler();
 			_tokenHandlers["scriptcommand"] = new ScriptCommandTokenHandler();
 			_tokenHandlers["send"] = new SendTokenHandler();
+			_tokenHandlers["globalvar"] = new GlobalVarTokenHandler();
 		}
 
 		public string Eval(string command, ScriptContext context = null)

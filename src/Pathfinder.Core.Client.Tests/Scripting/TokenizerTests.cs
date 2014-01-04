@@ -30,6 +30,20 @@ namespace Pathfinder.Core.Client.Tests
 		}
 
 		[Test]
+		public void creates_action_not_label_token()
+		{
+			const string line = "action var circle $1;put #var circle $1 when Circle:\\s+(\\d+)$";
+
+			var tokens = theTokenizer.Tokenize(line).ToList();
+			Assert.AreEqual(1, tokens.Count);
+			var token = tokens.First().As<ActionToken>();
+			Assert.NotNull(token);
+			Assert.AreEqual("action", token.Type);
+			Assert.AreEqual("var circle $1;put #var circle $1", token.Action);
+			Assert.AreEqual("Circle:\\s+(\\d+)$", token.When);
+		}
+
+		[Test]
 		public void creates_goto_token()
 		{
 			const string line = "goto somewhere";
