@@ -11,15 +11,12 @@ namespace Pathfinder.Core.Client.Tests
 	{
 		private VariablesLoader theLoader;
 		private StubFileSystem theFileSystem;
-		private AppSettings theAppSettings;
 
 		[SetUp]
 		public void SetUp()
 		{
 			theFileSystem = new StubFileSystem();
-			theAppSettings = new AppSettings();
-			theAppSettings.HomeDirectory = "Documents/Outlander";
-			theLoader = new VariablesLoader(theFileSystem, theAppSettings);
+			theLoader = new VariablesLoader(theFileSystem);
 		}
 
 		[Test]
@@ -29,7 +26,7 @@ namespace Pathfinder.Core.Client.Tests
 
 			theLoader.Save(vars.Values(), "vars.config");
 
-			Assert.AreEqual("Documents/Outlander/vars.config", theFileSystem.LastSavePath);
+			Assert.AreEqual("vars.config", theFileSystem.LastSavePath);
 		}
 
 		[Test]

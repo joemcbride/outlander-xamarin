@@ -26,7 +26,6 @@ namespace Pathfinder.Core.Client
 		public string Id { get; set; }
 		public string Name { get; private set; }
 		public int LineNumber { get; set; }
-		//public int JumpLines { get; set; }
 		public MatchWait MatchWait { get; private set; }
 		public CancellationToken CancelToken { get; private set; }
 

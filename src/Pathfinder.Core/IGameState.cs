@@ -75,7 +75,7 @@ namespace Pathfinder.Core
 
 		public ISimpleDictionary<string, string> GlobalVars()
 		{
-			return new SimpleDictionary<string, string>(_components.Values());
+			return new SimpleDictionary<string, string>(_components.Values().OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
 		}
 
 		public void RenderData(ReadResult result)
@@ -111,7 +111,7 @@ namespace Pathfinder.Core
 			});
 
 			tags.OfType<RoomNameTag>().Apply(t => {
-				_components.Set(ComponentKeys.RoomName, t.Name);
+				_components.Set(ComponentKeys.RoomName, t.Name.Trim());
 			});
 
 			tags.OfType<VitalsTag>().Apply(t => {

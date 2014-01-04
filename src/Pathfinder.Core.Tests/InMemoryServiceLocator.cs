@@ -28,5 +28,10 @@ namespace Pathfinder.Core.Tests
 		{
 			throw new NotImplementedException();
 		}
+
+		public void Instance<T>(T instance)
+		{
+			_services.Add(typeof(T), instance);
+		}
 	}
 }

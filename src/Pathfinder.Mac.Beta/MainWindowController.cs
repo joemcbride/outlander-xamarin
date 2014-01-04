@@ -162,7 +162,8 @@ namespace Pathfinder.Mac.Beta
 			var homeDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Documents/Outlander");
 			appSettings.HomeDirectory = homeDir;
 
-			new BuildAppDirectories().Build(appSettings);
+			_services.Get<AppDirectoriesBuilder>().Build();
+			_services.Get<AppSettingsLoader>().Load();
 
 			UpdateImages();
 
@@ -251,10 +252,15 @@ namespace Pathfinder.Mac.Beta
 
 					t.As<StreamTag>().IfNotNull(streamTag => {
 						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("logons")) {
-							var text = TextTag.For(string.Format("[{0}]{1}", DateTime.Now.ToString("HH:mm"), streamTag.Value), string.Empty, true);
+
+							var text = "[{0}]{1}".ToFormat(DateTime.Now.ToString("HH:mm"), streamTag.Text);
+							var highlights = _services.Get<Highlights>().For(text);
 
 							BeginInvokeOnMainThread(()=> {
-								Append(text, ArrivalsTextView);
+								highlights.Apply(h => {
+									h.Mono = true;
+									Append(h, ArrivalsTextView);
+								});
 							});
 						}
 					});
@@ -263,7 +269,7 @@ namespace Pathfinder.Mac.Beta
 						BeginInvokeOnMainThread(() => {
 							_spell = s.Spell;
 							_count = 0;
-							SpellLabel.StringValue = string.Format("S: {0}", s.Spell);
+							SpellLabel.StringValue = "S: {0}".ToFormat(s.Spell);
 
 							if(!string.Equals(_spell, "None"))
 							{
@@ -280,18 +286,35 @@ namespace Pathfinder.Mac.Beta
 						UpdateVitals();
 					});
 
-					var builder = new StringBuilder();
-					_gameServer.GameState.Get(ComponentKeys.RoomTitle).IfNotNullOrEmpty(s=>builder.AppendLine(s));
-					_gameServer.GameState.Get(ComponentKeys.RoomDescription).IfNotNullOrEmpty(s=>builder.AppendLine(s));
-					_gameServer.GameState.Get(ComponentKeys.RoomObjects).IfNotNullOrEmpty(s=>builder.AppendLine(s));
-					_gameServer.GameState.Get(ComponentKeys.RoomPlayers).IfNotNullOrEmpty(s=>builder.AppendLine(s));
-					_gameServer.GameState.Get(ComponentKeys.RoomExists).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+					var ids = new string[]
+					{
+						ComponentKeys.RoomTitle,
+						ComponentKeys.RoomDescription,
+						ComponentKeys.RoomObjects,
+						ComponentKeys.RoomPlayers,
+						ComponentKeys.RoomExists
+					};
+
+					t.As<ComponentTag>().IfNotNull(c => {
+						if(!ids.Contains(c.Id))
+							return;
+						var builder = new StringBuilder();
+						_gameServer.GameState.Get(ComponentKeys.RoomTitle).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+						_gameServer.GameState.Get(ComponentKeys.RoomDescription).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+						_gameServer.GameState.Get(ComponentKeys.RoomObjects).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+						_gameServer.GameState.Get(ComponentKeys.RoomPlayers).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+						_gameServer.GameState.Get(ComponentKeys.RoomExists).IfNotNullOrEmpty(s=>builder.AppendLine(s));
+
+						BeginInvokeOnMainThread(()=> {
+							LogRoom(builder.ToString(), RoomTextView);
+						});
+					});
 
 					BeginInvokeOnMainThread(()=> {
-						LogRoom(builder.ToString(), RoomTextView);
-
 						UpdateImages();
 					});
+
+					_services.Get<AppSettingsLoader>().SaveVariables();
 				});
 			};
 

@@ -28,4 +28,23 @@ namespace Pathfinder.Core
 			File.WriteAllText(path, content, Encoding.UTF8);
 		}
 	}
+
+	public interface IDirectorySystem
+	{
+		bool Exists(string path);
+		void Create(string path);
+	}
+
+	public class DirectorySystem : IDirectorySystem
+	{
+		public bool Exists(string path)
+		{
+			return Directory.Exists(path);
+		}
+
+		public void Create(string path)
+		{
+			Directory.CreateDirectory(path);
+		}
+	}
 }

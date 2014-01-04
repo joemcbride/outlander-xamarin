@@ -7,21 +7,21 @@ namespace Pathfinder.Core.Client
 {
 	public class SimpleHighlighter : IHighlighter
 	{
-		private HighlightSettings _settings;
 		private readonly string _pattern;
+		private readonly string _key;
 
-		public Action<TextTag, Match> Modify { get; set; }
+		private Action<TextTag, Match> Modify { get; set; }
 
-		public SimpleHighlighter(string pattern, string key, HighlightSettings settings)
+		public SimpleHighlighter(string pattern, string key, string color, bool mono)
 		{
-			_settings = settings;
 			_pattern = "(" + pattern + ")";
 
+			_key = key;
+
 			Modify = (tag, match) => {
-				var setting = _settings.Get(key);
 				tag.Text = match.Groups[0].Value;
-				tag.Color = setting.Color;
-				tag.Mono = setting.Mono;
+				tag.Color = color;
+				tag.Mono = mono;
 				tag.Matched = true;
 			};
 		}
@@ -48,6 +48,11 @@ namespace Pathfinder.Core.Client
 			}
 
 			return tags;
+		}
+
+		public static SimpleHighlighter For(string pattern, string color, string key = "", bool mono = false)
+		{
+			return new SimpleHighlighter(pattern, key, color, mono);
 		}
 	}
 

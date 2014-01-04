@@ -72,6 +72,8 @@ namespace Pathfinder.Core
 		/// <typeparam name="T">The type to resolve from the container.</typeparam>
 		/// <returns>The resolved instance.</returns>
 		IEnumerable<T> GetAll<T>();
+
+		void Instance<T>(T instance);
 	}
 
 	public class ServiceLocator : IServiceLocator
@@ -91,6 +93,11 @@ namespace Pathfinder.Core
 		public IEnumerable<T> GetAll<T>()
 		{
 			return _container.GetAllInstances<T>();
+		}
+
+		public void Instance<T>(T instance)
+		{
+			_container.Instance(instance);
 		}
 	}
 }

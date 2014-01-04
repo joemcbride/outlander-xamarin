@@ -19,7 +19,7 @@ namespace Pathfinder.Core.Client
 	{
 		private const string If_Blocks_Regex = "^[\\s]*(if)\\s";
 
-		// ^[\s]*?if (.*) then[\s]*?{([\s\S]*?)}
+		// ^\s*?if (.*) then\s*?{([\s\S]*?)}
 
 		private readonly Grammar _grammar;
 

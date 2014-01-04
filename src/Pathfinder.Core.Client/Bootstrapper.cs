@@ -33,6 +33,7 @@ namespace Pathfinder.Core
 
 			_container.Instance<AppSettings>(appSettings);
 			_container.Singleton<IFileSystem, FileSystem>();
+			_container.Singleton<IDirectorySystem, DirectorySystem>();
 			_container.Instance<IServiceLocator>(services);
 			_container.PerRequest<IAsyncSocket, AsyncSocket>();
 			_container.PerRequest<IAuthenticationServer, AuthenticationServer>();
@@ -60,7 +61,10 @@ namespace Pathfinder.Core
 
 			_container.Singleton<ISendQueue, SendQueue>();
 
-			_container.PerRequest<IVariablesLoader, VariablesLoader>();
+			_container.Singleton<IVariablesLoader, VariablesLoader>();
+			_container.Singleton<IHighlightsLoader, HighlightsLoader>();
+			_container.Singleton<AppDirectoriesBuilder>();
+			_container.Singleton<AppSettingsLoader>();
 
 			var now = DateTime.Now.ToString("s");
 			var logFileName = string.Format("{0}-log.txt", now);
@@ -72,26 +76,22 @@ namespace Pathfinder.Core
 
 			_container.Instance<ILog>(compositeLog);
 
-			var settings = HighlightSettings.Default();
+			SetupHighlights();
+		}
 
-			_container.Instance(settings);
+		private void SetupHighlights()
+		{
+			var highlightSettings = HighlightSettings.Default();
+			_container.Instance(highlightSettings);
+
+			var whisper = highlightSettings.Get(HighlightKeys.Whisper);
 
 			_container.PerRequest<Highlights>();
 			_container.PerRequest<IHighlighter, MonoHighlighter>();
 			_container.PerRequest<IHighlighter, RoomNameHighlighter>();
 			_container.PerRequest<IHighlighter, BoldHighlighter>();
-			_container.Instance<IHighlighter>(new SimpleHighlighter("says|whispers", HighlightKeys.Whisper, settings));
 
-			_container.Instance<IHighlighter>(new SimpleHighlighter("Tayek", "Tayek", settings));
-			//_container.Instance<IHighlighter>(new SimpleHighlighter("steelsilk", "steelsilk", settings));
-			_container.Instance<IHighlighter>(new SimpleHighlighter("^You've gained a new rank.*$", "newrank", settings));
-			_container.Instance<IHighlighter>(new SimpleHighlighter("^Your formation of a targeting pattern.*$", "target", settings));
-			_container.Instance<IHighlighter>(new SimpleHighlighter("^(You begin to target|You begin to weave mana lines into a target pattern).*$", "target", settings));
-
-			settings.Add(new HighlightSetting{ Id = "newrank", Color = "#0000FF"  });
-			settings.Add(new HighlightSetting{ Id = "target", Color = "#33FF08" });
-			settings.Add(new HighlightSetting{ Id = "Tayek", Color = "#0000FF"  });
-			//settings.Add(new HighlightSetting{ Id = "steelsilk", Color = "#296B00"  });
+			_container.Instance<IHighlighter>(new SimpleHighlighter("You say|says|whispers", HighlightKeys.Whisper, whisper.Color, whisper.Mono));
 		}
 	}
 }

@@ -97,10 +97,11 @@
     <Compile Include="Text\StreamChunkReader.cs" />
     <Compile Include="IFileSystem.cs" />
     <Compile Include="AppSettings.cs" />
-    <Compile Include="BuildAppDirectories.cs" />
     <Compile Include="RoundtimeHandler.cs" />
     <Compile Include="DataTracker.cs" />
     <Compile Include="Text\PromptChunkReader.cs" />
+    <Compile Include="AppDirectoriesBuilder.cs" />
+    <Compile Include="ReaderWriterLockExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
