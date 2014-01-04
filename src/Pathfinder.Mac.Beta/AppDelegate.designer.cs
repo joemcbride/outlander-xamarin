@@ -13,6 +13,9 @@ namespace Pathfinder.Mac.Beta
 	partial class AppDelegate
 	{
 		[Outlet]
+		MonoMac.AppKit.NSMenuItem CutMenuItem { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSMenuItem NewMenuItem { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -20,6 +23,11 @@ namespace Pathfinder.Mac.Beta
 			if (NewMenuItem != null) {
 				NewMenuItem.Dispose ();
 				NewMenuItem = null;
+			}
+
+			if (CutMenuItem != null) {
+				CutMenuItem.Dispose ();
+				CutMenuItem = null;
 			}
 		}
 	}

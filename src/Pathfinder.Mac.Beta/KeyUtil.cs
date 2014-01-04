@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using MonoMac.Foundation;
 using MonoMac.AppKit;
-using Pathfinder.Core;
-using Pathfinder.Core.Authentication;
 
 namespace Pathfinder.Mac.Beta
 {
