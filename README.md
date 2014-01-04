@@ -149,10 +149,17 @@ Configuration
 
 Configuration settings can be found in the 'config' folder.  Currently only a 'Default' profile is supported.
 
-* Global variables can be defined in variables.cfg.  variables.cfg will be saved to disk whenever a global value gets updated through gameplay.
-	* #var {primary.container} {backpack}
-* Highlights can be defined in highlights.cfg
-	* #highlight {#296B00} {Weapon Master}
+Global variables can be defined in variables.cfg.  variables.cfg will be saved to disk whenever a global value gets updated through gameplay.
+
+	#var {primary.container} {backpack}
+
+Highlights can be defined in highlights.cfg
+
+	#highlight {#296B00} {Weapon Master}
+
+To highlight an entire line use the folowing regex pattern:
+
+	#highlight {#296B00} {^.*is facing you at melee range.*$}
 
 Credits
 ====
