@@ -153,7 +153,7 @@ Global variables can be defined in variables.cfg.  variables.cfg will be saved t
 
 	#var {primary.container} {backpack}
 
-Highlights can be defined in highlights.cfg
+Highlights can be defined in highlights.cfg.  Note that only hexadecimal color codes are supported.
 
 	#highlight {#296B00} {Weapon Master}
 
