@@ -7,8 +7,8 @@
     <ProjectGuid>{18CEDE30-D373-4EF6-8DC8-6C82F8714265}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pathfinder.Core.Tests</RootNamespace>
-    <AssemblyName>Pathfinder.Core.Tests</AssemblyName>
+    <RootNamespace>Outlander.Core.Tests</RootNamespace>
+    <AssemblyName>Outlander.Core.Tests</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -74,9 +74,9 @@
     <Compile Include="GameStateTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
+    <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">
       <Project>{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}</Project>
-      <Name>Pathfinder.Core</Name>
+      <Name>Outlander.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

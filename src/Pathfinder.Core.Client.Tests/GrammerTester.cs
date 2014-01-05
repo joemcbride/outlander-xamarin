@@ -177,7 +177,7 @@ namespace Pathfinder.Core.Client.Tests
 		[Test]
 		public void parses_if_blocks()
 		{
-			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Client.Tests.Data.if_script.txt"))
+			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Client.Tests.Data.if_script.txt"))
 			using (var reader = new StreamReader(stream)) {
 				var data = reader.ReadToEnd();
 

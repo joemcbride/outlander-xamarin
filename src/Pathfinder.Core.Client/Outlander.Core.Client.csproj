@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Pathfinder.Core.Client</RootNamespace>
-    <AssemblyName>Pathfinder.Core.Client</AssemblyName>
+    <RootNamespace>Outlander.Core.Client</RootNamespace>
+    <AssemblyName>Outlander.Core.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -94,9 +94,9 @@
     <Compile Include="Scripting\ExitTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
+    <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">
       <Project>{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}</Project>
-      <Name>Pathfinder.Core</Name>
+      <Name>Outlander.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

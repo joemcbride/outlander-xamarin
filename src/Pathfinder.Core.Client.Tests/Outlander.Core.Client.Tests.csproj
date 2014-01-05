@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2B557B7E-767B-4052-BC7A-328260D16518}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Pathfinder.Core.Client.Tests</RootNamespace>
-    <AssemblyName>Pathfinder.Core.Client.Tests</AssemblyName>
+    <RootNamespace>Outlander.Core.Client.Tests</RootNamespace>
+    <AssemblyName>Outlander.Core.Client.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -75,17 +75,17 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Pathfinder.Core.Client\Pathfinder.Core.Client.csproj">
-      <Project>{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}</Project>
-      <Name>Pathfinder.Core.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
+    <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">
       <Project>{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}</Project>
-      <Name>Pathfinder.Core</Name>
+      <Name>Outlander.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pathfinder.Core.Tests\Pathfinder.Core.Tests.csproj">
+    <ProjectReference Include="..\Pathfinder.Core.Client\Outlander.Core.Client.csproj">
+      <Project>{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}</Project>
+      <Name>Outlander.Core.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pathfinder.Core.Tests\Outlander.Core.Tests.csproj">
       <Project>{18CEDE30-D373-4EF6-8DC8-6C82F8714265}</Project>
-      <Name>Pathfinder.Core.Tests</Name>
+      <Name>Outlander.Core.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

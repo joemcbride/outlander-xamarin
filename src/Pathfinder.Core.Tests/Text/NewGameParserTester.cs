@@ -51,8 +51,8 @@ namespace Pathfinder.Core.Text.Tests
 		[Test]
 		public void handles_login()
 		{
-			using (var chunkStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.login-data1.txt"))
-			using (var expectedStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.login-data1-expected.txt"))
+			using (var chunkStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Tests.Data.login-data1.txt"))
+			using (var expectedStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Tests.Data.login-data1-expected.txt"))
 			using (var chunkReader = new StreamReader(chunkStream))
 			using (var expectedReader = new StreamReader(expectedStream))
 			{
@@ -198,8 +198,8 @@ namespace Pathfinder.Core.Text.Tests
 		[Test]
 		public void displays_who_full_correctly()
 		{
-			using (var chunkStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.who-full-chunks.txt"))
-			using (var expectedStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.who-full-expected.txt"))
+			using (var chunkStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Tests.Data.who-full-chunks.txt"))
+			using (var expectedStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Tests.Data.who-full-expected.txt"))
 			using (var chunkReader = new StreamReader(chunkStream))
 			using (var expectedReader = new StreamReader(expectedStream))
 			{

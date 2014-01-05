@@ -1,19 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Core", "Pathfinder.Core\Pathfinder.Core.csproj", "{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlander.Core", "Pathfinder.Core\Outlander.Core.csproj", "{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Console", "Pathfinder.Console\Pathfinder.Console.csproj", "{CE6BA88B-5361-45CA-99C8-7DA79B0F61C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlander.Console", "Pathfinder.Console\Outlander.Console.csproj", "{CE6BA88B-5361-45CA-99C8-7DA79B0F61C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Mac.Beta", "Pathfinder.Mac.Beta\Pathfinder.Mac.Beta.csproj", "{EE165BA4-2B38-440C-B22C-A954375690B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlander.Mac.Beta", "Pathfinder.Mac.Beta\Outlander.Mac.Beta.csproj", "{EE165BA4-2B38-440C-B22C-A954375690B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Core.Client", "Pathfinder.Core.Client\Pathfinder.Core.Client.csproj", "{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlander.Core.Client", "Pathfinder.Core.Client\Outlander.Core.Client.csproj", "{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2F124A00-AEAF-47C0-B69F-ED43F857CB43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Core.Client.Tests", "Pathfinder.Core.Client.Tests\Pathfinder.Core.Client.Tests.csproj", "{2B557B7E-767B-4052-BC7A-328260D16518}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlander.Core.Client.Tests", "Pathfinder.Core.Client.Tests\Outlander.Core.Client.Tests.csproj", "{2B557B7E-767B-4052-BC7A-328260D16518}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Core.Tests", "Pathfinder.Core.Tests\Pathfinder.Core.Tests.csproj", "{18CEDE30-D373-4EF6-8DC8-6C82F8714265}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outlander.Core.Tests", "Pathfinder.Core.Tests\Outlander.Core.Tests.csproj", "{18CEDE30-D373-4EF6-8DC8-6C82F8714265}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,7 +64,7 @@ Global
 		{18CEDE30-D373-4EF6-8DC8-6C82F8714265} = {2F124A00-AEAF-47C0-B69F-ED43F857CB43}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Pathfinder.Mac.Beta\Pathfinder.Mac.Beta.csproj
+		StartupItem = Pathfinder.Mac.Beta\Outlander.Mac.Beta.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

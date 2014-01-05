@@ -7,8 +7,8 @@
     <ProjectGuid>{CE6BA88B-5361-45CA-99C8-7DA79B0F61C4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pathfinder.Console</RootNamespace>
-    <AssemblyName>Pathfinder.Console</AssemblyName>
+    <RootNamespace>Outlander.Console</RootNamespace>
+    <AssemblyName>Outlander.Console</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -51,13 +51,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">
+    <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">
       <Project>{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}</Project>
-      <Name>Pathfinder.Core</Name>
+      <Name>Outlander.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pathfinder.Core.Client\Pathfinder.Core.Client.csproj">
+    <ProjectReference Include="..\Pathfinder.Core.Client\Outlander.Core.Client.csproj">
       <Project>{C4CA7B79-9F4A-410C-87C2-08E93732F0FB}</Project>
-      <Name>Pathfinder.Core.Client</Name>
+      <Name>Outlander.Core.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

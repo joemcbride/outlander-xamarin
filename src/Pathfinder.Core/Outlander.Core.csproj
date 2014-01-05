@@ -7,8 +7,8 @@
     <ProjectGuid>{8A2DAF80-0793-4D8B-9A55-AB8FD59DFE19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pathfinder.Core</RootNamespace>
-    <AssemblyName>Pathfinder.Core</AssemblyName>
+    <RootNamespace>Outlander.Core</RootNamespace>
+    <AssemblyName>Outlander.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

@@ -26,7 +26,7 @@ namespace Pathfinder.Core.Tests
 
 			string[] stringChunks = null;
 
-			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Pathfinder.Core.Tests.Data.exp-chunks.txt"))
+			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Tests.Data.exp-chunks.txt"))
 			using (var reader = new StreamReader(stream)) {
 				var data = reader.ReadToEnd();
 				stringChunks = data.Split(new string[]{ "^---------------------^" }, StringSplitOptions.None);
