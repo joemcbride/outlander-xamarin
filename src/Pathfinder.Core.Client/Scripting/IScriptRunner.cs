@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Pathfinder.Core.Client.Scripting
 {
@@ -24,7 +25,7 @@ namespace Pathfinder.Core.Client.Scripting
 		private readonly IScriptLog _scriptLog;
 		private List<IScript> _scripts = new List<IScript>();
 
-		private static Object LockObject = new object();
+		private static ReaderWriterLockSlim LockObject = new ReaderWriterLockSlim();
 
 		public ScriptRunner(IServiceLocator services, IScriptLoader scriptLoader, IScriptLog scriptLog)
 		{
@@ -104,40 +105,40 @@ namespace Pathfinder.Core.Client.Scripting
 
 		private IScript FindByName(string name)
 		{
-			lock (LockObject) {
+			return LockObject.Read(() => {
 				return _scripts.FirstOrDefault(x => x.Name == name);
-			}
+			});
 		}
 
 		private IScript FindById(string id)
 		{
-			lock (LockObject) {
+			return LockObject.Read(() => {
 				return _scripts.FirstOrDefault(x => x.Id == id);
-			}
+			});
 		}
 
 		private void RemoveByName(string name)
 		{
-			lock (LockObject) {
+			LockObject.Write(() => {
 				var script = _scripts.FirstOrDefault(x => x.Name == name);
 				script.IfNotNull(s => {
 					_scriptLog.Aborted(s.Name, s.StartTime, DateTime.Now - s.StartTime);
 					s.Stop();
 					_scripts.Remove(s);
 				});
-			}
+			});
 		}
 
 		private void RemoveById(string id)
 		{
-			lock (LockObject) {
+			LockObject.Write(() => {
 				var script = _scripts.FirstOrDefault(x => x.Id == id);
 				script.IfNotNull(s => {
 					_scriptLog.Aborted(s.Name, s.StartTime, DateTime.Now - s.StartTime);
 					s.Stop();
 					_scripts.Remove(s);
 				});
-			}
+			});
 		}
 	}
 }

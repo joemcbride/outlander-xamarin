@@ -8,7 +8,7 @@ namespace Pathfinder.Core.Client
 	public interface ICommandProcessor
 	{
 		string Eval(string command, ScriptContext context = null);
-		Task Process(string command, ScriptContext context = null);
+		Task Process(string command, ScriptContext context = null, bool echo = true);
 		Task Echo(string command, ScriptContext context = null);
 	}
 
@@ -42,7 +42,7 @@ namespace Pathfinder.Core.Client
 			return _variableReplacer.Replace(command, context);
 		}
 
-		public Task Process(string command, ScriptContext context = null)
+		public Task Process(string command, ScriptContext context = null, bool echo = true)
 		{
 			var completionSource = new TaskCompletionSource<object>();
 
@@ -63,6 +63,8 @@ namespace Pathfinder.Core.Client
 
 				if(context != null)
 					_scriptLog.Log(context.Name, "{0}".ToFormat(replaced), context.LineNumber);
+				else if(echo)
+					Echo(replaced + "\n");
 
 				server.SendCommand(replaced);
 				completionSource.TrySetResult(null);

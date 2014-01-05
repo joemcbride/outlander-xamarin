@@ -91,7 +91,7 @@ namespace Pathfinder.Core
 			_container.PerRequest<IHighlighter, RoomNameHighlighter>();
 			_container.PerRequest<IHighlighter, BoldHighlighter>();
 
-			_container.Instance<IHighlighter>(new SimpleHighlighter("You say|says|whispers", HighlightKeys.Whisper, whisper.Color, whisper.Mono));
+			_container.Instance<IHighlighter>(new SimpleHighlighter("You say|You ask|You exclaim|says|whispers|asks|exclaims", HighlightKeys.Whisper, whisper.Color, whisper.Mono));
 		}
 	}
 }

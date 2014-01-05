@@ -17,9 +17,7 @@ namespace Pathfinder.Mac.Beta
 
 		public override void FinishedLaunching(NSObject notification)
 		{
-			var mainWindowController = new MainWindowController();
-			mainWindowController.Window.MakeKeyAndOrderFront(this);
-			_windows.Add(mainWindowController);
+			LaunchNewWindow();
 		}
 
 		public override void AwakeFromNib()
@@ -27,10 +25,15 @@ namespace Pathfinder.Mac.Beta
 			base.AwakeFromNib();
 
 			NewMenuItem.Activated += (sender, e) => {
-				var mainWindowController = new MainWindowController();
-				mainWindowController.Window.MakeKeyAndOrderFront(this);
-				_windows.Add(mainWindowController);
+				LaunchNewWindow();
 			};
+		}
+
+		private void LaunchNewWindow()
+		{
+			var mainWindowController = new MainWindowController();
+			mainWindowController.Window.MakeKeyAndOrderFront(this);
+			_windows.Add(mainWindowController);
 		}
 	}
 }

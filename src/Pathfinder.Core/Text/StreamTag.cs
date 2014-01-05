@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Text
 {
 	public class StreamTag : Tag
 	{
-		private const string Id_Regex = "id=\"(\\w.*)\"";
+		private const string Id_Regex = "id=\"(\\w+)\"";
 		private const string Value_Regex = "";
 
 		public string Id { get; private set; }

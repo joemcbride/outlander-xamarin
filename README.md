@@ -168,4 +168,4 @@ To highlight an entire line use the folowing regex pattern:
 Credits
 ====
 
-Icons provided by [game-icons.net](http://game-icons.net), [Ravenmore Icon Pack](http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20)
+Icons provided by [game-icons.net](http://game-icons.net), [Ravenmore Icon Pack](http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20), [Moik Mellah](http://opengameart.org/content/mv-platformer-skeleton)

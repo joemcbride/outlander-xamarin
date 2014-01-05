@@ -1,8 +1,5 @@
 using System;
-using System.Globalization;
 using MonoMac.AppKit;
-using MonoMac.Foundation;
-using Pathfinder.Core.Client;
 
 namespace Pathfinder.Mac.Beta
 {

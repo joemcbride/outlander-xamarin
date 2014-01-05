@@ -126,13 +126,13 @@
     <BundleResource Include="Resources\web.png" />
     <BundleResource Include="Resources\dead.png" />
     <BundleResource Include="Resources\group.png" />
-    <BundleResource Include="Resources\prone.png" />
-    <BundleResource Include="Resources\standing.png" />
-    <BundleResource Include="Resources\kneeling.png" />
-    <BundleResource Include="Resources\sitting.png" />
     <BundleResource Include="Resources\invisible.png" />
     <BundleResource Include="Resources\bleeding.png" />
     <BundleResource Include="Resources\poisoned.png" />
     <BundleResource Include="Resources\stunned.png" />
+    <BundleResource Include="Resources\kneeling-s.png" />
+    <BundleResource Include="Resources\standing-s.png" />
+    <BundleResource Include="Resources\prone-s.png" />
+    <BundleResource Include="Resources\sitting-s.png" />
   </ItemGroup>
 </Project>

@@ -98,16 +98,16 @@ namespace Pathfinder.Mac.Beta
 
 			NSImage standing = null;
 			if(state.Get(ComponentKeys.Standing) == "1") {
-				standing = NSImage.ImageNamed("standing.png");
+				standing = NSImage.ImageNamed("standing-s.png");
 			}
 			if(state.Get(ComponentKeys.Kneeling) == "1") {
-				standing = NSImage.ImageNamed("kneeling.png");
+				standing = NSImage.ImageNamed("kneeling-s.png");
 			}
 			if(state.Get(ComponentKeys.Sitting) == "1") {
-				standing = NSImage.ImageNamed("sitting.png");
+				standing = NSImage.ImageNamed("sitting-s.png");
 			}
 			if(state.Get(ComponentKeys.Prone) == "1") {
-				standing = NSImage.ImageNamed("prone.png");
+				standing = NSImage.ImageNamed("prone-s.png");
 			}
 			StandingImage.Image = standing;
 
@@ -236,7 +236,7 @@ namespace Pathfinder.Mac.Beta
 			var notifyLogger = new NotificationLogger();
 			notifyLogger.OnError = (err) => {
 				BeginInvokeOnMainThread(()=> {
-					LogSystem("\n" + err.Message + "\n\n");
+					LogSystem(err.Message + "\n\n");
 				});
 			};
 
@@ -261,6 +261,30 @@ namespace Pathfinder.Mac.Beta
 								highlights.Apply(h => {
 									h.Mono = true;
 									Append(h, ArrivalsTextView);
+								});
+							});
+						}
+
+						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("thoughts")) {
+
+							var text = "[{0}]: {1}".ToFormat(DateTime.Now.ToString("HH:mm"), streamTag.Text);
+							var highlights = _services.Get<Highlights>().For(text);
+
+							BeginInvokeOnMainThread(()=> {
+								highlights.Apply(h => {
+									Append(h, ThoughtsTextView);
+								});
+							});
+						}
+
+						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("death")) {
+
+							var text = "[{0}]{1}".ToFormat(DateTime.Now.ToString("HH:mm"), streamTag.Text);
+							var highlights = _services.Get<Highlights>().For(text);
+
+							BeginInvokeOnMainThread(()=> {
+								highlights.Apply(h => {
+									Append(h, DeathsTextView);
 								});
 							});
 						}
@@ -365,7 +389,7 @@ namespace Pathfinder.Mac.Beta
 					return;
 				}
 
-				LogSystem("\nAuthenticating...\n");
+				LogSystem("Authenticating...\n");
 
 				var token = _gameServer.Authenticate(game, account, password, character);
 				if(token != null)
@@ -404,18 +428,21 @@ namespace Pathfinder.Mac.Beta
 		{
 			_commandCache.Add(command);
 
-			var replaced = _commandProcessor.Eval(command);
+			if(!command.StartsWith("#")) {
 
-			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + replaced + "\n";
+				command = _commandProcessor.Eval(command);
 
-			var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
+				var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + command + "\n";
 
-			if(!hasLineFeed)
-				prompt = "\n" + prompt;
+				var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
 
-			Log(prompt, MainTextView);
+				if(!hasLineFeed)
+					prompt = "\n" + prompt;
 
-			_commandProcessor.Process(replaced);
+				Log(prompt, MainTextView);
+			}
+
+			_commandProcessor.Process(command, echo: false);
 		}
 
 		private void LogRoom(string text, NSTextView textView)
@@ -450,6 +477,7 @@ namespace Pathfinder.Mac.Beta
 
 		private void LogSystem(string text, string color)
 		{
+			text = "[{0}]: {1}".ToFormat(DateTime.Now.ToString("HH:mm"), text);
 			Append(TextTag.For(text, color, true), MainTextView);
 		}
 

@@ -25,6 +25,9 @@ namespace Pathfinder.Mac.Beta
 		Pathfinder.Mac.Beta.VitalsBar ConcentrationLabel { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextView DeathsTextView { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextView ExpTextView { get; set; }
 
 		[Outlet]
@@ -91,6 +94,9 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSButton SubmitButton { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextView ThoughtsTextView { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField UsernameTextField { get; set; }
 
 		[Outlet]
@@ -128,9 +134,29 @@ namespace Pathfinder.Mac.Beta
 				GameTextField = null;
 			}
 
+			if (GroupedImage != null) {
+				GroupedImage.Dispose ();
+				GroupedImage = null;
+			}
+
+			if (HealthImage != null) {
+				HealthImage.Dispose ();
+				HealthImage = null;
+			}
+
 			if (HealthLabel != null) {
 				HealthLabel.Dispose ();
 				HealthLabel = null;
+			}
+
+			if (HiddenImage != null) {
+				HiddenImage.Dispose ();
+				HiddenImage = null;
+			}
+
+			if (InvisibleImage != null) {
+				InvisibleImage.Dispose ();
+				InvisibleImage = null;
 			}
 
 			if (LeftHandLabel != null) {
@@ -141,6 +167,11 @@ namespace Pathfinder.Mac.Beta
 			if (LoginButton != null) {
 				LoginButton.Dispose ();
 				LoginButton = null;
+			}
+
+			if (MainScrollView != null) {
+				MainScrollView.Dispose ();
+				MainScrollView = null;
 			}
 
 			if (MainTextView != null) {
@@ -208,34 +239,19 @@ namespace Pathfinder.Mac.Beta
 				UsernameTextField = null;
 			}
 
-			if (MainScrollView != null) {
-				MainScrollView.Dispose ();
-				MainScrollView = null;
-			}
-
-			if (HealthImage != null) {
-				HealthImage.Dispose ();
-				HealthImage = null;
-			}
-
-			if (HiddenImage != null) {
-				HiddenImage.Dispose ();
-				HiddenImage = null;
-			}
-
-			if (GroupedImage != null) {
-				GroupedImage.Dispose ();
-				GroupedImage = null;
-			}
-
 			if (WebbedImage != null) {
 				WebbedImage.Dispose ();
 				WebbedImage = null;
 			}
 
-			if (InvisibleImage != null) {
-				InvisibleImage.Dispose ();
-				InvisibleImage = null;
+			if (ThoughtsTextView != null) {
+				ThoughtsTextView.Dispose ();
+				ThoughtsTextView = null;
+			}
+
+			if (DeathsTextView != null) {
+				DeathsTextView.Dispose ();
+				DeathsTextView = null;
 			}
 		}
 	}
