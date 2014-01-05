@@ -91,6 +91,7 @@
     <Compile Include="Settings\AppSettingsLoader.cs" />
     <Compile Include="HighlightsLoader.cs" />
     <Compile Include="Scripting\GlobalVarTokenHandler.cs" />
+    <Compile Include="Scripting\ExitTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Pathfinder.Core.csproj">

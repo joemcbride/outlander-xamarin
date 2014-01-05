@@ -118,6 +118,21 @@ namespace Pathfinder.Core.Client
 			var registry = new TokenDefinitionRegistry();
 
 			registry.New(d => {
+				d.Type = "exit";
+				d.Pattern = "^exit";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = match.Value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
 				d.Type = "comment";
 				d.Pattern = "^#.*";
 				d.Ignore = true;
@@ -198,7 +213,7 @@ namespace Pathfinder.Core.Client
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
 					const string Goto_Regex = "^match\\b\\s([\\w\\.]+)\\s(.*)";
-					var gotoMatch = Regex.Match(source, Goto_Regex);
+					var gotoMatch = Regex.Match(source, Goto_Regex, RegexOptions.IgnoreCase);
 					var token = new MatchToken
 					{
 						Text = source,
@@ -218,7 +233,7 @@ namespace Pathfinder.Core.Client
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
 					const string Goto_Regex = "^matchre\\b\\s([\\w\\.]+)\\s(.*)";
-					var gotoMatch = Regex.Match(source, Goto_Regex);
+					var gotoMatch = Regex.Match(source, Goto_Regex, RegexOptions.IgnoreCase);
 					var token = new MatchToken
 					{
 						Text = source,

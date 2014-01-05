@@ -8,9 +8,10 @@ namespace Pathfinder.Core.Client.Scripting
 		{
 			var matchToken = (MatchToken)Token;
 
-			//Context.Get<IScriptLog>().Log(Context.Name, "adding match for '" + matchToken.Pattern + "'", Context.LineNumber);
-
-			Context.MatchWait.Add(matchToken);
+			if(!string.IsNullOrWhiteSpace(matchToken.Pattern)
+				&& !string.IsNullOrWhiteSpace(matchToken.Goto)) {
+				Context.MatchWait.Add(matchToken);
+			}
 
 			TaskSource.SetResult(new CompletionEventArgs());
 		}

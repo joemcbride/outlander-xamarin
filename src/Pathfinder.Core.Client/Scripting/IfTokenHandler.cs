@@ -79,6 +79,7 @@ namespace Pathfinder.Core.Client
 			_tokenizer = new Tokenizer(TokenDefinitionRegistry.Default().Definitions());
 			_tokenHandlers = new SimpleDictionary<string, ITokenHandler>();
 
+			_tokenHandlers["exit"] = new ExitTokenHandler();
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
 			_tokenHandlers["unvar"] = new UnVarTokenHandler();

@@ -51,6 +51,7 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["label"] = new ContinueTokenHandler((context, token) => {
 				_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
 			});
+			_tokenHandlers["exit"] = new ExitTokenHandler();
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
 			_tokenHandlers["globalvar"] = new GlobalVarTokenHandler();
