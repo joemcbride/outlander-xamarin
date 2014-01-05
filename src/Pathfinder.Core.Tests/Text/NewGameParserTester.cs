@@ -238,12 +238,25 @@ namespace Pathfinder.Core.Text.Tests
 		public void parses_thoughts()
 		{
 			const string data = "<dialogData id='minivitals'><progressBar id='concentration' value='98' text='concentration 98%' left='80%' customText='t' top='0%' width='20%' height='100%'/></dialogData>\n^---------------------^<pushStream id=\"thoughts\"/><preset id='thought'>You hear your mental voice echo, </preset>\"Testing, one, two.\"\n<popStream/>You concentrate on projecting your thoughts.\n<prompt time=\"1388893365\">&gt;</prompt>\n";
-			const string expected = "";
 
 			var result = BuildResult(data);
 
 			Assert.AreEqual(3, result.Tags.Count);
 			Assert.AreEqual("thoughts", result.Tags[1].As<StreamTag>().Id);
+		}
+
+		[Test]
+		public void parses_exp_tdp()
+		{
+			const string data = "<component id='exp tdp'>            TDPs:  197</component>";
+			const string expected = "";
+
+			var result = BuildResult(data);
+
+			Assert.AreEqual(1, result.Tags.Count);
+			var tag = result.Tags[0].As<ComponentTag>();
+			Assert.AreEqual("tdp", tag.Id);
+			Assert.AreEqual("197", tag.Value);
 		}
 
 		private TestParseResult BuildResult(string data)

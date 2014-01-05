@@ -38,11 +38,17 @@ namespace Pathfinder.Core.Text
 		protected override void OnTextSet()
 		{
 			try {
+				bool isTdp = false;
 				var element = XElement.Parse(Text.Trim());
 				var idValue = element.Attribute("id").Value;
-				if(idValue.StartsWith("exp")) {
+				if(idValue.StartsWith("exp") && !idValue.Equals("exp tdp")) {
 					IsExp = true;
 					Id = idValue.Substring(4, idValue.Length - 4).Replace(" ", "_");
+				}
+				else if(idValue.Equals("exp tdp"))
+				{
+					isTdp = true;
+					Id = idValue.Substring(4, idValue.Length - 4);
 				}
 				else {
 					Id = idValue.Replace(" ", string.Empty).ToLower();
@@ -58,6 +64,13 @@ namespace Pathfinder.Core.Text
 					IsNewExp = Value != null ? Value.Contains("whisper") : false;
 					Value = Regex.Replace(Value, "<[^>]*>", string.Empty).Trim();
 					Value = Regex.Replace(Value, EXP_Regex, "$1 $2% $3");
+				}
+
+				if(isTdp) {
+					var match = Regex.Match(Value, "TDPs:\\s+(\\d+)");
+					if(match.Success) {
+						Value = match.Groups[1].Value;
+					}
 				}
 			} catch (Exception exc) {
 				System.Diagnostics.Debug.WriteLine(exc);
