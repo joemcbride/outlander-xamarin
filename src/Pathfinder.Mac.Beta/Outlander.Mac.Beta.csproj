@@ -121,7 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\map.icns" />
-    <BundleResource Include="Resources\tome %281%29.icns" />
     <BundleResource Include="Resources\hidden.png" />
     <BundleResource Include="Resources\web.png" />
     <BundleResource Include="Resources\dead.png" />
@@ -134,5 +133,7 @@
     <BundleResource Include="Resources\standing-s.png" />
     <BundleResource Include="Resources\prone-s.png" />
     <BundleResource Include="Resources\sitting-s.png" />
+    <BundleResource Include="Resources\woodsword2.icns" />
+    <BundleResource Include="Resources\backpack2.icns" />
   </ItemGroup>
 </Project>
