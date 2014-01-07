@@ -35,9 +35,7 @@ namespace Pathfinder.Core.Client
 		protected override void execute()
 		{
 			_reportPattern = new PatternReporter(_actionContext, _tracker);
-
-			var gameState = Context.Get<IGameState>();
-			gameState.TextTracker.Subscribe(_reportPattern);
+			_reportPattern.Subscribe(Context.Get<IGameState>().TextTracker);
 
 			Context.CancelToken.Register(() => {
 				_reportPattern.Unsubscribe();

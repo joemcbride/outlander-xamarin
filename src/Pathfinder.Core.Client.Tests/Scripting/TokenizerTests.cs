@@ -267,5 +267,45 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("send", token.Type);
 			Assert.AreEqual("stuff", token.Value);
 		}
+
+		[Test]
+		public void creates_echo_token()
+		{
+			const string line = "echo something";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("echo", token.Type);
+			Assert.AreEqual("something\n", token.Value);
+		}
+
+		[Test]
+		public void creates_echo_empty_token()
+		{
+			const string line = "echo";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("echo", token.Type);
+			Assert.AreEqual("\n", token.Value);
+		}
+
+		[Test]
+		public void creates_echo_empty_ignore_case_token()
+		{
+			const string line = "ECHO";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("echo", token.Type);
+			Assert.AreEqual("\n", token.Value);
+		}
+
+		[Test]
+		public void creates_debuglevel_token()
+		{
+			const string line = "debuglevel 5";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("debuglevel", token.Type);
+			Assert.AreEqual("5", token.Value);
+		}
 	}
 }

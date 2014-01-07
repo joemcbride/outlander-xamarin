@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DynamicExpresso;
 using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client
 {
@@ -81,6 +82,7 @@ namespace Pathfinder.Core.Client
 
 			_tokenHandlers["exit"] = new ExitTokenHandler();
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
+			_tokenHandlers["debuglevel"] = new DebugLevelTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
 			_tokenHandlers["unvar"] = new UnVarTokenHandler();
 			_tokenHandlers["hasvar"] = new HasVarTokenHandler();

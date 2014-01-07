@@ -51,7 +51,7 @@ namespace Pathfinder.Core
 			_container.PerRequest<ITagTransformer, StreamWindowTagTransformer>();
 
 			_container.PerRequest<IIfBlockExecuter, IfBlockExecuter>();
-			_container.PerRequest<IIfBlocksParser, IfBlocksParser>();
+			_container.Singleton<IIfBlocksParser, IfBlocksParser>();
 
 			_container.PerRequest<IScript, Script>();
 			_container.Singleton<IScriptLog, ScriptLog>();

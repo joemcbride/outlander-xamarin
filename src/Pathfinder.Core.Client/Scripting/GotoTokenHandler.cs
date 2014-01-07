@@ -6,10 +6,14 @@ namespace Pathfinder.Core.Client
 	{
 		protected override void execute()
 		{
+			var eval = Context.Get<ICommandProcessor>();
 			var log = Context.Get<IScriptLog>();
-			log.Log(Context.Name, "goto " + Token.Value, Context.LineNumber);
 
-			TaskSource.SetResult(new CompletionEventArgs { Goto = Token.Value });
+			var location = eval.Eval(Token.Value, Context);
+
+			log.Log(Context.Name, "goto " + location, Context.LineNumber);
+
+			TaskSource.SetResult(new CompletionEventArgs { Goto = location });
 		}
 	}
 }

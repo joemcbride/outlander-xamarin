@@ -1,11 +1,7 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using Pathfinder.Core.Authentication;
-using Pathfinder.Core.Text;
 
 namespace Pathfinder.Core
 {
@@ -24,16 +20,19 @@ namespace Pathfinder.Core
 	{
 		private IDictionary<TKey, TValue> _components;
 
-		private static ReaderWriterLockSlim Lock = new ReaderWriterLockSlim();
-
 		public SimpleDictionary()
-			: this(new Dictionary<TKey, TValue>())
+			: this(null)
 		{
 		}
 
 		public SimpleDictionary(IDictionary<TKey, TValue> values)
 		{
-			_components = new Dictionary<TKey, TValue>(values);
+			if(values == null) {
+				_components = new ConcurrentDictionary<TKey, TValue>();
+			}
+			else {
+				_components = new ConcurrentDictionary<TKey, TValue>(values);
+			}
 		}
 
 		public TValue this[TKey key]
@@ -44,19 +43,15 @@ namespace Pathfinder.Core
 
 		public bool HasKey(TKey key)
 		{
-			return Lock.Read(() => {
-				return _components.ContainsKey(key);
-			});
+			return _components.ContainsKey(key);
 		}
 
 		public TValue Get(TKey key)
 		{
-			return Lock.Read(() => {
-				if(_components.ContainsKey(key))
-					return _components[key];
+			if(_components.ContainsKey(key))
+				return _components[key];
 
-				return default(TValue);
-			});
+			return default(TValue);
 		}
 
 		public void Set(TKey key, TValue value)
@@ -64,27 +59,22 @@ namespace Pathfinder.Core
 			if(key == null || string.IsNullOrWhiteSpace(key.ToString()))
 				return;
 
-			Lock.Write(() => {
-				_components[key] = value;
-				System.Diagnostics.Debug.WriteLine("Setting {0}::{1}", key, value);
-			});
+			_components[key] = value;
+			System.Diagnostics.Debug.WriteLine("Setting {0}::{1}", key, value);
 		}
 
 		public void Remove(TKey key)
 		{
 			if(key == null || string.IsNullOrWhiteSpace(key.ToString()))
 				return;
-			Lock.Write(() => {
-				if(_components.ContainsKey(key))
-					_components.Remove(key);
-			});
+
+			if(_components.ContainsKey(key))
+				_components.Remove(key);
 		}
 
 		public IDictionary<TKey, TValue> Values()
 		{
-			return Lock.Read(() => {
-				return _components.ToDictionary(x => x.Key, x => x.Value);
-			});
+			return _components.ToDictionary(x => x.Key, x => x.Value);
 		}
 	}
 }

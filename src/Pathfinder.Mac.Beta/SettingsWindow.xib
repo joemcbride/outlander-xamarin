@@ -11,7 +11,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <window title="Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" animationBehavior="default" id="2" customClass="SettingsWindow">
+        <window title="Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="default" id="2" customClass="SettingsWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="131" y="74" width="606" height="354"/>
@@ -27,7 +27,7 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="YkL-yz-BB7"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="EDe-nv-spH"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Zfr-Ev-Cyf"/>
-                    <toolbarItem implicitItemIdentifier="779D3390-9376-4163-82CD-FDA7957F575C" label="Highlights" paletteLabel="Highlights" tag="-1" image="tome (1)" selectable="YES" id="18a-B5-zla"/>
+                    <toolbarItem implicitItemIdentifier="779D3390-9376-4163-82CD-FDA7957F575C" label="Highlights" paletteLabel="Highlights" tag="-1" image="woodsword2" selectable="YES" id="18a-B5-zla"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSeparatorItem" id="oej-qA-dsu"/>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
@@ -37,6 +37,6 @@
         </window>
     </objects>
     <resources>
-        <image name="tome (1)" width="512" height="512"/>
+        <image name="woodsword2" width="256" height="256"/>
     </resources>
 </document>

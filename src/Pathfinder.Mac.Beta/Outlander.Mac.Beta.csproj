@@ -99,11 +99,18 @@
     <Compile Include="SettingsWindow.designer.cs">
       <DependentUpon>SettingsWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoginWindow.cs" />
+    <Compile Include="LoginWindowController.cs" />
+    <Compile Include="LoginWindow.designer.cs">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindowExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="SettingsWindow.xib" />
+    <InterfaceDefinition Include="LoginWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

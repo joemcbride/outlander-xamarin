@@ -24,6 +24,7 @@ namespace Pathfinder.Core.Client
 		public int LineNumber { get; set; }
 		public MatchWait MatchWait { get; private set; }
 		public CancellationToken CancelToken { get; private set; }
+		public int DebugLevel { get; set; }
 
 		public T Get<T>()
 		{

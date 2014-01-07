@@ -212,7 +212,7 @@ namespace Pathfinder.Core.Client
 				d.Pattern = "^match\\b";
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
-					const string Goto_Regex = "^match\\b\\s([\\w\\.]+)\\s(.*)";
+					const string Goto_Regex = "^match\\b\\s([\\w\\.-]+)\\s(.*)";
 					var gotoMatch = Regex.Match(source, Goto_Regex, RegexOptions.IgnoreCase);
 					var token = new MatchToken
 					{
@@ -232,7 +232,7 @@ namespace Pathfinder.Core.Client
 				d.Pattern = "^matchre\\b";
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
-					const string Goto_Regex = "^matchre\\b\\s([\\w\\.]+)\\s(.*)";
+					const string Goto_Regex = "^matchre\\b\\s([\\w\\.-]+)\\s(.*)";
 					var gotoMatch = Regex.Match(source, Goto_Regex, RegexOptions.IgnoreCase);
 					var token = new MatchToken
 					{
@@ -303,6 +303,9 @@ namespace Pathfinder.Core.Client
 						Type = def.Type,
 						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim()
 					};
+					if(token.Value == null || token.Value.Length == 0 || !token.Value.EndsWith("\n")) {
+						token.Value += "\n";
+					}
 					return token;
 				};
 			});
@@ -483,6 +486,24 @@ namespace Pathfinder.Core.Client
 			registry.New(d => {
 				d.Type = "send";
 				d.Pattern = "^send";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "debuglevel";
+				d.Pattern = "^debuglevel";
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
 

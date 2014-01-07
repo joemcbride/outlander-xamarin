@@ -46,6 +46,22 @@ namespace Pathfinder.Core.Client
 		{
 			var completionSource = new TaskCompletionSource<object>();
 
+			var commands = command.Split(new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+			commands.Apply(c => {
+				var task = ProcessInternal(c, context, echo);
+				task.Wait();
+			});
+
+			completionSource.TrySetResult(null);
+
+			return completionSource.Task;
+		}
+
+		private Task ProcessInternal(string command, ScriptContext context = null, bool echo = true)
+		{
+			var completionSource = new TaskCompletionSource<object>();
+
 			var token = _tokenizer.Tokenize(command).FirstOrDefault();
 			if(token != null) {
 				if(context == null)
@@ -61,7 +77,7 @@ namespace Pathfinder.Core.Client
 				var server = _services.Get<IGameServer>();
 				var replaced = Eval(command, context);
 
-				if(context != null)
+				if(context != null && context.DebugLevel > 0)
 					_scriptLog.Log(context.Name, "{0}".ToFormat(replaced), context.LineNumber);
 				else if(echo)
 					Echo(replaced + "\n");
@@ -80,7 +96,7 @@ namespace Pathfinder.Core.Client
 			var gameState = _services.Get<IGameState>();
 			var replaced = Eval(command, context);
 
-			if(context != null)
+			if(context != null && context.DebugLevel > 0)
 				_scriptLog.Log(context.Name, "echo {0}".ToFormat(replaced), context.LineNumber);
 
 			gameState.Echo(replaced);

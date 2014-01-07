@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Scripting
 {
@@ -30,10 +31,13 @@ namespace Pathfinder.Core.Client.Scripting
 		private ScriptContext _scriptContext;
 
 		private string[] _scriptLines;
-		private ISimpleDictionary<int, IfBlocks> _ifBlocks = new SimpleDictionary<int, IfBlocks>();
-		private ISimpleDictionary<string, int> _gotos = new SimpleDictionary<string, int>();
+		private IDictionary<int, IfBlocks> _ifBlocks = new Dictionary<int, IfBlocks>();
+		private IDictionary<string, int> _gotos = new Dictionary<string, int>();
 		private ISimpleDictionary<string, string> _localVars = new SimpleDictionary<string, string>();
-		private ISimpleDictionary<string, ITokenHandler> _tokenHandlers = new SimpleDictionary<string, ITokenHandler>();
+		private IDictionary<string, ITokenHandler> _tokenHandlers = new Dictionary<string, ITokenHandler>();
+
+		private ActionTracker _actionTracker = new ActionTracker();
+		private ActionReporter _actionReporter;
 
 		public Script(IServiceLocator serviceLocator, Tokenizer tokenizer)
 		{
@@ -48,11 +52,9 @@ namespace Pathfinder.Core.Client.Scripting
 			_ifBlocksParser = _serviceLocator.Get<IIfBlocksParser>();
 			_log = _serviceLocator.Get<IScriptLog>();
 
-			_tokenHandlers["label"] = new ContinueTokenHandler((context, token) => {
-				_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
-			});
 			_tokenHandlers["exit"] = new ExitTokenHandler();
 			_tokenHandlers["comment"] = new ContinueTokenHandler();
+			_tokenHandlers["debuglevel"] = new DebugLevelTokenHandler();
 			_tokenHandlers["var"] = new VarTokenHandler();
 			_tokenHandlers["globalvar"] = new GlobalVarTokenHandler();
 			_tokenHandlers["unvar"] = new UnVarTokenHandler();
@@ -72,6 +74,9 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["move"] = new MoveTokenHandler();
 			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
 			_tokenHandlers["send"] = new SendTokenHandler();
+			_tokenHandlers["label"] = new ContinueTokenHandler((context, token) => {
+				_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
+			});
 		}
 
 		public string Id { get; private set; }
@@ -102,23 +107,27 @@ namespace Pathfinder.Core.Client.Scripting
 				_ifBlocks[x.IfEvalLineNumber] = x;
 			});
 
+			//var start = DateTime.Now;
+			//_log.Log(name, "after if: {0}".ToFormat(start), 0);
+
 			_localVars["0"] = string.Join(" ", args);
 			args.Apply((x, idx) => _localVars["{0}".ToFormat(idx + 1)] = x);
 
 			_scriptContext = new ScriptContext(Id, Name, _taskCancelationSource.Token, _serviceLocator, _localVars);
 
-			_scriptLines = script
-				.Split(new string[]{ "\n", "\r" }, StringSplitOptions.None)
-				.Select(s => s.TrimStart())
-				.ToArray();
+			_scriptLines = script.Split(new string[]{ "\n" }, StringSplitOptions.None);
+
+			//_log.Log(name, "after split: {0}".ToFormat(DateTime.Now - start), 0);
 
 			_scriptLines.Apply((line, num) => {
 				if(string.IsNullOrWhiteSpace(line)) return;
-				var match = Regex.Match(line, RegexPatterns.Label);
+				var match = Regex.Match(line.TrimStart(), RegexPatterns.Label);
 				if(match.Success) {
 					_gotos[match.Groups[1].Value] = num;
 				}
 			});
+
+			//_log.Log(name, "after gotos: {0}".ToFormat(DateTime.Now), 0);
 
 			try
 			{
@@ -149,7 +158,7 @@ namespace Pathfinder.Core.Client.Scripting
 				cancelToken.ThrowIfCancellationRequested();
 
 				var line = _scriptLines[i];
-				var token = _tokenizer.Tokenize(line).FirstOrDefault();
+				var token = _tokenizer.Tokenize(line.TrimStart()).FirstOrDefault();
 				if(token != null && !token.Ignore)
 				{
 					var actionToken = token as ActionToken;
@@ -168,6 +177,7 @@ namespace Pathfinder.Core.Client.Scripting
 					{
 						ifToken.Blocks = _ifBlocks[i];
 					}
+
 					var task = _tokenHandlers[token.Type].Execute(_scriptContext, token);
 					try
 					{
@@ -182,6 +192,15 @@ namespace Pathfinder.Core.Client.Scripting
 					}
 					if(!string.IsNullOrWhiteSpace(task.Result.Goto))
 					{
+						if(!_gotos.ContainsKey(task.Result.Goto))
+						{
+							_log.Log(_scriptContext.Name, "cannot find label '{0}'".ToFormat(task.Result.Goto), i);
+							canceled = true;
+							_taskCompletionSource.TrySetCanceled();
+							_actionTracker.EndTransmission();
+							break;
+						}
+
 						i = _gotos[task.Result.Goto] - 1;
 					}
 					else {
@@ -193,9 +212,6 @@ namespace Pathfinder.Core.Client.Scripting
 			if(!canceled)
 				_taskCompletionSource.TrySetResult(null);
 		}
-
-		private ActionTracker _actionTracker = new ActionTracker();
-		private ActionReporter _actionReporter;
 
 		private CancellationToken RunAction(ActionContext actionContext, IDataTracker<ActionContext> tracker,  ISimpleDictionary<string, string> localVars)
 		{

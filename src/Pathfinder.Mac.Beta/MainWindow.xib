@@ -491,7 +491,7 @@
                     <imageView focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="G09-Vm-SgJ">
                         <rect key="frame" x="253" y="52" width="29" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" focusRingType="none" alignment="left" imageScaling="proportionallyUpOrDown" image="standing" id="nbI-jx-0oN"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" focusRingType="none" alignment="left" imageScaling="proportionallyUpOrDown" image="standing-s" id="nbI-jx-0oN"/>
                     </imageView>
                 </subviews>
             </view>
@@ -502,7 +502,7 @@
         <image name="group" width="512" height="512"/>
         <image name="hidden" width="512" height="512"/>
         <image name="invisible" width="512" height="512"/>
-        <image name="standing" width="512" height="512"/>
+        <image name="standing-s" width="45" height="45"/>
         <image name="web" width="512" height="512"/>
     </resources>
 </document>

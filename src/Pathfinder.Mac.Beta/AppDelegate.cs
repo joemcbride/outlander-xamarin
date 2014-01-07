@@ -4,12 +4,14 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
+using Outlander.Mac.Beta;
 
 namespace Pathfinder.Mac.Beta
 {
 	public partial class AppDelegate : NSApplicationDelegate
 	{
 		private List<MainWindowController> _windows = new List<MainWindowController>();
+		private LoginWindowController _settings;
 
 		public AppDelegate()
 		{
@@ -18,6 +20,9 @@ namespace Pathfinder.Mac.Beta
 		public override void FinishedLaunching(NSObject notification)
 		{
 			LaunchNewWindow();
+
+//			_settings = new LoginWindowController();
+//			_settings.ShowSheet(_windows[0].Window);
 		}
 
 		public override void AwakeFromNib()
