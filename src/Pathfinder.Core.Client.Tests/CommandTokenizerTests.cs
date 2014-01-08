@@ -65,5 +65,15 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("scriptcommand", tokens[0].Type);
 			Assert.AreEqual("pause myscript", tokens[0].Value);
 		}
+
+		[Test]
+		public void creates_parse_token()
+		{
+			const string line = "#parse something";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("parse", token.Type);
+			Assert.AreEqual("something", token.Value);
+		}
 	}
 }

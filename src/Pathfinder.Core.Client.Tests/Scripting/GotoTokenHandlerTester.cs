@@ -73,5 +73,10 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			throw new NotImplementedException();
 		}
+
+		public Task Parse(string command, ScriptContext context = null)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

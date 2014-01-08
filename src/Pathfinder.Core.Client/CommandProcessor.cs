@@ -11,6 +11,7 @@ namespace Pathfinder.Core.Client
 		string Eval(string command, ScriptContext context = null);
 		Task Process(string command, ScriptContext context = null, bool echo = true);
 		Task Echo(string command, ScriptContext context = null);
+		Task Parse(string command, ScriptContext context = null);
 	}
 
 	public class CommandProcessor : ICommandProcessor
@@ -33,6 +34,7 @@ namespace Pathfinder.Core.Client
 			_tokenHandlers["scriptcommand"] = new ScriptCommandTokenHandler();
 			_tokenHandlers["send"] = new SendTokenHandler();
 			_tokenHandlers["globalvar"] = new GlobalVarTokenHandler();
+			_tokenHandlers["parse"] = new ParseTokenHandler();
 		}
 
 		public string Eval(string command, ScriptContext context = null)
@@ -92,15 +94,36 @@ namespace Pathfinder.Core.Client
 
 		public Task Echo(string command, ScriptContext context = null)
 		{
+			return Publish(command, context, t => {
+				t.Color = "#00FFFF";
+				t.Mono = true;
+				if(context != null && context.DebugLevel > 0)
+					_scriptLog.Log(context.Name, "echo {0}".ToFormat(t.Text), context.LineNumber);
+			});
+		}
+
+		public Task Parse(string command, ScriptContext context = null)
+		{
+			return Publish(command, context, t => {
+				t.Filtered = true;
+				if(context != null && context.DebugLevel > 0)
+					_scriptLog.Log(context.Name, "parse {0}".ToFormat(t.Text), context.LineNumber);
+			});
+		}
+
+		private Task Publish(string command, ScriptContext context = null, Action<TextTag> configure = null)
+		{
 			var completionSource = new TaskCompletionSource<object>();
 
 			var gameStream = _services.Get<IGameStream>();
 			var replaced = Eval(command, context);
 
-			if(context != null && context.DebugLevel > 0)
-				_scriptLog.Log(context.Name, "echo {0}".ToFormat(replaced), context.LineNumber);
+			var tag = TextTag.For(replaced);
 
-			gameStream.Publish(TextTag.For(replaced, "#00FFFF", true));
+			if(configure != null)
+				configure(tag);
+
+			gameStream.Publish(tag);
 			completionSource.TrySetResult(null);
 
 			return completionSource.Task;

@@ -307,5 +307,15 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("debuglevel", token.Type);
 			Assert.AreEqual("5", token.Value);
 		}
+
+		[Test]
+		public void creates_parse_token()
+		{
+			const string line = "parse something";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("parse", token.Type);
+			Assert.AreEqual("something", token.Value);
+		}
 	}
 }

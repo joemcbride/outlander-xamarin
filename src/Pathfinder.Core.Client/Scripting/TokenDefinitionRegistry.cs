@@ -110,6 +110,24 @@ namespace Pathfinder.Core.Client
 				};
 			});
 
+			registry.New(d => {
+				d.Type = "parse";
+				d.Pattern = "^#parse";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
 			return registry;
 		}
 
@@ -504,6 +522,24 @@ namespace Pathfinder.Core.Client
 			registry.New(d => {
 				d.Type = "debuglevel";
 				d.Pattern = "^debuglevel";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "parse";
+				d.Pattern = "^parse";
 				d.Ignore = false;
 				d.BuildToken = (source, match, def)=> {
 
