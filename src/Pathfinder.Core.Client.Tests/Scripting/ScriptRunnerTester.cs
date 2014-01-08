@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
 using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -14,6 +15,7 @@ namespace Pathfinder.Core.Client.Tests
 		private StubScriptLoader theLoader;
 		private StubGameServer theGameServer;
 		private StubGameState theGameState;
+		private GameStream theGameStream;
 		private IVariableReplacer theReplacer;
 		private InMemoryScriptLog theLogger;
 		private InMemoryServiceLocator theServices;
@@ -32,9 +34,11 @@ namespace Pathfinder.Core.Client.Tests
 
 			theServices = new InMemoryServiceLocator();
 
-			var waitForTokenHandler = new WaitForTokenHandler(theGameState);
-			var waitForReTokenHandler = new WaitForReTokenHandler(theGameState);
-			var matchWaitTokenHandler = new MatchWaitTokenHandler(theGameState);
+			theGameStream = new GameStream(theGameState);
+
+			var waitForTokenHandler = new WaitForTokenHandler(theGameState, theGameStream);
+			var waitForReTokenHandler = new WaitForReTokenHandler(theGameState, theGameStream);
+			var matchWaitTokenHandler = new MatchWaitTokenHandler(theGameState, theGameStream);
 
 			theServices.Add<IGameServer>(theGameServer);
 			theServices.Add<IGameState>(theGameState);

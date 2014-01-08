@@ -41,9 +41,9 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IVariableReplacer>(theReplacer);
 			theServices.Add<IIfBlockExecuter>(
 				new IfBlockExecuter(
-					new WaitForTokenHandler(theGameState),
-					new WaitForReTokenHandler(theGameState),
-					new MatchWaitTokenHandler(theGameState)
+					new WaitForTokenHandler(theGameState, theGameStream),
+					new WaitForReTokenHandler(theGameState, theGameStream),
+					new MatchWaitTokenHandler(theGameState, theGameStream)
 				));
 			theServices.Add<IGameStream>(theGameStream);
 

@@ -15,7 +15,9 @@ namespace Pathfinder.Core.Client
 			var processor = Context.Get<ICommandProcessor>();
 			var replaced = processor.Eval(Token.Value, Context);
 
-			Context.Get<IScriptLog>().Log(Context.Name, "waitformove " + replaced, Context.LineNumber);
+			if(Context.DebugLevel > 0) {
+				Context.Get<IScriptLog>().Log(Context.Name, "waitformove " + replaced, Context.LineNumber);
+			}
 
 			Context.CancelToken.Register(() => {
 				_tracker.IfNotNull(t => t.Unsubscribe());

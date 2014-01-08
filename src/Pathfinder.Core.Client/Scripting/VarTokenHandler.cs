@@ -16,7 +16,9 @@ namespace Pathfinder.Core.Client
 			if(match.Success)
 			{
 				var value = replacer.Replace(match.Groups[2].Value, Context);
-				log.Log(Context.Name, "setvar {0} {1}".ToFormat(match.Groups[1].Value, value), Context.LineNumber);
+				if(Context.DebugLevel > 0) {
+					log.Log(Context.Name, "setvar {0} {1}".ToFormat(match.Groups[1].Value, value), Context.LineNumber);
+				}
 				Context.LocalVars.Set(match.Groups[1].Value, value);
 			}
 

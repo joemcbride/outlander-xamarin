@@ -76,7 +76,9 @@ namespace Pathfinder.Core.Client.Scripting
 			_tokenHandlers["send"] = new SendTokenHandler();
 			_tokenHandlers["parse"] = new ParseTokenHandler();
 			_tokenHandlers["label"] = new ContinueTokenHandler((context, token) => {
-				_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
+				if(context.DebugLevel > 0) {
+					_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
+				}
 			});
 		}
 

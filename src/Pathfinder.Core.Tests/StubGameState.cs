@@ -52,6 +52,7 @@ namespace Pathfinder.Core.Tests
 		public StubGameState()
 		{
 			TagTracker = new DataTracker<IEnumerable<Tag>>();
+			TextTracker = new DataTracker<string>();
 		}
 
 		public string LastReadData { get; set; }
@@ -89,6 +90,8 @@ namespace Pathfinder.Core.Tests
 			if(ev != null){
 				ev(data);
 			}
+
+			TextTracker.Publish(data);
 		}
 
 		public event TextLogHandler TextLog;

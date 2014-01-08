@@ -82,14 +82,27 @@ namespace Pathfinder.Core.Client
 
 				if(context != null && context.DebugLevel > 0)
 					_scriptLog.Log(context.Name, "{0}".ToFormat(replaced), context.LineNumber);
-				else if(echo)
-					Echo(replaced + "\n");
+
+				if(echo)
+					EchoCommand(replaced + "\n", context);
 
 				server.SendCommand(replaced);
 				completionSource.TrySetResult(null);
 			}
 
 			return completionSource.Task;
+		}
+
+		public Task EchoCommand(string command, ScriptContext context = null)
+		{
+			var formatted = command;
+			if(context != null && !string.IsNullOrWhiteSpace(context.Name)) {
+				formatted = "[{0}] {1}".ToFormat(context.Name, command);
+			}
+
+			return Publish(formatted, context, t => {
+				t.Color = "ADFF2F";
+			});
 		}
 
 		public Task Echo(string command, ScriptContext context = null)

@@ -34,9 +34,9 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IVariableReplacer>(new VariableReplacer());
 			theServices.Add<ICommandProcessor>(new CommandProcessor(theServices, theServices.Get<IVariableReplacer>(), theLog));
 			theServices.Add<IIfBlocksParser>(new IfBlocksParser());
-			var waitFor = new WaitForTokenHandler(theGameState);
-			var waitForRe = new WaitForReTokenHandler(theGameState);
-			var matchWait = new MatchWaitTokenHandler(theGameState);
+			var waitFor = new WaitForTokenHandler(theGameState, theGameStream);
+			var waitForRe = new WaitForReTokenHandler(theGameState, theGameStream);
+			var matchWait = new MatchWaitTokenHandler(theGameState, theGameStream);
 			theServices.Add<WaitForTokenHandler>(waitFor);
 			theServices.Add<WaitForReTokenHandler>(waitForRe);
 			theServices.Add<MatchWaitTokenHandler>(matchWait);
@@ -50,7 +50,7 @@ namespace Pathfinder.Core.Client.Tests
 		public void runs_simple_script()
 		{
 			const string script = "debuglevel 5\nstart:\nput %1\ngoto end\nend:";
-			const string expected = "script started\npassing label: start\ncollect rock\ngoto end\npassing label: end\n";
+			const string expected = "script started\ndebuglevel 5\npassing label: start\ncollect rock\ngoto end\npassing label: end\n";
 
 			var scriptTask = theScript.Run("1", "script", script, "collect rock");
 

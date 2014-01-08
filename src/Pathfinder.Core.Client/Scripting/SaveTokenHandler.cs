@@ -6,7 +6,9 @@ namespace Pathfinder.Core.Client
 	{
 		protected override void execute()
 		{
-			Context.Get<IScriptLog>().Log(Context.Name, "saving {0}".ToFormat(Token.Value), Context.LineNumber);
+			if(Context.DebugLevel > 0) {
+				Context.Get<IScriptLog>().Log(Context.Name, "saving {0}".ToFormat(Token.Value), Context.LineNumber);
+			}
 			Context.LocalVars.Set("s", Token.Value);
 
 			TaskSource.TrySetResult(new CompletionEventArgs());

@@ -11,7 +11,9 @@ namespace Pathfinder.Core.Client
 
 			var location = eval.Eval(Token.Value, Context);
 
-			log.Log(Context.Name, "goto " + location, Context.LineNumber);
+			if(Context.DebugLevel > 0) {
+				log.Log(Context.Name, "goto " + location, Context.LineNumber);
+			}
 
 			TaskSource.SetResult(new CompletionEventArgs { Goto = location });
 		}

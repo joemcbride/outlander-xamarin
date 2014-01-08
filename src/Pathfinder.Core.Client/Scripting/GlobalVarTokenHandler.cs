@@ -18,7 +18,9 @@ namespace Pathfinder.Core.Client
 				var settingsLoader = Context.Get<AppSettingsLoader>();
 
 				var value = replacer.Replace(match.Groups[2].Value, Context);
-				log.Log(Context.Name, "setglobalvar {0} {1}".ToFormat(match.Groups[1].Value, value), Context.LineNumber);
+				if(Context.DebugLevel > 0) {
+					log.Log(Context.Name, "setglobalvar {0} {1}".ToFormat(match.Groups[1].Value, value), Context.LineNumber);
+				}
 				gameState.Set(match.Groups[1].Value, value);
 
 				settingsLoader.SaveVariables();

@@ -4,18 +4,25 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Scripting
 {
 	public class WeakMatchingTokenHandler : ITokenHandler
 	{
 		private readonly IGameState _gameState;
+		private readonly IGameStream _gameStream;
 		private readonly List<IWaitForMatcher> _matchers = new List<IWaitForMatcher>();
+		private readonly GameStreamListener _listener;
 
-		public WeakMatchingTokenHandler(IGameState gameState)
+		public WeakMatchingTokenHandler(IGameState gameState, IGameStream gameStream)
 		{
 			_gameState = gameState;
-			_gameState.TextLog += Check;
+			_gameStream = gameStream;
+			_listener = new GameStreamListener(tag => {
+				Check(tag.Text);
+			});
+			_listener.Subscribe(_gameStream);
 		}
 
 		public virtual Task<CompletionEventArgs> Execute(ScriptContext context, Token token)

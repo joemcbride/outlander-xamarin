@@ -108,13 +108,17 @@ namespace Pathfinder.Core.Client
 
 			var replaced = replacer.Replace(block, context);
 
-			scriptLog.Log(context.Name, "if {0}".ToFormat(replaced), context.LineNumber);
+			if(context.DebugLevel > 0) {
+				scriptLog.Log(context.Name, "if {0}".ToFormat(replaced), context.LineNumber);
+			}
 
 			try
 			{
 				var interpreter = new Interpreter();
 				var result = (bool)interpreter.Eval(replaced);
-				scriptLog.Log(context.Name, "if result {0}".ToFormat(result.ToString().ToLower()), context.LineNumber);
+				if(context.DebugLevel > 0) {
+					scriptLog.Log(context.Name, "if result {0}".ToFormat(result.ToString().ToLower()), context.LineNumber);
+				}
 				return result;
 			}
 			catch(Exception exc)

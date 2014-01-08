@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
 using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -12,6 +13,7 @@ namespace Pathfinder.Core.Client.Tests
 	{
 		private StubGameServer theGameServer;
 		private StubGameState theGameState;
+		private GameStream theGameStream;
 		private ScriptContext theScriptContext;
 		private InMemoryScriptLog theLog;
 		private InMemoryServiceLocator theServices;
@@ -22,6 +24,7 @@ namespace Pathfinder.Core.Client.Tests
 		{
 			theGameState = new StubGameState();
 			theGameServer = new StubGameServer(theGameState);
+			theGameStream = new GameStream(theGameState);
 
 			theGameState.Set(ComponentKeys.Roundtime, "0");
 
@@ -32,8 +35,9 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IScriptLog>(theLog);
 
 			theScriptContext = new ScriptContext("1", "waitfor", CancellationToken.None, theServices, null);
+			theScriptContext.DebugLevel = 5;
 
-			theHandler = new WaitForReTokenHandler(theGameState);
+			theHandler = new WaitForReTokenHandler(theGameState, theGameStream);
 		}
 
 		[Test]

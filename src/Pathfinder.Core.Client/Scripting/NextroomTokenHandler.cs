@@ -12,7 +12,9 @@ namespace Pathfinder.Core.Client
 
 		protected override void execute()
 		{
-			Context.Get<IScriptLog>().Log(Context.Name, "waiting for next room", Context.LineNumber);
+			if(Context.DebugLevel > 0) {
+				Context.Get<IScriptLog>().Log(Context.Name, "waiting for next room", Context.LineNumber);
+			}
 
 			Context.CancelToken.Register(() => {
 				_tracker.IfNotNull(t => t.Unsubscribe());

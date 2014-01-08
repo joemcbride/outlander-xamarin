@@ -26,7 +26,9 @@ namespace Pathfinder.Core.Client.Scripting
 			if(!string.IsNullOrWhiteSpace(token.Value))
 				double.TryParse(token.Value, out pause);
 
-			_log.Log(Context.Name, "pausing for {0} seconds".ToFormat(pause), Context.LineNumber);
+			if(Context.DebugLevel > 0) {
+				_log.Log(Context.Name, "pausing for {0} seconds".ToFormat(pause), Context.LineNumber);
+			}
 
 			try
 			{

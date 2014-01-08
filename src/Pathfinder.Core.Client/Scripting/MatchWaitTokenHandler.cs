@@ -2,19 +2,22 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Scripting
 {
 	public class MatchWaitTokenHandler : WeakMatchingTokenHandler
 	{
-		public MatchWaitTokenHandler(IGameState gameState)
-			: base(gameState)
+		public MatchWaitTokenHandler(IGameState gameState, IGameStream gameStream)
+			: base(gameState, gameStream)
 		{
 		}
 
 		public override Task<CompletionEventArgs> Execute(ScriptContext context, Token token)
 		{
-			context.Get<IScriptLog>().Log(context.Name, "matchwait", context.LineNumber);
+			if(context.DebugLevel > 0) {
+				context.Get<IScriptLog>().Log(context.Name, "matchwait", context.LineNumber);
+			}
 
 			return base.Execute(context, token);
 		}
@@ -55,7 +58,9 @@ namespace Pathfinder.Core.Client.Scripting
 				{
 					Context.MatchWait.Clear();
 					result = MatchResult.True(item.Goto);
-					Context.Get<IScriptLog>().Log(Context.Name, "match goto " + item.Goto, Context.LineNumber);
+					if(Context.DebugLevel > 0) {
+						Context.Get<IScriptLog>().Log(Context.Name, "match goto " + item.Goto, Context.LineNumber);
+					}
 					break;
 				}
 			}
