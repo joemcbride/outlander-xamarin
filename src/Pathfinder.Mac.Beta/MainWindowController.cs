@@ -11,6 +11,7 @@ using Pathfinder.Core;
 using Pathfinder.Core.Authentication;
 using Pathfinder.Core.Client;
 using Pathfinder.Core.Text;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Mac.Beta
 {
@@ -22,6 +23,9 @@ namespace Pathfinder.Mac.Beta
 		private IGameServer _gameServer;
 		private CommandCache _commandCache;
 
+		private IGameStream _gameStream;
+		private GameStreamListener _gameStreamListener;
+
 		private ICommandProcessor _commandProcessor;
 		private IScriptLog _scriptLog;
 
@@ -31,6 +35,7 @@ namespace Pathfinder.Mac.Beta
 		private Timer _spellTimer;
 		private string _spell;
 		private int _count;
+
 
 		#region Constructors
 
@@ -255,7 +260,7 @@ namespace Pathfinder.Mac.Beta
 						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("logons")) {
 
 							var text = "[{0}]{1}".ToFormat(DateTime.Now.ToString("HH:mm"), streamTag.Text);
-							var highlights = _services.Get<Highlights>().For(text);
+							var highlights = _services.Get<Highlights>().For(TextTag.For(text));
 
 							BeginInvokeOnMainThread(()=> {
 								highlights.Apply(h => {
@@ -268,7 +273,7 @@ namespace Pathfinder.Mac.Beta
 						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("thoughts")) {
 
 							var text = "[{0}]: {1}".ToFormat(DateTime.Now.ToString("HH:mm"), streamTag.Text);
-							var highlights = _services.Get<Highlights>().For(text);
+							var highlights = _services.Get<Highlights>().For(TextTag.For(text));
 
 							BeginInvokeOnMainThread(()=> {
 								highlights.Apply(h => {
@@ -280,7 +285,7 @@ namespace Pathfinder.Mac.Beta
 						if(!string.IsNullOrWhiteSpace(streamTag.Id) && streamTag.Id.Equals("death")) {
 
 							var text = "[{0}]{1}".ToFormat(DateTime.Now.ToString("HH:mm"), streamTag.Text);
-							var highlights = _services.Get<Highlights>().For(text);
+							var highlights = _services.Get<Highlights>().For(TextTag.For(text));
 
 							BeginInvokeOnMainThread(()=> {
 								highlights.Apply(h => {
@@ -339,6 +344,9 @@ namespace Pathfinder.Mac.Beta
 
 					BeginInvokeOnMainThread(()=> {
 						UpdateImages();
+
+						LeftHandLabel.StringValue = string.Format("L: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
+						RightHandLabel.StringValue = string.Format("R: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
 					});
 
 					_services.Get<AppSettingsLoader>().SaveVariables();
@@ -367,14 +375,21 @@ namespace Pathfinder.Mac.Beta
 				});
 			};
 
-			_gameServer.GameState.TextLog += (msg) => {
-				BeginInvokeOnMainThread(() => {
-					Log(msg, MainTextView);
+//			_gameServer.GameState.TextLog += (msg) => {
+//				BeginInvokeOnMainThread(() => {
+//					Log(msg, MainTextView);
+//				});
+//			};
 
-					LeftHandLabel.StringValue = string.Format("L: {0}", _gameServer.GameState.Get(ComponentKeys.LeftHand));
-					RightHandLabel.StringValue = string.Format("R: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
+			_gameStream = _services.Get<IGameStream>();
+			_gameStreamListener = new GameStreamListener(tag => {
+				BeginInvokeOnMainThread(()=>{
+					if(tag.Filtered)
+						return;
+					Log(tag, MainTextView);
 				});
-			};
+			});
+			_gameStreamListener.Subscribe(_gameStream);
 
 			LoginButton.Activated += (sender, e) =>
 			{
@@ -439,7 +454,7 @@ namespace Pathfinder.Mac.Beta
 				if(!hasLineFeed)
 					prompt = "\n" + prompt;
 
-				Log(prompt, MainTextView);
+				Log(TextTag.For(prompt), MainTextView);
 			}
 
 			_commandProcessor.Process(command, echo: false);
@@ -455,14 +470,14 @@ namespace Pathfinder.Mac.Beta
 			textView.TextStorage.EndEditing();
 
 			var highlights = _services.Get<Highlights>();
-			highlights.For(text).Apply(t => Append(t, textView));
+			highlights.For(TextTag.For(text)).Apply(t => Append(t, textView));
 		}
 
-		private void Log(string text, NSTextView textView)
+		private void Log(TextTag text, NSTextView textView)
 		{
 			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt);
 
-			if (string.Equals(text.Trim(), prompt)
+			if (string.Equals(text.Text.Trim(), prompt)
 				&& textView.TextStorage.Value.Trim().EndsWith(prompt))
 				return;
 

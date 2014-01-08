@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -13,6 +14,7 @@ namespace Pathfinder.Core.Client.Tests
 		private ScriptContext theScriptContext;
 		private InMemoryServiceLocator theServices;
 		private InMemoryScriptLog theLogger;
+		private IGameStream theGameStream;
 		private SendCommandTokenHandler theHandler;
 
 		[SetUp]
@@ -21,6 +23,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState = new StubGameState();
 			theGameServer = new StubGameServer(theGameState);
 			theLogger = new InMemoryScriptLog();
+			theGameStream = new GameStream(theGameState);
 
 			theServices = new InMemoryServiceLocator();
 			theServices.Add<IGameServer>(theGameServer);
@@ -28,8 +31,10 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IScriptLog>(theLogger);
 			theServices.Add<IVariableReplacer>(new VariableReplacer());
 			theServices.Add<ICommandProcessor>(new CommandProcessor(theServices, theServices.Get<IVariableReplacer>(), theLogger));
+			theServices.Add<IGameStream>(theGameStream);
 
 			theScriptContext = new ScriptContext("1", "sendcommand", CancellationToken.None,  theServices, null);
+			theScriptContext.DebugLevel = 5;
 
 			theHandler = new SendCommandTokenHandler();
 		}

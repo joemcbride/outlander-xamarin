@@ -11,6 +11,8 @@ namespace Pathfinder.Core.Client
 		public string Color { get; set; }
 		public bool Mono { get; set; }
 		public bool Matched { get; set; }
+		public bool Window { get; set; }
+		public bool Filtered { get; set; }
 
 		public override bool Equals(object obj)
 		{

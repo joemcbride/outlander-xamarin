@@ -93,6 +93,7 @@
     <Compile Include="Scripting\GlobalVarTokenHandler.cs" />
     <Compile Include="Scripting\ExitTokenHandler.cs" />
     <Compile Include="Scripting\DebugLevelTokenHandler.cs" />
+    <Compile Include="GameStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">

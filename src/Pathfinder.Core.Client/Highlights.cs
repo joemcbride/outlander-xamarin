@@ -14,10 +14,10 @@ namespace Pathfinder.Core.Client
 			_highlighters = highlighters;
 		}
 
-		public IEnumerable<TextTag> For(string text)
+		public IEnumerable<TextTag> For(TextTag text)
 		{
 			var results = new List<TextTag>();
-			results.Add(TextTag.For(text));
+			results.Add(text);
 
 			_highlighters.Apply(h => {
 

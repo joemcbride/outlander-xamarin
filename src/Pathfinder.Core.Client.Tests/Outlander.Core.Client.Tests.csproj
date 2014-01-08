@@ -72,6 +72,7 @@
     <Compile Include="Settings\VariablesLoaderTester.cs" />
     <Compile Include="Settings\HighlightsLoaderTester.cs" />
     <Compile Include="HighlightsTester.cs" />
+    <Compile Include="Scripting\ActionReporterTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

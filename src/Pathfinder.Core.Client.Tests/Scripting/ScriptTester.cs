@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
 using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -16,6 +17,7 @@ namespace Pathfinder.Core.Client.Tests
 		private StubGameState theGameState;
 		private InMemoryServiceLocator theServices;
 		private InMemoryScriptLog theLog;
+		private IGameStream theGameStream;
 
 		[SetUp]
 		public void SetUp()
@@ -23,6 +25,7 @@ namespace Pathfinder.Core.Client.Tests
 			theLog = new InMemoryScriptLog();
 			theGameState = new StubGameState();
 			theGameServer = new StubGameServer(theGameState);
+			theGameStream = new GameStream(theGameState);
 
 			theServices = new InMemoryServiceLocator();
 			theServices.Add<IGameServer>(theGameServer);
@@ -38,6 +41,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<WaitForReTokenHandler>(waitForRe);
 			theServices.Add<MatchWaitTokenHandler>(matchWait);
 			theServices.Add<IIfBlockExecuter>(new IfBlockExecuter(waitFor, waitForRe, matchWait));
+			theServices.Add<IGameStream>(theGameStream);
 
 			theScript = new Script(theServices, Tokenizer.With(TokenDefinitionRegistry.Default()));
 		}
@@ -45,7 +49,7 @@ namespace Pathfinder.Core.Client.Tests
 		[Test]
 		public void runs_simple_script()
 		{
-			const string script = "start:\nput %1\ngoto end\nend:";
+			const string script = "debuglevel 5\nstart:\nput %1\ngoto end\nend:";
 			const string expected = "script started\npassing label: start\ncollect rock\ngoto end\npassing label: end\n";
 
 			var scriptTask = theScript.Run("1", "script", script, "collect rock");

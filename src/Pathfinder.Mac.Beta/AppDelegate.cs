@@ -11,7 +11,7 @@ namespace Pathfinder.Mac.Beta
 	public partial class AppDelegate : NSApplicationDelegate
 	{
 		private List<MainWindowController> _windows = new List<MainWindowController>();
-		private LoginWindowController _settings;
+		//private LoginWindowController _settings;
 
 		public AppDelegate()
 		{
@@ -20,6 +20,9 @@ namespace Pathfinder.Mac.Beta
 		public override void FinishedLaunching(NSObject notification)
 		{
 			LaunchNewWindow();
+
+//			var controller = new SettingsWindowController();
+//			controller.Window.MakeKeyAndOrderFront(this);
 
 //			_settings = new LoginWindowController();
 //			_settings.ShowSheet(_windows[0].Window);

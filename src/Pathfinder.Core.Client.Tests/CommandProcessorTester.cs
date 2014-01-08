@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Pathfinder.Core.Client.Scripting;
 using Pathfinder.Core.Tests;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -15,6 +16,7 @@ namespace Pathfinder.Core.Client.Tests
 		private StubGameServer theGameServer;
 		private InMemoryScriptLog theScriptLog;
 		private VariableReplacer theVariableReplacer;
+		private IGameStream theGameStream;
 		private CommandProcessor theProcessor;
 
 		[SetUp]
@@ -24,6 +26,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameServer = new StubGameServer(theGameState);
 
 			theVariableReplacer = new VariableReplacer();
+			theGameStream = new GameStream(theGameState);
 
 			theScriptLog = new InMemoryScriptLog();
 
@@ -34,6 +37,7 @@ namespace Pathfinder.Core.Client.Tests
 			theServices.Add<IGameState>(theGameState);
 			theServices.Add<IScriptRunner>(theRunner);
 			theServices.Add<IVariableReplacer>(theVariableReplacer);
+			theServices.Add<IGameStream>(theGameStream);
 
 			theProcessor = new CommandProcessor(theServices, theVariableReplacer, theScriptLog);
 		}

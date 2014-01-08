@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace Pathfinder.Core.Client.Scripting
 {
-
 	public class WaitForReTokenHandler : WeakMatchingTokenHandler
 	{
 		public WaitForReTokenHandler(IGameState gameState)
@@ -24,5 +23,4 @@ namespace Pathfinder.Core.Client.Scripting
 			return new WaitforRegexMatcher(context, token);
 		}
 	}
-	
 }

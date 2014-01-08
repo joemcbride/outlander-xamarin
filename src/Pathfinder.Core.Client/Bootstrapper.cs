@@ -4,6 +4,7 @@ using Pathfinder.Core.Authentication;
 using Pathfinder.Core.Text;
 using Pathfinder.Core.Client;
 using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core
 {
@@ -58,6 +59,8 @@ namespace Pathfinder.Core
 
 			_container.PerRequest<IVariableReplacer, VariableReplacer>();
 			_container.Singleton<ICommandProcessor, CommandProcessor>();
+
+			_container.Singleton<IGameStream, GameStream>();
 
 			_container.Singleton<ISendQueue, SendQueue>();
 

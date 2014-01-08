@@ -35,7 +35,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState.Set(ComponentKeys.RoomName, title);
 			theGameState.Set(ComponentKeys.RoomTitle, title);
 
-			var tags = theHighlighter.For(title + "\n" + description + "\n" + roomObjs).ToList();
+			var tags = theHighlighter.For(TextTag.For(title + "\n" + description + "\n" + roomObjs)).ToList();
 
 			Assert.AreEqual(4, tags.Count);
 			Assert.AreEqual(TextTag.For(title), tags[0]);

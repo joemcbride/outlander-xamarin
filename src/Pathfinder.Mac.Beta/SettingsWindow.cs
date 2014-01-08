@@ -6,7 +6,7 @@ using MonoMac.AppKit;
 
 namespace Pathfinder.Mac.Beta
 {
-	public partial class SettingsWindow : MonoMac.AppKit.NSWindow
+	public partial class SettingsWindow : NSWindow
 	{
 		#region Constructors
 
@@ -24,6 +24,7 @@ namespace Pathfinder.Mac.Beta
 		// Shared initialization code
 		void Initialize()
 		{
+			BackgroundColor = "#4A4A4A".ToNSColor();
 		}
 
 		#endregion

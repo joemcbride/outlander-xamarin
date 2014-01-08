@@ -3,6 +3,7 @@ using System.Threading;
 using NUnit.Framework;
 using Pathfinder.Core.Tests;
 using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client.Tests
 {
@@ -15,6 +16,7 @@ namespace Pathfinder.Core.Client.Tests
 		private IVariableReplacer theReplacer;
 		private ISimpleDictionary<string, string> theLocalVars;
 		private ICommandProcessor theCommandProcessor;
+		private IGameStream theGameStream;
 		private InMemoryScriptLog theLog;
 		private InMemoryServiceLocator theServices;
 		private IfTokenHandler theHandler;
@@ -30,6 +32,7 @@ namespace Pathfinder.Core.Client.Tests
 			theLog = new InMemoryScriptLog();
 
 			theReplacer = new VariableReplacer();
+			theGameStream = new GameStream(theGameState);
 
 			theServices = new InMemoryServiceLocator();
 			theServices.Add<IGameServer>(theGameServer);
@@ -42,6 +45,7 @@ namespace Pathfinder.Core.Client.Tests
 					new WaitForReTokenHandler(theGameState),
 					new MatchWaitTokenHandler(theGameState)
 				));
+			theServices.Add<IGameStream>(theGameStream);
 
 			theCommandProcessor = new CommandProcessor(theServices, theReplacer, theLog);
 			theServices.Add<ICommandProcessor>(theCommandProcessor);
@@ -49,6 +53,7 @@ namespace Pathfinder.Core.Client.Tests
 			theLocalVars = new SimpleDictionary<string, string>();
 
 			theScriptContext = new ScriptContext("1", "if", CancellationToken.None, theServices, theLocalVars);
+			theScriptContext.DebugLevel = 5;
 
 			theHandler = new IfTokenHandler();
 		}
@@ -118,7 +123,7 @@ namespace Pathfinder.Core.Client.Tests
 				}
 			};
 
-			const string expected = "if (\"ON\" == \"OFF\")\nif result false\nif (\"something1\" == \"another\")\nif result false\npausing for 0.1 seconds\necho snapcast ON\n";
+			const string expected = "if (\"ON\" == \"OFF\")\nif result false\nif (\"something1\" == \"another\")\nif result false\npausing for 0.1 seconds\necho snapcast ON\n\n";
 
 			theLocalVars.Set("snapCast", "ON");
 

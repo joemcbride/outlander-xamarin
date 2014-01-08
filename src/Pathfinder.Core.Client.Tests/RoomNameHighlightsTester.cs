@@ -31,7 +31,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState.Set(ComponentKeys.RoomName, title);
 			theGameState.Set(ComponentKeys.RoomTitle, title);
 
-			var tags = theHighlighter.For(title + "\n" + description).ToList();
+			var tags = theHighlighter.For(TextTag.For(title + "\n" + description)).ToList();
 
 			Assert.AreEqual(2, tags.Count);
 			Assert.AreEqual(TextTag.For(title), tags[0]);
@@ -48,7 +48,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState.Set(ComponentKeys.RoomName, title);
 			theGameState.Set(ComponentKeys.RoomTitle, title);
 
-			var tags = theHighlighter.For(description + "\n\n" + title + "\n" + description).ToList();
+			var tags = theHighlighter.For(TextTag.For(description + "\n\n" + title + "\n" + description)).ToList();
 
 			Assert.AreEqual(3, tags.Count);
 			Assert.AreEqual(TextTag.For(description + "\n\n"), tags[0]);
@@ -66,7 +66,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState.Set(ComponentKeys.RoomName, name);
 			theGameState.Set(ComponentKeys.RoomTitle, title);
 
-			var tags = theHighlighter.For(title + "\n" + description + "\n" + name).ToList();
+			var tags = theHighlighter.For(TextTag.For(title + "\n" + description + "\n" + name)).ToList();
 
 			Assert.AreEqual(3, tags.Count);
 			Assert.AreEqual(TextTag.For(title), tags[0]);

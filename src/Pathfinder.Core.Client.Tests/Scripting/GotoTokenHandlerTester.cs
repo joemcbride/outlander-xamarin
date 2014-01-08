@@ -12,7 +12,7 @@ namespace Pathfinder.Core.Client.Tests
 		private StubGameServer theGameServer;
 		private StubGameState theGameState;
 		private ScriptContext theScriptContext;
-		private ICommandProcessor theCommandProcessor;
+		private StubCommandProcessor theCommandProcessor;
 		private InMemoryScriptLog theScriptLog;
 		private InMemoryServiceLocator theServices;
 		private GotoTokenHandler theHandler;
@@ -23,8 +23,7 @@ namespace Pathfinder.Core.Client.Tests
 			theGameState = new StubGameState();
 			theGameServer = new StubGameServer(theGameState);
 			theScriptLog = new InMemoryScriptLog();
-
-			//TODO: add stub command processor
+			theCommandProcessor = new StubCommandProcessor();
 
 			theServices = new InMemoryServiceLocator();
 			theServices.Add<IGameServer>(theGameServer);
@@ -51,6 +50,28 @@ namespace Pathfinder.Core.Client.Tests
 
 			Assert.IsTrue(task.IsCompleted);
 			Assert.AreEqual(token.Value, task.Result.Goto);
+		}
+	}
+
+	public class StubCommandProcessor : ICommandProcessor
+	{
+		public string LastEval { get; set; }
+		public string LastProcess { get; set; }
+
+		public string Eval(string command, ScriptContext context = null)
+		{
+			return command;
+		}
+
+		public Task Process(string command, ScriptContext context = null, bool echo = true)
+		{
+			LastProcess = command;
+			return null;
+		}
+
+		public Task Echo(string command, ScriptContext context = null)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

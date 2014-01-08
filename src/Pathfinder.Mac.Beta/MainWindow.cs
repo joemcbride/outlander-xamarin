@@ -8,7 +8,6 @@ namespace Pathfinder.Mac.Beta
 {
 	public partial class MainWindow : MonoMac.AppKit.NSWindow
 	{
-
 		#region Constructors
 
 		// Called when created from unmanaged code
@@ -28,7 +27,5 @@ namespace Pathfinder.Mac.Beta
 		}
 
 		#endregion
-
 	}
 }
-

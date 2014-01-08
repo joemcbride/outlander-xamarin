@@ -257,9 +257,11 @@ namespace Pathfinder.Core.Client.Scripting
 
 		public override void OnNext(ActionContext value)
 		{
-			_scriptLog.Log(value.ScriptName, "action triggered: {0}".ToFormat(value.Token.When), value.LineNumber);
+			if(value.ScriptContext.DebugLevel > 0) {
+				_scriptLog.Log(value.ScriptName, "action triggered: {0}".ToFormat(value.Token.When), value.LineNumber);
+			}
 
-			var result = Regex.Replace(value.Match, value.Token.When, value.Token.Action);
+			var result = Regex.Replace(value.Match, value.Token.When, value.Token.Action, RegexOptions.Multiline);
 
 			_executer.ExecuteBlocks(result, value.ScriptContext);
 		}

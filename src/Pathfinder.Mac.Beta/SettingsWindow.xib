@@ -20,23 +20,39 @@
                 <rect key="frame" x="0.0" y="0.0" width="606" height="354"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="53914FD1-75D8-42AA-BB23-11C50D9CECDA" displayMode="iconAndLabel" sizeMode="regular" id="ru7-6j-S2i">
+            <toolbar key="toolbar" implicitIdentifier="0591D95C-8F66-4A9E-9E6F-3A9CBA371003" autosavesConfiguration="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="regular" id="11a-MR-WKV">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="2Wt-uR-Fic"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="xNE-d2-pbq"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="YkL-yz-BB7"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="EDe-nv-spH"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Zfr-Ev-Cyf"/>
-                    <toolbarItem implicitItemIdentifier="779D3390-9376-4163-82CD-FDA7957F575C" label="Highlights" paletteLabel="Highlights" tag="-1" image="woodsword2" selectable="YES" id="18a-B5-zla"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSeparatorItem" id="oej-qA-dsu"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="QBN-o4-9CQ"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="SEq-Wm-e99"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="Kj3-3S-xNA"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="lqt-1F-lCs"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="8JK-3L-Pl1"/>
+                    <toolbarItem implicitItemIdentifier="FD0376CB-7DE5-4DA9-9061-CFF764479558" label="Highlights" paletteLabel="Toolbar Item" tag="-1" image="woodsword2" id="Ttl-PU-V9E"/>
+                    <toolbarItem implicitItemIdentifier="208161E2-00E8-4707-8B7F-757C14F8A843" label="" paletteLabel="" image="NSRefreshFreestandingTemplate" id="Tkf-Fh-0yP">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="19" height="25"/>
+                        <size key="maxSize" width="29" height="25"/>
+                        <button key="view" verticalHuggingPriority="750" id="Cee-fP-IX7">
+                            <rect key="frame" x="0.0" y="14" width="29" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZTW-h6-b6K">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
-                    <toolbarItem reference="18a-B5-zla"/>
+                    <toolbarItem reference="8JK-3L-Pl1"/>
+                    <toolbarItem reference="Ttl-PU-V9E"/>
+                    <toolbarItem reference="Tkf-Fh-0yP"/>
+                    <toolbarItem reference="8JK-3L-Pl1"/>
                 </defaultToolbarItems>
             </toolbar>
         </window>
     </objects>
     <resources>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
         <image name="woodsword2" width="256" height="256"/>
     </resources>
 </document>

@@ -11,14 +11,14 @@ namespace Pathfinder.Core
 
 	public class DataTracker<T> : IDataTracker<T>
 	{
-		private List<IObserver<T>> _observers;
+		protected List<IObserver<T>> _observers;
 
 		public DataTracker()
 		{
 			_observers = new List<IObserver<T>>();
 		}
 
-		public IDisposable Subscribe(IObserver<T> observer) 
+		IDisposable IObservable<T>.Subscribe(IObserver<T> observer) 
 		{
 			if (!_observers.Contains(observer)) 
 				_observers.Add(observer);
@@ -26,7 +26,7 @@ namespace Pathfinder.Core
 			return new Unsubscriber(_observers, observer);
 		}
 
-		public void Publish(T item)
+		public virtual void Publish(T item)
 		{
 			foreach (var observer in _observers.ToArray()) {
 				observer.OnNext(item);
@@ -82,7 +82,7 @@ namespace Pathfinder.Core
 
 		public virtual void Subscribe(IObservable<T> provider)
 		{
-			if (provider != null) 
+			if (provider != null)
 				_unsubscriber = provider.Subscribe(this);
 		}
 

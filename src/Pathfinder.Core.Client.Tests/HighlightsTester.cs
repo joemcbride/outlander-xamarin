@@ -27,7 +27,7 @@ namespace Pathfinder.Core.Client.Tests
 			theHighlighters.Add(SimpleHighlighter.For("Ranger", ""));
 			theHighlighters.Add(SimpleHighlighter.For("Saracus", ""));
 
-			var result = theHighlights.For(data).ToList();
+			var result = theHighlights.For(TextTag.For(data)).ToList();
 
 			Assert.AreEqual(7, result.Count);
 		}

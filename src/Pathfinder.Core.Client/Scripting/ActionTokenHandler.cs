@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client
 {
@@ -35,7 +36,7 @@ namespace Pathfinder.Core.Client
 		protected override void execute()
 		{
 			_reportPattern = new PatternReporter(_actionContext, _tracker);
-			_reportPattern.Subscribe(Context.Get<IGameState>().TextTracker);
+			_reportPattern.Subscribe(Context.Get<IGameStream>());
 
 			Context.CancelToken.Register(() => {
 				_reportPattern.Unsubscribe();
@@ -43,7 +44,7 @@ namespace Pathfinder.Core.Client
 		}
 	}
 
-	public class PatternReporter : DataReporter<string>
+	public class PatternReporter : DataReporter<TextTag>
 	{
 		private readonly IDataTracker<ActionContext> _tracker;
 		private readonly ActionContext _token;
@@ -55,11 +56,13 @@ namespace Pathfinder.Core.Client
 			_tracker = tracker;
 		}
 
-		public override void OnNext(string item)
+		public override void OnNext(TextTag item)
 		{
-			if(Regex.IsMatch(item, _token.Token.When))
+			var match = Regex.Match(item.Text, _token.Token.When, RegexOptions.Multiline);
+
+			if(match.Success)
 			{
-				_token.Match = item;
+				_token.Match = match.Value;
 				_tracker.Publish(_token);
 			}
 		}

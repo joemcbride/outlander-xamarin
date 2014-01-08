@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using Outlander.Core.Client;
 
 namespace Pathfinder.Core.Client
 {
@@ -93,13 +94,13 @@ namespace Pathfinder.Core.Client
 		{
 			var completionSource = new TaskCompletionSource<object>();
 
-			var gameState = _services.Get<IGameState>();
+			var gameStream = _services.Get<IGameStream>();
 			var replaced = Eval(command, context);
 
 			if(context != null && context.DebugLevel > 0)
 				_scriptLog.Log(context.Name, "echo {0}".ToFormat(replaced), context.LineNumber);
 
-			gameState.Echo(replaced);
+			gameStream.Publish(TextTag.For(replaced, "#00FFFF", true));
 			completionSource.TrySetResult(null);
 
 			return completionSource.Task;
