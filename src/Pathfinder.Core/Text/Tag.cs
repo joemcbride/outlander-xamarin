@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class Tag
 	{

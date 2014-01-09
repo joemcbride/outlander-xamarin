@@ -1,8 +1,9 @@
 using System;
 using System.Threading;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class ScriptContext
 	{

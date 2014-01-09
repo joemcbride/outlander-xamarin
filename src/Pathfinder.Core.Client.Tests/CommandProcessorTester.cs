@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Client.Scripting;
-using Pathfinder.Core.Tests;
+using Outlander.Core.Client.Scripting;
+using Outlander.Core.Tests;
 using Outlander.Core.Client;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class CommandProcessorTester

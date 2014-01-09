@@ -3,10 +3,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Pathfinder.Core.Client;
-using Pathfinder.Core.Client.Scripting;
-using Pathfinder.Core.Tests;
-using Pathfinder.Core.Client.Tests;
+using Outlander.Core.Client;
+using Outlander.Core.Client.Scripting;
+using Outlander.Core.Tests;
+using Outlander.Core.Client.Tests;
 
 namespace Outlander.Core.Client.Tests
 {

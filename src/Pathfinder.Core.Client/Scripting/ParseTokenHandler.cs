@@ -1,5 +1,5 @@
 using System;
-using Pathfinder.Core.Client;
+using Outlander.Core.Client;
 
 namespace Outlander.Core.Client
 {

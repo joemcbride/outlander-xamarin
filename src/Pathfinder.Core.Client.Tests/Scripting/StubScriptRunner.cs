@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Pathfinder.Core.Client.Scripting;
-using Pathfinder.Core.Tests;
+using Outlander.Core.Client.Scripting;
+using Outlander.Core.Tests;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	public class StubScriptRunner : IScriptRunner
 	{

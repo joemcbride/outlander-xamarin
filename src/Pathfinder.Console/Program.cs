@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Pathfinder.Core;
-using Pathfinder.Core.Authentication;
+using Outlander.Core;
+using Outlander.Core.Authentication;
 using console = System.Console;
 
-namespace Pathfinder.Console
+namespace Outlander.Console
 {
     class Program
     {

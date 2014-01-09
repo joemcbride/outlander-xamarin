@@ -2,7 +2,7 @@ using System;
 using System.Timers;
 using Interlocked = System.Threading.Interlocked;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class RoundtimeArgs
 	{

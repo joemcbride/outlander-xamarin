@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Text;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class SimpleFileLogger : ILog
 	{

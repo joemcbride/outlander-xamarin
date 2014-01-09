@@ -2,10 +2,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using DynamicExpresso;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class IfTokenHandler : TokenHandler
 	{

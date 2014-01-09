@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
-using Pathfinder.Core.Text;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Tests
+namespace Outlander.Core.Tests
 {
 	[TestFixture]
 	public class OutputChunkReaderTester

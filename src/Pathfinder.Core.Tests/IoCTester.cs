@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Container.Tests
+namespace Outlander.Core.Container.Tests
 {
 	[TestFixture]
 	public class IoCTester

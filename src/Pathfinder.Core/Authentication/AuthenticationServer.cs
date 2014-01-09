@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Sockets;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Authentication
+namespace Outlander.Core.Authentication
 {
 	public interface IAuthenticationServer : IDisposable
 	{

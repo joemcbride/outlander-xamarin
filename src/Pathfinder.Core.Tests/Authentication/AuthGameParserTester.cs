@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 
-namespace Pathfinder.Core.Authentication.Tests
+namespace Outlander.Core.Authentication.Tests
 {
     [TestFixture]
 	public class AuthGameParserTester

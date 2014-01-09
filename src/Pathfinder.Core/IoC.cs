@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 // http://caliburnmicro.codeplex.com/
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
     /// <summary>
     /// Used by the framework to pull instances from an IoC container and to inject dependencies into certain existing classes.

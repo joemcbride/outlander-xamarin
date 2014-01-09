@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public interface IDataTracker<T> : IObservable<T>
 	{

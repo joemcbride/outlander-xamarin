@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Text;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Tests
+namespace Outlander.Core.Tests
 {
 	[TestFixture]
 	public class GameStateTester

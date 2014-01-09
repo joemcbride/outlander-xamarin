@@ -1,6 +1,6 @@
 using System;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class AppSettings
 	{

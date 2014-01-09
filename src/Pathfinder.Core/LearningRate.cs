@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class LearningRate
 	{

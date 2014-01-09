@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Text;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Text.Tests
+namespace Outlander.Core.Text.Tests
 {	
 
 	[TestFixture]

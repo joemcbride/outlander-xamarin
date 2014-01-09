@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Eto.Parse;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 using RegexMatch = System.Text.RegularExpressions.Match;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public interface IIfBlocksParser
 	{

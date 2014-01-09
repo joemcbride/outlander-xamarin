@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
-using Pathfinder.Core.Tests;
+using Outlander.Core.Tests;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class RoomNameHighlightsTester

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Pathfinder.Core.Text.Tests
+namespace Outlander.Core.Text.Tests
 {
 	[TestFixture]
 	public class RoomNameChunkReaderTester

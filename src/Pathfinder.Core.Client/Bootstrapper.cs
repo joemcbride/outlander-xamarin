@@ -1,12 +1,12 @@
 using System;
 using System.IO;
-using Pathfinder.Core.Authentication;
-using Pathfinder.Core.Text;
-using Pathfinder.Core.Client;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Authentication;
+using Outlander.Core.Text;
+using Outlander.Core.Client;
+using Outlander.Core.Client.Scripting;
 using Outlander.Core.Client;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class Bootstrapper
 	{

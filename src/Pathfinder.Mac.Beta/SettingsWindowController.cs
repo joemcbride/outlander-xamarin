@@ -2,7 +2,7 @@ using System;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	public partial class SettingsWindowController : MonoMac.AppKit.NSWindowController
 	{

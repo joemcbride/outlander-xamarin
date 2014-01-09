@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
-using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public interface ICommandProcessor
 	{

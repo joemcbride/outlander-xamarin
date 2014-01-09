@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class StateObject
 	{

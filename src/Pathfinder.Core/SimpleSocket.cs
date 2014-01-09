@@ -1,4 +1,4 @@
-﻿namespace Pathfinder.Core
+﻿namespace Outlander.Core
 {
     using System;
     using System.Net.Sockets;

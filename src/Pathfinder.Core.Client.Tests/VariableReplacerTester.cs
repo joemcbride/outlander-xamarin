@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using NUnit.Framework;
-using Pathfinder.Core.Tests;
+using Outlander.Core.Tests;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class VariableReplacerTester

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Pathfinder.Core.Client.Scripting
+namespace Outlander.Core.Client.Scripting
 {
 	public interface IWaitForMatcher
 	{

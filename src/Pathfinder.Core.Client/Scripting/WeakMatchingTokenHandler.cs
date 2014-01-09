@@ -5,8 +5,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client.Scripting
+namespace Outlander.Core.Client.Scripting
 {
 	public class WeakMatchingTokenHandler : ITokenHandler
 	{
@@ -57,23 +58,11 @@ namespace Pathfinder.Core.Client.Scripting
 
 				if(result.Success){
 					_matchers.Remove(m);
-					DelayIfRoundtime(()=> {
+					_gameState.DelayIfRoundtime(m.Context.CancelToken, ()=> {
 						m.TaskSource.TrySetResult(result.Args);
-					}, m.Context.CancelToken);
+					});
 				}
 			});
-		}
-
-		protected void DelayIfRoundtime(Action complete, CancellationToken cancelToken)
-		{
-			double roundTime;
-			if(double.TryParse(_gameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
-			{
-				DelayEx.Delay(TimeSpan.FromSeconds(roundTime), cancelToken, complete);
-			}
-			else {
-				complete();
-			}
 		}
 	}
 }

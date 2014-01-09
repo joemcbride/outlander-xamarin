@@ -1,7 +1,7 @@
 using System;
 using System.Xml.Linq;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class RoomNameTag : Tag
 	{

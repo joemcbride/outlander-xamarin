@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
+using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public interface ISendQueue
 	{
@@ -39,23 +41,11 @@ namespace Pathfinder.Core.Client
 
 		public void ProcessQueue()
 		{
-			DelayIfRoundtime(() => {
+			_gameState.DelayIfRoundtime(CancellationToken.None, () => {
 				while(_commandQueue.Count > 0) {
 					_commandProcessor.Process(_commandQueue.Dequeue());
 				}
-			});
-		}
-
-		protected void DelayIfRoundtime(Action complete)
-		{
-			double roundTime;
-			if(double.TryParse(_gameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
-			{
-				DelayEx.Delay(TimeSpan.FromSeconds(roundTime - 0.25), CancellationToken.None, complete);
-			}
-			else {
-				complete();
-			}
+			}, 0.25);
 		}
 	}
 }

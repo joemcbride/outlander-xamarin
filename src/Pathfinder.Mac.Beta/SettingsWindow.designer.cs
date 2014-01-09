@@ -1,5 +1,5 @@
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	// Should subclass MonoMac.AppKit.NSWindow
 	[MonoMac.Foundation.Register("SettingsWindow")]

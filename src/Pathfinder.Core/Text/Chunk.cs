@@ -1,6 +1,6 @@
 using System;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class Chunk
 	{

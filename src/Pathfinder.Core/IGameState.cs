@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Pathfinder.Core.Authentication;
-using Pathfinder.Core.Text;
+using Outlander.Core.Authentication;
+using Outlander.Core.Text;
+using Outlander.Core;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public delegate void TextLogHandler(string text);
 

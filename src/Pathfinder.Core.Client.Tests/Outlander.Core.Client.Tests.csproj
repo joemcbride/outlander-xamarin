@@ -73,6 +73,8 @@
     <Compile Include="Settings\HighlightsLoaderTester.cs" />
     <Compile Include="HighlightsTester.cs" />
     <Compile Include="Scripting\ActionReporterTests.cs" />
+    <Compile Include="StubCommandProcessor.cs" />
+    <Compile Include="Scripting\ContainsReTokenHandlerTester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class PresetChunkReader : IChunkReader
 	{

@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client.Scripting
+namespace Outlander.Core.Client.Scripting
 {
 	public class MatchWaitTokenHandler : WeakMatchingTokenHandler
 	{

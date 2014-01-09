@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public class AppDirectoriesBuilder
 	{

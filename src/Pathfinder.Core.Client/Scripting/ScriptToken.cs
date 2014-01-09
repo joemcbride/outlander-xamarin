@@ -1,6 +1,6 @@
 using System;
 
-namespace Pathfinder.Core.Client.Scripting
+namespace Outlander.Core.Client.Scripting
 {
 	public class ScriptToken : Token
 	{

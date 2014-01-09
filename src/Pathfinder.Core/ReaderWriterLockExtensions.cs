@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public static class ReaderWriterLockExtensions
 	{

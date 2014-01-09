@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class CommandCacheTester

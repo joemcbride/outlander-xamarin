@@ -3,8 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class ActionToken : Token
 	{

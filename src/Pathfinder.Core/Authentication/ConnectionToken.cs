@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pathfinder.Core.Authentication
+namespace Outlander.Core.Authentication
 {
     public sealed class ConnectionToken
     {

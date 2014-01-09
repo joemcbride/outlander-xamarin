@@ -4,7 +4,7 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	class MainClass
 	{

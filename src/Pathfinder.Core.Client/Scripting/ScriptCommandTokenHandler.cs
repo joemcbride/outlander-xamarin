@@ -1,9 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class ScriptCommandTokenHandler : TokenHandler
 	{

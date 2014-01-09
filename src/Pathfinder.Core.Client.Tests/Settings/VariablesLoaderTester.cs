@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Tests;
+using Outlander.Core.Tests;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class VariablesLoaderTester

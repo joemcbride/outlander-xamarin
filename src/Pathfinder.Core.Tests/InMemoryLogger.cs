@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Pathfinder.Core.Tests
+namespace Outlander.Core.Tests
 {
 	public class InMemoryLogger : ILog
 	{

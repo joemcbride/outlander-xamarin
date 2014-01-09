@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
-using Pathfinder.Core.Text;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Text.Tests
+namespace Outlander.Core.Text.Tests
 {	
 	[TestFixture]
 	public class NewGameParserTester

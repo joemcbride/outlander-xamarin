@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Pathfinder.Core.Authentication
+namespace Outlander.Core.Authentication
 {
     public interface IPasswordHashProvider
     {

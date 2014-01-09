@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class TokenizerTests
@@ -316,6 +316,16 @@ namespace Pathfinder.Core.Client.Tests
 			var token = theTokenizer.Tokenize(line).Single();
 			Assert.AreEqual("parse", token.Type);
 			Assert.AreEqual("something", token.Value);
+		}
+
+		[Test]
+		public void creates_containsre_token()
+		{
+			const string line = "containsre something other";
+
+			var token = theTokenizer.Tokenize(line).Single();
+			Assert.AreEqual("containsre", token.Type);
+			Assert.AreEqual("something other", token.Value);
 		}
 	}
 }

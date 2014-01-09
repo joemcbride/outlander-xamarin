@@ -6,7 +6,7 @@ using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using Outlander.Mac.Beta;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	public partial class AppDelegate : NSApplicationDelegate
 	{

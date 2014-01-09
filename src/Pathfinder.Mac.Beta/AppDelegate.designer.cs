@@ -7,7 +7,7 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	[Register ("AppDelegate")]
 	partial class AppDelegate

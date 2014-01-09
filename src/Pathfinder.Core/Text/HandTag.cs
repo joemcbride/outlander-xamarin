@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class LeftHandTag : HandTag
 	{

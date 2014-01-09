@@ -2,10 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Pathfinder.Core.Tests;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Tests;
+using Outlander.Core.Client.Scripting;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class PauseTokenHandlerTester

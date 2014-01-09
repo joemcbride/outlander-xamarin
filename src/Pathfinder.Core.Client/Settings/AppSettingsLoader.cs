@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class AppSettingsLoader
 	{

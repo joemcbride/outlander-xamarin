@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 
 	public class IndicatorTag : Tag

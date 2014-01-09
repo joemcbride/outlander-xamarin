@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class CommandTokenizerTests
@@ -42,6 +42,20 @@ namespace Pathfinder.Core.Client.Tests
 			Assert.AreEqual("myscript one two \"three four\"", tokens[0].Value);
 			Assert.AreEqual("myscript", scriptToken.Name);
 			Assert.True(new string[]{ "one", "two", "three four" }.SequenceEqual(scriptToken.Args));
+		}
+
+		[Test]
+		public void script_token_from_dot_handles_multiple_quoted_params()
+		{
+			const string line = ".myscript one two \"three four\" \"five six\"";
+
+			var tokens = theTokenizer.Tokenize(line).ToList();
+			var scriptToken = tokens[0] as ScriptToken;
+			Assert.AreEqual(1, tokens.Count);
+			Assert.AreEqual("script", tokens[0].Type);
+			Assert.AreEqual("myscript one two \"three four\" \"five six\"", tokens[0].Value);
+			Assert.AreEqual("myscript", scriptToken.Name);
+			Assert.True(new string[]{ "one", "two", "three four", "five six" }.SequenceEqual(scriptToken.Args));
 		}
 
 		[Test]

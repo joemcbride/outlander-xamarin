@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Outlander.Core.Client;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client.Scripting
+namespace Outlander.Core.Client.Scripting
 {
 	public class PauseTokenHandler : TokenHandler
 	{
@@ -36,23 +38,11 @@ namespace Pathfinder.Core.Client.Scripting
 				var task = Task.Delay(pauseTime, Context.CancelToken);
 				task.Wait();
 
-				DelayIfRoundtime(()=>TaskSource.TrySetResult(new CompletionEventArgs()));
+				_gameState.DelayIfRoundtime(Context.CancelToken, ()=> TaskSource.TrySetResult(new CompletionEventArgs()));
 			}
 			catch(AggregateException)
 			{
 				TaskSource.TrySetCanceled();
-			}
-		}
-
-		private void DelayIfRoundtime(Action complete)
-		{
-			double roundTime;
-			if(double.TryParse(_gameState.Get(ComponentKeys.Roundtime), out roundTime) && roundTime > 0)
-			{
-				DelayEx.Delay(TimeSpan.FromSeconds(roundTime), Context.CancelToken, complete);
-			}
-			else {
-				complete();
 			}
 		}
 	}

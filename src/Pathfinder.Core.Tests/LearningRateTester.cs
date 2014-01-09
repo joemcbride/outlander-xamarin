@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Pathfinder.Core.Tests
+namespace Outlander.Core.Tests
 {
 	[TestFixture]
 	public class LearningRateTester

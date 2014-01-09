@@ -4,7 +4,7 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	public partial class MainWindow : MonoMac.AppKit.NSWindow
 	{

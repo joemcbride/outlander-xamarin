@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
     public static class Extensions
     {

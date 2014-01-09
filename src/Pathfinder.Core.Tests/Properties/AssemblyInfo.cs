@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Pathfinder.Core.Tests")]
+[assembly: AssemblyTitle("Outlander.Core.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Pathfinder.Core.Tests")]
+[assembly: AssemblyProduct("Outlander.Core.Tests")]
 [assembly: AssemblyCopyright("Copyright © Joe McBride 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

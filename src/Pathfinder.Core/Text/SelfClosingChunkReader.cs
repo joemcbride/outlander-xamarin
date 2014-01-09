@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class SelfClosingChunkReader<TTag> : IChunkReader where TTag : Tag, new()
 	{

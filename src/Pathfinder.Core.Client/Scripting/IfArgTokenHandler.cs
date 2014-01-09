@@ -1,6 +1,6 @@
 using System;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class IfArgTokenHandler : TokenHandler
 	{

@@ -1,7 +1,7 @@
 using System;
 using MonoMac.AppKit;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	public class DefaultSettings
 	{

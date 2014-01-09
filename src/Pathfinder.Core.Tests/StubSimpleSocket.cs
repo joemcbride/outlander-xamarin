@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Pathfinder.Core.Authentication;
-using Pathfinder.Core.Text;
+using Outlander.Core.Authentication;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Tests
+namespace Outlander.Core.Tests
 {
 
 	public class StubSimpleSocket : ISimpleSocket

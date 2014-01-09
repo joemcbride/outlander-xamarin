@@ -7,13 +7,13 @@ using System.Text;
 using System.Timers;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using Pathfinder.Core;
-using Pathfinder.Core.Authentication;
-using Pathfinder.Core.Client;
-using Pathfinder.Core.Text;
+using Outlander.Core;
+using Outlander.Core.Authentication;
+using Outlander.Core.Client;
+using Outlander.Core.Text;
 using Outlander.Core.Client;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	public partial class MainWindowController : MonoMac.AppKit.NSWindowController
 	{

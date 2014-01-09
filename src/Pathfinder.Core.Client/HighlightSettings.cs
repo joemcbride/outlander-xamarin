@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class HighlightSettings
 	{

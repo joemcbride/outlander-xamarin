@@ -1,7 +1,7 @@
 using System;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class ScriptTokenHandler : TokenHandler
 	{

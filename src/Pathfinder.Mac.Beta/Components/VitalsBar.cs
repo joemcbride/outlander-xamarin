@@ -3,9 +3,9 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using Pathfinder.Core;
+using Outlander.Core;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	[Register("VitalsBar")]
 	public class VitalsBar : NSView

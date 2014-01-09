@@ -1,6 +1,7 @@
 using System;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class SendTokenHandler : TokenHandler
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace Pathfinder.Core.Tests
+namespace Outlander.Core.Tests
 {
 	public class StubFileSystem : IFileSystem
 	{

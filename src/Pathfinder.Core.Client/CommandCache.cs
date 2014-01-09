@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class CommandCache
 	{

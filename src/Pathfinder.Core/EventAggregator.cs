@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 // http://caliburnmicro.codeplex.com/
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
     /// <summary>
     ///   A marker interface for classes that subscribe to messages.

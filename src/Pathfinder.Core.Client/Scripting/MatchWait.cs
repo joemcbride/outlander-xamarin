@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Pathfinder.Core.Client.Scripting
+namespace Outlander.Core.Client.Scripting
 {
 	public class MatchWait
 	{

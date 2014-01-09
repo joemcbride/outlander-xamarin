@@ -7,7 +7,7 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	[Register ("MainWindowController")]
 	partial class MainWindowController
@@ -22,7 +22,7 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField CommandTextField { get; set; }
 
 		[Outlet]
-		Pathfinder.Mac.Beta.VitalsBar ConcentrationLabel { get; set; }
+		Outlander.Mac.Beta.VitalsBar ConcentrationLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextView DeathsTextView { get; set; }
@@ -40,7 +40,7 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSImageView HealthImage { get; set; }
 
 		[Outlet]
-		Pathfinder.Mac.Beta.VitalsBar HealthLabel { get; set; }
+		Outlander.Mac.Beta.VitalsBar HealthLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSImageView HiddenImage { get; set; }
@@ -61,7 +61,7 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextView MainTextView { get; set; }
 
 		[Outlet]
-		Pathfinder.Mac.Beta.VitalsBar ManaLabel { get; set; }
+		Outlander.Mac.Beta.VitalsBar ManaLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSSecureTextField PasswordTextField { get; set; }
@@ -76,16 +76,16 @@ namespace Pathfinder.Mac.Beta
 		MonoMac.AppKit.NSTextField RoundtimeLabel { get; set; }
 
 		[Outlet]
-		Pathfinder.Mac.Beta.VitalsBar RTLabel { get; set; }
+		Outlander.Mac.Beta.VitalsBar RTLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField SpellLabel { get; set; }
 
 		[Outlet]
-		Pathfinder.Mac.Beta.VitalsBar SpiritLabel { get; set; }
+		Outlander.Mac.Beta.VitalsBar SpiritLabel { get; set; }
 
 		[Outlet]
-		Pathfinder.Mac.Beta.VitalsBar StaminaLabel { get; set; }
+		Outlander.Mac.Beta.VitalsBar StaminaLabel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSImageView StandingImage { get; set; }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class TokenDefinition
 	{

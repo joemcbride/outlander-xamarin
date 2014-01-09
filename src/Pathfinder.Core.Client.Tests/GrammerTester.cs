@@ -7,10 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Eto.Parse;
 using NUnit.Framework;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Client.Scripting;
 using RegexMatch = System.Text.RegularExpressions.Match;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	[TestFixture]
 	public class GrammerTester

@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Pathfinder.Core.Tests;
-using Pathfinder.Core.Client.Scripting;
+using Outlander.Core.Tests;
+using Outlander.Core.Client.Scripting;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	public class StubScriptLoader : IScriptLoader
 	{

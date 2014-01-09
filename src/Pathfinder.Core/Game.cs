@@ -1,4 +1,4 @@
-﻿namespace Pathfinder.Core
+﻿namespace Outlander.Core
 {
     public class Game
     {

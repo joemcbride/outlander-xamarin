@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-namespace Pathfinder.Core.Text.Tests
+namespace Outlander.Core.Text.Tests
 {
 	[TestFixture]
 	public class ChunkReaderTester

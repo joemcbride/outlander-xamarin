@@ -1,8 +1,8 @@
 using System;
 using NUnit.Framework;
-using Pathfinder.Core.Text;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Text.Tests
+namespace Outlander.Core.Text.Tests
 {
 	[TestFixture]
 	public class ObivousPathsChunkReaderTester

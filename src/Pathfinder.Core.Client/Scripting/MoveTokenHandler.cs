@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Pathfinder.Core.Text;
+using Outlander.Core.Text;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public class MoveTokenHandler : TokenHandler
 	{

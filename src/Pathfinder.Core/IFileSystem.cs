@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
 	public interface IFileSystem
 	{

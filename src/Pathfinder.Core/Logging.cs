@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 // http://caliburnmicro.codeplex.com/
-namespace Pathfinder.Core
+namespace Outlander.Core
 {
     /// <summary>
     /// A logger.

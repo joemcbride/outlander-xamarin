@@ -3,9 +3,9 @@ using System.Globalization;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using Pathfinder.Core.Client;
+using Outlander.Core.Client;
 
-namespace Pathfinder.Mac.Beta
+namespace Outlander.Mac.Beta
 {
 	public static class Extensions
 	{

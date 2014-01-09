@@ -4,8 +4,9 @@ using System.Threading;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Outlander.Core;
 
-namespace Pathfinder.Core.Client
+namespace Outlander.Core.Client
 {
 	public interface IVariablesLoader
 	{

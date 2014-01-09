@@ -95,6 +95,8 @@
     <Compile Include="Scripting\DebugLevelTokenHandler.cs" />
     <Compile Include="GameStream.cs" />
     <Compile Include="Scripting\ParseTokenHandler.cs" />
+    <Compile Include="Scripting\ContainsReTokenHandler.cs" />
+    <Compile Include="GameStateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">

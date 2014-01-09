@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Pathfinder.Core.Client.Tests
+namespace Outlander.Core.Client.Tests
 {
 	public class InMemoryScriptLog : IScriptLog
 	{

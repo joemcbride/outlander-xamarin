@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pathfinder.Core.Authentication
+namespace Outlander.Core.Authentication
 {
     public interface ICharacterParser
     {

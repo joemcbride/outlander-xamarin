@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Pathfinder.Core.Text
+namespace Outlander.Core.Text
 {
 	public class StreamTag : Tag
 	{
