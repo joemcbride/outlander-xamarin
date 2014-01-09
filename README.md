@@ -36,6 +36,7 @@ Command line commands
 	#script vars <name> - display script variables
 	#send <command> - queues the command to send after roundtime
 	#var myvar value - sets a global variable
+	#parse <text> - sends the text to be parsed by the scripting engine, as if sent by the game
 
 Commands
 
@@ -93,12 +94,13 @@ Commands
 * send
 	* send &lt;command&gt;
 	* same as the put command, though will wait for roundtime
+* parse &lt;text&gt;
+	* sends the text to be parsed by the scripting engine, as if sent by the game
 
 
 Planned Commands
 ====
 
-* #parse
 * containsre
 * gosub
 
