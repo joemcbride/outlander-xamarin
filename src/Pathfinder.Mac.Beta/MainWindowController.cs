@@ -11,7 +11,6 @@ using Outlander.Core;
 using Outlander.Core.Authentication;
 using Outlander.Core.Client;
 using Outlander.Core.Text;
-using Outlander.Core.Client;
 
 namespace Outlander.Mac.Beta
 {
@@ -197,7 +196,7 @@ namespace Outlander.Mac.Beta
 					if(!hasLineFeed)
 						log = "\n" + log;
 
-					var tag = TextTag.For(log, "ADFF2F");
+					var tag = TextTag.For(log, "#0066CC");
 
 					Append(tag, MainTextView);
 				});

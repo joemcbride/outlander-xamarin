@@ -4,7 +4,6 @@ using Outlander.Core.Authentication;
 using Outlander.Core.Text;
 using Outlander.Core.Client;
 using Outlander.Core.Client.Scripting;
-using Outlander.Core.Client;
 
 namespace Outlander.Core
 {

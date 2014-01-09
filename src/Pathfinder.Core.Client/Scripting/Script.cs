@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using Outlander.Core.Client;
 using Outlander.Core;
-using Outlander.Core;
 
 namespace Outlander.Core.Client.Scripting
 {

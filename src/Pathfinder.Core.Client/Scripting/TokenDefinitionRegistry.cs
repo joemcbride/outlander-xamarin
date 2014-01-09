@@ -43,7 +43,7 @@ namespace Outlander.Core.Client
 					var splitArgs = Regex
 						.Matches(args, RegexPatterns.Arguments)
 						.Cast<Match>()
-						.Select(m => m.Groups["match"].Value)
+						.Select(m => m.Groups["match"].Value.Trim('"'))
 						.ToArray();
 
 					var token = new ScriptToken

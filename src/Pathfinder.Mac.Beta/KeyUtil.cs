@@ -13,7 +13,7 @@ namespace Outlander.Mac.Beta
 				var thekey = chars [0];
 				if (theEvent.KeyCode != (char)NSKey.ForwardDelete) {
 
-					nskey = (NSKey)Enum.ToObject (typeof(NSKey), thekey);
+					nskey = (NSKey)Enum.ToObject(typeof(NSKey), thekey);
 				}
 			}
 

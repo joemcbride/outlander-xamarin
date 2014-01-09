@@ -83,8 +83,8 @@ namespace Outlander.Core.Client.Tests
 			var token = new Token
 			{
 				Type = "containsre",
-				Text = "containsre result \"somewhere something\" something",
-				Value = "result \"Circle: 5\" \"Circle: (d+)\""
+				Text = "containsre result \"Circle: 5\" \"Circle: (\\d+)\"",
+				Value = "result \"Circle: 5\" \"Circle: (\\d+)\""
 			};
 
 			var task = theHandler.Execute(theScriptContext, token);

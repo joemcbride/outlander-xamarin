@@ -15,6 +15,11 @@ namespace Outlander.Core.Client
 			var completeResult = new CompletionEventArgs();
 			var hasKey = Context.LocalVars.HasKey(ifToken.Blocks.IfEval);
 
+			if(Context.DebugLevel > 0) {
+				Context.Get<IScriptLog>().Log(Context.Name, ifToken.Value, Context.LineNumber);
+				Context.Get<IScriptLog>().Log(Context.Name, "if result {0}".ToFormat(hasKey), Context.LineNumber);
+			}
+
 			if(hasKey)
 			{
 				try
