@@ -213,7 +213,6 @@ namespace Outlander.Core.Client.Scripting
 					}
 					else {
 						i = _scriptContext.LineNumber;
-						//_scriptContext.CurrentArgs = null;
 					}
 				}
 			}

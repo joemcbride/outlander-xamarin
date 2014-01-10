@@ -42,7 +42,7 @@ namespace Outlander.Core.Client
 		{
 			var variablesFile = PathForFile(AppSettings.VariablesFileName);
 
-			var values = _gameState.GlobalVars().Values();
+			var values = _gameState.GlobalVars().Values().OrderBy(x => x.Key).ToDictionary(x => x.Key, x=> x.Value);
 			_variablesLoader.Save(values, variablesFile);
 		}
 

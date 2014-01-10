@@ -76,7 +76,7 @@ namespace Outlander.Core
 
 		public ISimpleDictionary<string, string> GlobalVars()
 		{
-			return new SimpleDictionary<string, string>(_components.Values().OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
+			return _components;
 		}
 
 		public void RenderData(ReadResult result)
