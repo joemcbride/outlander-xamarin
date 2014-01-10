@@ -38,10 +38,10 @@ namespace Outlander.Core.Client
 
 		public override void OnNext(IEnumerable<Tag> tags)
 		{
-			tags.OfType<RoomNameTag>().IfNotNull(x => {
+			if(tags.Any(t => t is RoomNameTag)) {
 				Unsubscribe();
 				_taskSource.TrySetResult(new CompletionEventArgs());
-			});
+			}
 		}
 	}
 }
