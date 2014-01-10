@@ -175,6 +175,17 @@ namespace Outlander.Core.Client.Tests
 		}
 
 		[Test]
+		public void parses_if_then_without_else()
+		{
+			const string input = "\tif (\"%wait_mana\" = \"OFF\") then\n\t{\n\t\twaitforre You begin\n\t}";
+
+			var blocks = theParser.BlockFor(input);
+
+			Assert.AreEqual("(\"%wait_mana\" = \"OFF\")", blocks.IfEval);
+			Assert.AreEqual("{\n\t\twaitforre You begin\n\t}", blocks.IfBlock);
+		}
+
+		[Test]
 		public void parses_if_blocks()
 		{
 			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Client.Tests.Data.if_script.txt"))
@@ -196,6 +207,54 @@ namespace Outlander.Core.Client.Tests
 
 				Assert.AreEqual(12, firstBlock.ElseBlockLineNumber);
 			}
+		}
+
+		[Test]
+		public void parses_if_blocks2()
+		{
+			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Outlander.Core.Client.Tests.Data.if_script2.txt"))
+			using (var reader = new StreamReader(stream)) {
+				var data = reader.ReadToEnd();
+
+				var parser = new IfBlocksParser();
+				var blocks = parser.For(data).ToList();
+
+				Assert.AreEqual(1, blocks.Count);
+
+				var firstBlock = blocks.First();
+
+				Assert.AreEqual(11, firstBlock.IfEvalLineNumber);
+				Assert.AreEqual(12, firstBlock.IfBlockLineNumber);
+
+				Assert.AreEqual(-1, firstBlock.ElseIfLineNumber);
+				Assert.AreEqual(-1, firstBlock.ElseIfBlockLineNumber);
+
+				Assert.AreEqual(-1, firstBlock.ElseBlockLineNumber);
+			}
+		}
+	}
+
+	[TestFixture]
+	public class IfBlocksTester
+	{
+		private IfBlocks theBlocks;
+
+		[SetUp]
+		public void SetUp()
+		{
+			theBlocks = new IfBlocks();
+		}
+
+		[Test]
+		public void something()
+		{
+			theBlocks.IfEval = "(\"%wait_mana\" = \"OFF\")";
+			theBlocks.IfEvalLineNumber = 10;
+
+			theBlocks.IfBlock = "{\n\t\twaitforre You begin\n\t}";
+			theBlocks.IfBlockLineNumber = 11;
+
+			Assert.AreEqual(13, theBlocks.LastLineNumber);
 		}
 	}
 }

@@ -82,19 +82,29 @@ namespace Outlander.Core.Client
 			var blocks = new IfBlocks();
 
 			ifEval.IfNotNull(v => blocks.IfEval = v.ToString());
-			blocks.IfEvalLineNumber = LineFromPos(snippet, ifEvalMatch.Index) + line;
+			if(ifEvalMatch.Success) {
+				blocks.IfEvalLineNumber = LineFromPos(snippet, ifEvalMatch.Index) + line;
+			}
 
 			ifBlock.IfNotNull(v => blocks.IfBlock = v.ToString());
-			blocks.IfBlockLineNumber = LineFromPos(snippet, ifBlockMatch.Index) + line;
+			if(ifBlockMatch.Success) {
+				blocks.IfBlockLineNumber = LineFromPos(snippet, ifBlockMatch.Index) + line;
+			}
 
 			elseIf.IfNotNull(v => blocks.ElseIf = v.ToString());
-			blocks.ElseIfLineNumber = LineFromPos(snippet, elseIfMatch.Index) + line;
+			if(elseIfMatch.Success) {
+				blocks.ElseIfLineNumber = LineFromPos(snippet, elseIfMatch.Index) + line;
+			}
 
 			elseIfBlock.IfNotNull(v => blocks.ElseIfBlock = v.ToString());
-			blocks.ElseIfBlockLineNumber = LineFromPos(snippet, elseIfBlockMatch.Index) + line;
+			if(elseIfBlockMatch.Success) {
+				blocks.ElseIfBlockLineNumber = LineFromPos(snippet, elseIfBlockMatch.Index) + line;
+			}
 
 			elseBlock.IfNotNull(v => blocks.ElseBlock = v.ToString());
-			blocks.ElseBlockLineNumber = LineFromPos(snippet, elseBlockMatch.Index) + line;
+			if(elseBlockMatch.Success) {
+				blocks.ElseBlockLineNumber = LineFromPos(snippet, elseBlockMatch.Index) + line;
+			}
 
 			return blocks;
 		}

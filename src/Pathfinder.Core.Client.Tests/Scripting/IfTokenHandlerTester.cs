@@ -134,19 +134,53 @@ namespace Outlander.Core.Client.Tests
 		}
 
 		[Test]
-		public void throws_exception()
+		public void handles_single_equals()
 		{
 			var token = new IfToken
 			{
 				Type = "if",
-				Text = "if (\"%snapcast\" = \"OFF\") then goto END"
+				Text = "if (\"%snapcast\" = \"OFF\") then goto END",
+				Blocks = new IfBlocks
+				{
+					IfEval = "(\"%snapcast\" = \"OFF\")",
+					IfBlock = "goto END"
+				}
 			};
+
+			const string expected = "if (\"OFF\" == \"OFF\")\nif result true\ngoto END\n";
 
 			theLocalVars.Set("snapcast", "OFF");
 
 			var task = theHandler.Execute(theScriptContext, token);
 
-			Assert.Throws<AggregateException>(() => task.Wait());
+			Assert.True(task.IsCompleted);
+			Assert.AreEqual(expected, theLog.Builder.ToString());
+		}
+
+		[Test]
+		public void sets_linenumber()
+		{
+			var token = new IfToken
+			{
+				Type = "if",
+				Text = "if (\"%snapcast\" = \"OFF\") then goto END",
+				Blocks = new IfBlocks
+				{
+					IfEval = "(\"%wait_mana\" = \"OFF\")",
+					IfEvalLineNumber = 10,
+					IfBlock = "{\n\t\twaitforre You begin\n\t}",
+					IfBlockLineNumber = 11
+				}
+			};
+
+			const string expected = "if (\"OFF\" == \"OFF\")\nif result true\ngoto END\n";
+
+			theLocalVars.Set("wait_mana", "ON");
+
+			var task = theHandler.Execute(theScriptContext, token);
+
+			Assert.True(task.IsCompleted);
+			Assert.AreEqual(13, theScriptContext.LineNumber);
 		}
 	}
 }

@@ -114,7 +114,7 @@ namespace Outlander.Core.Client
 
 			var replaced = replacer.Replace(block, context);
 			// replace single equals with double equals
-			replaced = Regex.Replace(replaced, "([^=:])=(?!=)", "$1==");
+			replaced = Regex.Replace(replaced, "([^=:<>])=(?!=)", "$1==");
 
 			if(context.DebugLevel > 0) {
 				scriptLog.Log(context.Name, "if {0}".ToFormat(replaced), context.LineNumber);

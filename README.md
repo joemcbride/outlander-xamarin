@@ -69,7 +69,6 @@ Commands
 	* put &lt;command&gt;
 	* put collect rock
 * if () then
-	* Note that an equals comparison requires double ==, instead of just a single =
 	* if ( "%guild" == "Ranger" ) then goto WIN
 * else if ()
 * else
@@ -97,12 +96,6 @@ Commands
 * parse &lt;text&gt;
 	* sends the text to be parsed by the scripting engine, as if sent by the game
 
-
-Planned Commands
-====
-
-* containsre
-* gosub
 
 Global Variables
 ====

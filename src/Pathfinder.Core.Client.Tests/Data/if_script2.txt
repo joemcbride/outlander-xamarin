@@ -1,0 +1,26 @@
+debuglevel 5
+
+var wait_mana ON
+
+action var wait_mana OFF;goto start; when ^WAITING MANA-DONE$
+action var wait_mana ON;goto start; when ^WAITING MANA$
+action goto advance when ^You must be closer to use tactical abilities on your opponent
+
+start:
+
+	if ("%wait_mana" = "OFF") then
+	{
+		waitforre You begin to weave mana lines into a target pattern|You begin chanting a prayer|With tense movements you prepare
+	}
+
+	pause
+	put weave
+	waitfor You weave
+	put circle
+	waitforre You fake|You hesitate|You step|You side
+	goto start
+
+advance:
+	send advance
+	waitforre You close to melee range|closes to melee range on you
+	goto start

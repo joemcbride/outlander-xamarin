@@ -12,7 +12,7 @@ namespace Outlander.Core.Client.Scripting
 
 		public override MatchResult Checkmatch(string text)
 		{
-			var regexMatch = Regex.Match(text, Token.Value);
+			var regexMatch = Regex.Match(text, Token.Value, RegexOptions.Multiline);
 
 			return regexMatch.Success ? MatchResult.True() : MatchResult.False();
 		}
