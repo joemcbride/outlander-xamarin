@@ -30,6 +30,17 @@ namespace Outlander.Core.Client.Tests
 		}
 
 		[Test]
+		public void creates_label_swim_token()
+		{
+			const string line = "Swim:\r";
+
+			var tokens = theTokenizer.Tokenize(line).ToList();
+			Assert.AreEqual(1, tokens.Count);
+			Assert.AreEqual("label", tokens[0].Type);
+			Assert.AreEqual("Swim", tokens[0].Value);
+		}
+
+		[Test]
 		public void creates_action_not_label_token()
 		{
 			const string line = "action var circle $1;put #var circle $1 when Circle:\\s+(\\d+)$";
@@ -326,6 +337,41 @@ namespace Outlander.Core.Client.Tests
 			var token = theTokenizer.Tokenize(line).Single();
 			Assert.AreEqual("containsre", token.Type);
 			Assert.AreEqual("something other", token.Value);
+		}
+
+		[Test]
+		public void creates_gosub_token()
+		{
+			const string line = "gosub label";
+
+			var token = theTokenizer.Tokenize(line).Single().As<GotoToken>();
+			Assert.AreEqual("gosub", token.Type);
+			Assert.AreEqual("label", token.Value);
+			Assert.AreEqual("label", token.Label);
+		}
+
+		[Test]
+		public void creates_gosub_token_with_arguments()
+		{
+			const string line = "gosub label one two";
+
+			var token = theTokenizer.Tokenize(line).Single().As<GotoToken>();
+			Assert.AreEqual("gosub", token.Type);
+			Assert.AreEqual("label one two", token.Value);
+			Assert.AreEqual("label", token.Label);
+			Assert.True(token.Args.SequenceEqual(new string[]{ "one", "two" }));
+		}
+
+		[Test]
+		public void creates_gosub_token_with_quoted_arguments()
+		{
+			const string line = "gosub label one \"two three\" four \"five six\"";
+
+			var token = theTokenizer.Tokenize(line).Single().As<GotoToken>();
+			Assert.AreEqual("gosub", token.Type);
+			Assert.AreEqual("label one \"two three\" four \"five six\"", token.Value);
+			Assert.AreEqual("label", token.Label);
+			Assert.True(token.Args.SequenceEqual(new string[]{ "one", "two three", "four", "five six" }));
 		}
 	}
 }

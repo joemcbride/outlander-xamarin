@@ -573,6 +573,49 @@ namespace Outlander.Core.Client
 				};
 			});
 
+			registry.New(d => {
+				d.Type = "gosub";
+				d.Pattern = "^gosub";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim();
+					var labelMatch = Regex.Match(value, RegexPatterns.Gosub);
+					var splitArgs = Regex
+						.Matches(value, RegexPatterns.Arguments)
+						.Cast<Match>()
+						.Select(m => m.Groups["match"].Value.Trim('"'))
+						.Skip(1)
+						.ToArray();
+
+					var token = new GotoToken
+					{
+						Text = source,
+						Type = def.Type,
+						Value = value,
+						Label = labelMatch.Groups["label"].Value,
+						Args = splitArgs
+					};
+					return token;
+				};
+			});
+
+			registry.New(d => {
+				d.Type = "return";
+				d.Pattern = "^return";
+				d.Ignore = false;
+				d.BuildToken = (source, match, def)=> {
+
+					var token = new Token
+					{
+						Text = source,
+						Type = def.Type,
+						Value = "return"
+					};
+					return token;
+				};
+			});
+
 			return registry;
 		}
 	}

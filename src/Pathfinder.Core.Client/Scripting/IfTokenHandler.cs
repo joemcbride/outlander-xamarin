@@ -5,6 +5,7 @@ using DynamicExpresso;
 using Outlander.Core.Client.Scripting;
 using Outlander.Core.Client;
 using Outlander.Core;
+using System.Text.RegularExpressions;
 
 namespace Outlander.Core.Client
 {
@@ -100,6 +101,10 @@ namespace Outlander.Core.Client
 			_tokenHandlers["move"] = new MoveTokenHandler();
 			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
 			_tokenHandlers["send"] = new SendTokenHandler();
+			_tokenHandlers["parse"] = new ParseTokenHandler();
+			_tokenHandlers["containsre"] = new ContainsReTokenHandler();
+			_tokenHandlers["gosub"] = new GoSubTokenHandler();
+			_tokenHandlers["return"] = new ReturnTokenHandler();
 		}
 
 		public bool Evaluate(string block, ScriptContext context)
@@ -108,6 +113,8 @@ namespace Outlander.Core.Client
 			var scriptLog = context.Get<IScriptLog>();
 
 			var replaced = replacer.Replace(block, context);
+			// replace single equals with double equals
+			replaced = Regex.Replace(replaced, "([^=:])=(?!=)", "$1==");
 
 			if(context.DebugLevel > 0) {
 				scriptLog.Log(context.Name, "if {0}".ToFormat(replaced), context.LineNumber);

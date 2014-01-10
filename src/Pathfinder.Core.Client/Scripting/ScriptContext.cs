@@ -18,12 +18,15 @@ namespace Outlander.Core.Client
 			_services = services;
 			_localvars = localVars;
 			MatchWait = new MatchWait();
+			GoSubStack = new GoSubStack();
 		}
 
 		public string Id { get; set; }
 		public string Name { get; private set; }
 		public int LineNumber { get; set; }
 		public MatchWait MatchWait { get; private set; }
+		public IGoSubStack GoSubStack { get; private set;}
+		public string[] CurrentArgs { get; set; }
 		public CancellationToken CancelToken { get; private set; }
 		public int DebugLevel { get; set; }
 

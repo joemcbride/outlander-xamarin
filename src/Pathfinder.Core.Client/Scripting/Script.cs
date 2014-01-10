@@ -76,6 +76,9 @@ namespace Outlander.Core.Client.Scripting
 			_tokenHandlers["nextroom"] = new NextroomTokenHandler();
 			_tokenHandlers["send"] = new SendTokenHandler();
 			_tokenHandlers["parse"] = new ParseTokenHandler();
+			_tokenHandlers["containsre"] = new ContainsReTokenHandler();
+			_tokenHandlers["gosub"] = new GoSubTokenHandler();
+			_tokenHandlers["return"] = new ReturnTokenHandler();
 			_tokenHandlers["label"] = new ContinueTokenHandler((context, token) => {
 				if(context.DebugLevel > 0) {
 					_log.Log(Name, "passing label: {0}".ToFormat(token.Value), context.LineNumber);
@@ -125,7 +128,7 @@ namespace Outlander.Core.Client.Scripting
 
 			_scriptLines.Apply((line, num) => {
 				if(string.IsNullOrWhiteSpace(line)) return;
-				var match = Regex.Match(line.TrimStart(), RegexPatterns.Label);
+				var match = Regex.Match(line.TrimStart(), RegexPatterns.Label, RegexOptions.Multiline);
 				if(match.Success) {
 					_gotos[match.Groups[1].Value] = num;
 				}
@@ -206,9 +209,11 @@ namespace Outlander.Core.Client.Scripting
 						}
 
 						i = _gotos[task.Result.Goto] - 1;
+						_scriptContext.CurrentArgs = task.Result.Args;
 					}
 					else {
 						i = _scriptContext.LineNumber;
+						//_scriptContext.CurrentArgs = null;
 					}
 				}
 			}

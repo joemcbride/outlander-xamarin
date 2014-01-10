@@ -53,5 +53,44 @@ namespace Outlander.Core.Client.Tests
 
 			Assert.AreEqual(expected, result);
 		}
+
+		[Test]
+		public void replaces_script_arguments()
+		{
+			const string scriptline = "play $1 $2";
+			const string expected = "play ditty masterful";
+
+			theContext.CurrentArgs = new string[]{ "ditty", "masterful" };
+
+			var result = theReplacer.Replace(scriptline, theContext);
+
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void replaces_script_arguments_zero()
+		{
+			const string scriptline = "play $0";
+			const string expected = "play ditty masterful";
+
+			theContext.CurrentArgs = new string[]{ "ditty", "masterful" };
+
+			var result = theReplacer.Replace(scriptline, theContext);
+
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void replaces_script_arguments_quoted_arguments()
+		{
+			const string scriptline = "play $0";
+			const string expected = "play ditty \"masterful one\" \"something else\"";
+
+			theContext.CurrentArgs = new string[]{ "ditty", "masterful one", "something else" };
+
+			var result = theReplacer.Replace(scriptline, theContext);
+
+			Assert.AreEqual(expected, result);
+		}
 	}
 }
