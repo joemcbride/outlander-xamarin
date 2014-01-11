@@ -5,26 +5,36 @@ using Outlander.Core;
 
 namespace Outlander.Core.Client
 {
-	public class AppSettingsLoader
+	public interface IAppSettingsLoader
 	{
+		void Load();
+		void SaveVariables();
+	}
+
+	public class AppSettingsLoader : IAppSettingsLoader
+	{
+		private readonly IAppDirectoriesBuilder _directoryBuilder;
 		private readonly IFileSystem _fileSystem;
+		private readonly IConfigLoader _configLoader;
 		private readonly IVariablesLoader _variablesLoader;
 		private readonly IHighlightsLoader _highlightsLoader;
 		private readonly IGameState _gameState;
 		private readonly IServiceLocator _services;
 		private readonly AppSettings _settings;
 
-		private const string Profile = "Default";
-
 		public AppSettingsLoader(
+			IAppDirectoriesBuilder directoryBuilder,
 			IFileSystem fileSystem,
+			IConfigLoader configLoader,
 			IVariablesLoader variablesLoader,
 			IHighlightsLoader highlightsLoader,
 			IGameState gameState,
 			IServiceLocator services,
 			AppSettings settings)
 		{
+			_directoryBuilder = directoryBuilder;
 			_fileSystem = fileSystem;
+			_configLoader = configLoader;
 			_variablesLoader = variablesLoader;
 			_highlightsLoader = highlightsLoader;
 			_gameState = gameState;
@@ -34,8 +44,27 @@ namespace Outlander.Core.Client
 
 		public void Load()
 		{
+			LoadConfig();
+
+			_directoryBuilder.BuildProfile(_settings.Profile);
+
 			LoadVariables();
 			LoadHighlights();
+		}
+
+		public void LoadConfig()
+		{
+			var configFile = Path.Combine(
+				                 _settings.HomeDirectory,
+				                 AppSettings.ConfigFolder,
+				                 AppSettings.ConfigFileName);
+
+			if(_fileSystem.Exists(configFile))
+			{
+				_configLoader.Load(configFile);
+			}
+
+			_configLoader.Save(configFile);
 		}
 
 		public void SaveVariables()
@@ -78,7 +107,7 @@ namespace Outlander.Core.Client
 				_settings.HomeDirectory,
 				AppSettings.ConfigFolder,
 				AppSettings.ProfilesFolder,
-				Profile,
+				_settings.Profile,
 				file);
 		}
 	}

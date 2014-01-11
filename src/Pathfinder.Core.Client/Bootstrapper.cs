@@ -63,10 +63,11 @@ namespace Outlander.Core
 
 			_container.Singleton<ISendQueue, SendQueue>();
 
+			_container.Singleton<IConfigLoader, ConfigLoader>();
 			_container.Singleton<IVariablesLoader, VariablesLoader>();
 			_container.Singleton<IHighlightsLoader, HighlightsLoader>();
-			_container.Singleton<AppDirectoriesBuilder>();
-			_container.Singleton<AppSettingsLoader>();
+			_container.Singleton<IAppDirectoriesBuilder, AppDirectoriesBuilder>();
+			_container.Singleton<IAppSettingsLoader, AppSettingsLoader>();
 
 			var now = DateTime.Now.ToString("s");
 			var logFileName = string.Format("{0}-log.txt", now);

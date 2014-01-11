@@ -15,7 +15,7 @@ namespace Outlander.Core.Client
 				var replacer = Context.Get<IVariableReplacer>();
 				var log = Context.Get<IScriptLog>();
 				var gameState = Context.Get<IGameState>();
-				var settingsLoader = Context.Get<AppSettingsLoader>();
+				var settingsLoader = Context.Get<IAppSettingsLoader>();
 
 				var value = replacer.Replace(match.Groups[2].Value, Context);
 				if(Context.DebugLevel > 0) {

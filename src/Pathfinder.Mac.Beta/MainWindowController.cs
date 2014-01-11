@@ -167,8 +167,8 @@ namespace Outlander.Mac.Beta
 			var homeDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Documents/Outlander");
 			appSettings.HomeDirectory = homeDir;
 
-			_services.Get<AppDirectoriesBuilder>().Build();
-			_services.Get<AppSettingsLoader>().Load();
+			_services.Get<IAppDirectoriesBuilder>().Build();
+			_services.Get<IAppSettingsLoader>().Load();
 
 			UpdateImages();
 
@@ -220,7 +220,7 @@ namespace Outlander.Mac.Beta
 			};
 
 			_scriptLog.NotifyAborted += (sender, e) => {
-				var log = "[{0}]: total runtime {1} seconds\n".ToFormat(e.Name, Math.Round(e.Runtime.TotalSeconds, 2));
+				var log = "[{0}]: total runtime {1:hh\\:mm\\:ss} - {2} seconds\n".ToFormat(e.Name, e.Runtime, Math.Round(e.Runtime.TotalSeconds, 2));
 
 				BeginInvokeOnMainThread(()=> {
 
@@ -348,7 +348,7 @@ namespace Outlander.Mac.Beta
 						RightHandLabel.StringValue = string.Format("R: {0}", _gameServer.GameState.Get(ComponentKeys.RightHand));
 					});
 
-					_services.Get<AppSettingsLoader>().SaveVariables();
+					_services.Get<IAppSettingsLoader>().SaveVariables();
 				});
 			};
 
@@ -373,12 +373,6 @@ namespace Outlander.Mac.Beta
 					ReplaceText(tags, ExpTextView);
 				});
 			};
-
-//			_gameServer.GameState.TextLog += (msg) => {
-//				BeginInvokeOnMainThread(() => {
-//					Log(msg, MainTextView);
-//				});
-//			};
 
 			_gameStream = _services.Get<IGameStream>();
 			_gameStreamListener = new GameStreamListener(tag => {
@@ -420,7 +414,7 @@ namespace Outlander.Mac.Beta
 
 		private void UpdateVitals()
 		{
-			BeginInvokeOnMainThread(()=>{
+			BeginInvokeOnMainThread(()=> {
 				HealthLabel.Value = _gameServer.GameState.Get(ComponentKeys.Health).AsFloat();
 				HealthLabel.Label = "Health {0}%".ToFormat(HealthLabel.Value);
 

@@ -95,12 +95,12 @@ namespace Outlander.Core.Client.Scripting
 
 				var runtime = DateTime.Now - script.StartTime;
 
-				_scriptLog.Log(
-					script.Name,
-					"script vars\n{0}\ntotal runtime {1} seconds\n".ToFormat(
-						string.Join("\n", vars),
-						Math.Round(runtime.TotalSeconds, 2)),
-					 -2);
+				var format = "script vars\n{0}\ntotal runtime {1:hh\\:mm\\:ss} - {2} seconds\n".ToFormat(
+					string.Join("\n", vars),
+					runtime,
+					Math.Round(runtime.TotalSeconds, 2));
+
+				_scriptLog.Log(script.Name, format, -2);
 			});
 		}
 

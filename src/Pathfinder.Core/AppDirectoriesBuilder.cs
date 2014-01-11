@@ -3,7 +3,13 @@ using System.IO;
 
 namespace Outlander.Core
 {
-	public class AppDirectoriesBuilder
+	public interface IAppDirectoriesBuilder
+	{
+		void Build();
+		void BuildProfile(string profile);
+	}
+
+	public class AppDirectoriesBuilder : IAppDirectoriesBuilder
 	{
 		private readonly IDirectorySystem _directorySystem;
 		private readonly AppSettings _settings;
@@ -21,7 +27,7 @@ namespace Outlander.Core
 			CreateDirectoryIfNotExists(Path.Combine(_settings.HomeDirectory, AppSettings.ScriptsFolder));
 			CreateDirectoryIfNotExists(Path.Combine(_settings.HomeDirectory, AppSettings.ConfigFolder, AppSettings.ProfilesFolder));
 
-			BuildProfile("Default");
+			BuildProfile(AppSettings.DefaultProfile);
 		}
 
 		public void BuildProfile(string profile)
