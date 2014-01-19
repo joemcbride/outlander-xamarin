@@ -95,6 +95,14 @@ Commands
 	* same as the put command, though will wait for roundtime
 * parse &lt;text&gt;
 	* sends the text to be parsed by the scripting engine, as if sent by the game
+* gosub
+	* gosub &lt;label&gt; &lt;argument1, argument2, etc.&gt;
+	* Move to a label with the supplied arguments.  Arguments are referenced by $1, $2, etc.  Use $0 to reference all arguments.
+	* Use 'return' to return the line directly after the gosub.
+* debuglevel
+	* Sets the debug level of the script.  Currently anything above 0 wil display script debug information.
+* exit
+	* immediately exists the script 
 
 
 Global Variables
@@ -146,9 +154,9 @@ Global variables are prefixed with a $.
 Configuration
 ====
 
-Configuration settings can be found in the 'config' folder.  Currently only a 'Default' profile is supported.
+Configuration settings can be found in the 'config' folder.  Add additional profiles through the profiles dialog accessed via command-P.
 
-Global variables can be defined in variables.cfg.  variables.cfg will be saved to disk whenever a global value gets updated through gameplay.
+Global variables can be defined in variables.cfg for each profile.  variables.cfg will be saved to disk whenever a global value gets updated through gameplay or the command prompt.
 
 	#var {primary.container} {backpack}
 
