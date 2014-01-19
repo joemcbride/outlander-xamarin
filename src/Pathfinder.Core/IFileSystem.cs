@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Outlander.Core
 {
@@ -33,6 +35,7 @@ namespace Outlander.Core
 	{
 		bool Exists(string path);
 		void Create(string path);
+		IEnumerable<string> Directories(string path);
 	}
 
 	public class DirectorySystem : IDirectorySystem
@@ -45,6 +48,12 @@ namespace Outlander.Core
 		public void Create(string path)
 		{
 			Directory.CreateDirectory(path);
+		}
+
+		public IEnumerable<string> Directories(string path)
+		{
+			var dirs = Directory.EnumerateDirectories(path).ToList();
+			return dirs;
 		}
 	}
 }

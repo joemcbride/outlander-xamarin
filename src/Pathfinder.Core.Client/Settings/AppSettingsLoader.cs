@@ -9,6 +9,9 @@ namespace Outlander.Core.Client
 	{
 		void Load();
 		void SaveVariables();
+
+		void LoadConfig();
+		void SaveConfig();
 	}
 
 	public class AppSettingsLoader : IAppSettingsLoader
@@ -63,6 +66,16 @@ namespace Outlander.Core.Client
 			{
 				_configLoader.Load(configFile);
 			}
+
+			_configLoader.Save(configFile);
+		}
+
+		public void SaveConfig()
+		{
+			var configFile = Path.Combine(
+				_settings.HomeDirectory,
+				AppSettings.ConfigFolder,
+				AppSettings.ConfigFileName);
 
 			_configLoader.Save(configFile);
 		}

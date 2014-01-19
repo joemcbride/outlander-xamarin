@@ -71,6 +71,8 @@
                                     <action selector="NewAction:" target="533" id="veK-4M-sC3"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Switch Profile" keyEquivalent="p" id="mK6-bD-UMb"/>
+                            <menuItem title="Connect" keyEquivalent="l" id="Vsb-H1-rR5"/>
                         </items>
                     </menu>
                 </menuItem>
@@ -223,8 +225,10 @@
         <customObject id="420" customClass="NSFontManager"/>
         <customObject id="533" customClass="AppDelegate">
             <connections>
+                <outlet property="Connect" destination="Vsb-H1-rR5" id="bhg-dV-NCy"/>
                 <outlet property="CutMenuItem" destination="JcR-0W-lmK" id="l9s-kL-yfI"/>
                 <outlet property="NewMenuItem" destination="82" id="sNz-eS-mni"/>
+                <outlet property="SwitchProfile" destination="mK6-bD-UMb" id="5Xg-8W-9MG"/>
             </connections>
         </customObject>
     </objects>

@@ -9,6 +9,7 @@ if_1 var item %1
 var container1 backpack
 
 var maxexp $Mechanical_Lore.LearningRate
+var maxexp 34
 #math maxexp add 25
 if (%maxexp >= 34) then
 	var maxexp 34
@@ -46,13 +47,8 @@ braid:
  goto errorhandler
 
 exp:
- if ($Mechanical_Lore.LearningRate >= %maxexp) then
- {
-	goto done
- }
- else {
- 	goto braid
- }
+ if ($Mechanical_Lore.LearningRate >= %maxexp) then goto done
+ goto braid
 
 pullP:
  PAUSE

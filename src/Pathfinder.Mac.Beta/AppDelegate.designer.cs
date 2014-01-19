@@ -13,21 +13,37 @@ namespace Outlander.Mac.Beta
 	partial class AppDelegate
 	{
 		[Outlet]
+		MonoMac.AppKit.NSMenuItem Connect { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSMenuItem CutMenuItem { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSMenuItem NewMenuItem { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem SwitchProfile { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (CutMenuItem != null) {
+				CutMenuItem.Dispose ();
+				CutMenuItem = null;
+			}
+
 			if (NewMenuItem != null) {
 				NewMenuItem.Dispose ();
 				NewMenuItem = null;
 			}
 
-			if (CutMenuItem != null) {
-				CutMenuItem.Dispose ();
-				CutMenuItem = null;
+			if (SwitchProfile != null) {
+				SwitchProfile.Dispose ();
+				SwitchProfile = null;
+			}
+
+			if (Connect != null) {
+				Connect.Dispose ();
+				Connect = null;
 			}
 		}
 	}

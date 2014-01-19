@@ -13,6 +13,12 @@ namespace Outlander.Mac.Beta
 	partial class LoginWindowController
 	{
 		[Outlet]
+		MonoMac.AppKit.NSObjectController BindingSource { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton CancelButton { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton LoginButton { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -20,6 +26,16 @@ namespace Outlander.Mac.Beta
 			if (LoginButton != null) {
 				LoginButton.Dispose ();
 				LoginButton = null;
+			}
+
+			if (BindingSource != null) {
+				BindingSource.Dispose ();
+				BindingSource = null;
+			}
+
+			if (CancelButton != null) {
+				CancelButton.Dispose ();
+				CancelButton = null;
 			}
 		}
 	}

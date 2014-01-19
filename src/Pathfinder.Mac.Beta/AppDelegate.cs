@@ -13,19 +13,21 @@ namespace Outlander.Mac.Beta
 		private List<MainWindowController> _windows = new List<MainWindowController>();
 		//private LoginWindowController _settings;
 
+		[Export("Profiles")]
+		public NSMutableArray Profiles { get; set; }
+
 		public AppDelegate()
+		{
+			Profiles = new NSMutableArray();
+		}
+
+		public override void DidBecomeActive(NSNotification notification)
 		{
 		}
 
 		public override void FinishedLaunching(NSObject notification)
 		{
 			LaunchNewWindow();
-
-//			var controller = new SettingsWindowController();
-//			controller.Window.MakeKeyAndOrderFront(this);
-
-//			_settings = new LoginWindowController();
-//			_settings.ShowSheet(_windows[0].Window);
 		}
 
 		public override void AwakeFromNib()
@@ -35,13 +37,36 @@ namespace Outlander.Mac.Beta
 			NewMenuItem.Activated += (sender, e) => {
 				LaunchNewWindow();
 			};
+			SwitchProfile.Activated += (sender, e) => {
+				ActiveController.SwitchProfile();
+			};
+			Connect.Activated += (sender, e) => {
+				ActiveController.Connect();
+			};
 		}
 
 		private void LaunchNewWindow()
 		{
 			var mainWindowController = new MainWindowController();
+			mainWindowController.Window.DidBecomeKey += (sender, e) => {
+				ActiveController = mainWindowController;
+			};
 			mainWindowController.Window.MakeKeyAndOrderFront(this);
 			_windows.Add(mainWindowController);
 		}
+
+		private MainWindowController ActiveController {
+			get;
+			set;
+		}
+	}
+
+	public interface IScreen
+	{
+		NSWindow Window { get; }
+	}
+
+	public class Conductor<T> where T : IScreen
+	{
 	}
 }

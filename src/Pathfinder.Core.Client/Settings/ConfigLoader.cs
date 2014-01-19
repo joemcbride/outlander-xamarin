@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.IO;
 
 namespace Outlander.Core.Client
 {
@@ -14,13 +17,15 @@ namespace Outlander.Core.Client
 	public class ConfigLoader : IConfigLoader
 	{
 		private readonly IFileSystem _fileSystem;
+		private readonly IDirectorySystem _directorySystem;
 		private readonly AppSettings _settings;
 
 		private static readonly ReaderWriterLockSlim Lock = new ReaderWriterLockSlim();
 
-		public ConfigLoader(IFileSystem fileSystem, AppSettings settings)
+		public ConfigLoader(IFileSystem fileSystem, IDirectorySystem directorySystem, AppSettings settings)
 		{
 			_fileSystem = fileSystem;
+			_directorySystem = directorySystem;
 			_settings = settings;
 		}
 

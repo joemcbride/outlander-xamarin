@@ -72,6 +72,44 @@ namespace Outlander.Mac.Beta
 
 		#endregion
 
+		public void SwitchProfile()
+		{
+			var profiles = _services.Get<IProfileLoader>().Profiles();
+
+			var ctrl = new ProfileSelectorController();
+			ctrl.Window.ParentWindow = Window;
+			ctrl.InitWithProfiles(
+				profiles,
+				_services.Get<AppSettings>(),
+				_services.Get<IProfileLoader>(),
+				_services.Get<IAppSettingsLoader>(),
+				() => {
+					NSApplication.SharedApplication.StopModal();
+				},
+				()=> {
+				}
+			);
+			NSApplication.SharedApplication.RunModalForWindow(ctrl.Window);
+		}
+
+		public void Connect()
+		{
+			var loader = _services.Get<IProfileLoader>();
+			var profile = loader.LoadProfile(_services.Get<AppSettings>().Profile);
+
+			var ctrl = new LoginWindowController();
+			ctrl.ShowSheet(
+				Window,
+				ConnectModel.For(profile.Account, profile.Game, profile.Character),
+				_services,
+				(model) => {
+					Connect(model);
+				},
+				() => {
+				}
+			);
+		}
+
 		private void InitializeVitalsAndRTBars()
 		{
 			HealthLabel.Label = "Health 100%";
@@ -171,6 +209,14 @@ namespace Outlander.Mac.Beta
 			_services.Get<IAppSettingsLoader>().Load();
 
 			UpdateImages();
+
+			var profiles = _services.Get<IProfileLoader>().Profiles();
+			if(profiles != null)
+			{
+				profiles.Apply(p => {
+					System.Diagnostics.Debug.WriteLine("Profile: {0}".ToFormat(p.Name));
+				});
+			}
 
 			_commandProcessor = _services.Get<ICommandProcessor>();
 			_scriptLog = _services.Get<IScriptLog>();
@@ -383,33 +429,31 @@ namespace Outlander.Mac.Beta
 				});
 			});
 			_gameStreamListener.Subscribe(_gameStream);
+		}
 
-			LoginButton.Activated += (sender, e) =>
+		private void Connect(ConnectModel model)
+		{
+			if(string.IsNullOrWhiteSpace(model.Game)
+				|| string.IsNullOrWhiteSpace(model.Account)
+				|| string.IsNullOrWhiteSpace(model.Password)
+				|| string.IsNullOrWhiteSpace(model.Character))
 			{
-				var game = GameTextField.StringValue;
-				var account = UsernameTextField.StringValue;
-				var password = PasswordTextField.StringValue;
-				var character = CharacterTextField.StringValue;
+				LogSystem("Please enter all information\n");
+				return;
+			}
 
-				if(string.IsNullOrWhiteSpace(game) || string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(character))
-				{
-					LogSystem("Please enter all information\n");
-					return;
-				}
+			LogSystem("Authenticating...\n");
 
-				LogSystem("Authenticating...\n");
-
-				var token = _gameServer.Authenticate(game, account, password, character);
-				if(token != null)
-				{
-					LogSystem("Authenticated...\n");
-					_gameServer.Connect(token);
-				}
-				else
-				{
-					LogSystem("Unable to authenticate.\n");
-				}
-			};
+			var token = _gameServer.Authenticate(model.Game, model.Account, model.Password, model.Character);
+			if(token != null)
+			{
+				LogSystem("Authenticated...\n");
+				_gameServer.Connect(token);
+			}
+			else
+			{
+				LogSystem("Unable to authenticate.\n");
+			}
 		}
 
 		private void UpdateVitals()

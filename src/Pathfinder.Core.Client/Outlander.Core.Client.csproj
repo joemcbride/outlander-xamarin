@@ -99,6 +99,8 @@
     <Compile Include="GameStateExtensions.cs" />
     <Compile Include="Scripting\GoSubTokenHandler.cs" />
     <Compile Include="Settings\ConfigLoader.cs" />
+    <Compile Include="Settings\IProfileLoader.cs" />
+    <Compile Include="Settings\Profile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pathfinder.Core\Outlander.Core.csproj">
