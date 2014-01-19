@@ -154,9 +154,32 @@ namespace Outlander.Core.Client.Tests
 		}
 
 		[Test]
+		public void creates_match_token_trims_end()
+		{
+			const string line = "MATCH braid You get\r";
+
+			var token = theTokenizer.Tokenize(line).Single().As<MatchToken>();
+			Assert.AreEqual("match", token.Type);
+			Assert.AreEqual("braid", token.Goto);
+			Assert.AreEqual("You get", token.Pattern);
+		}
+
+		[Test]
 		public void creates_matchre_token()
 		{
 			const string line = "matchre CheckEXP You take a step back|Now what did the|I could not find";
+			const string pattern = "You take a step back|Now what did the|I could not find";
+
+			var token = theTokenizer.Tokenize(line).Single().As<MatchToken>();
+			Assert.AreEqual("matchre", token.Type);
+			Assert.AreEqual("CheckEXP", token.Goto);
+			Assert.AreEqual(pattern, token.Pattern);
+		}
+
+		[Test]
+		public void creates_matchre_token_trims_end()
+		{
+			const string line = "matchre CheckEXP You take a step back|Now what did the|I could not find\r";
 			const string pattern = "You take a step back|Now what did the|I could not find";
 
 			var token = theTokenizer.Tokenize(line).Single().As<MatchToken>();

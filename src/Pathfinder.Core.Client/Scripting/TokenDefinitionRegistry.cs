@@ -239,7 +239,7 @@ namespace Outlander.Core.Client
 						IsRegex = false,
 						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim(),
 						Goto = gotoMatch.Groups[1].Value,
-						Pattern = gotoMatch.Groups[2].Value
+						Pattern = gotoMatch.Groups[2].Value.Trim()
 					};
 					return token;
 				};
@@ -259,7 +259,7 @@ namespace Outlander.Core.Client
 						IsRegex = true,
 						Value = source.Substring(match.Index + match.Length, source.Length - (match.Index + match.Length)).Trim(),
 						Goto = gotoMatch.Groups[1].Value,
-						Pattern = gotoMatch.Groups[2].Value
+						Pattern = gotoMatch.Groups[2].Value.Trim()
 					};
 					return token;
 				};

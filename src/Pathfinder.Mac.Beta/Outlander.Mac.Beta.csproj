@@ -30,6 +30,9 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <LangVersion>5</LangVersion>
+    <PackageSigningKey>Developer ID Installer</PackageSigningKey>
+    <I18n>
+    </I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
