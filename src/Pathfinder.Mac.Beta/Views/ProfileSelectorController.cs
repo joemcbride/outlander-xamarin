@@ -14,7 +14,7 @@ namespace Outlander.Mac.Beta
 		private IAppSettingsLoader _appSettingsLoader;
 		private AppSettings _appSettings;
 		private Action _complete;
-		private Action _cancel;
+		private IServiceLocator _services;
 
 		#region Constructors
 
@@ -59,23 +59,55 @@ namespace Outlander.Mac.Beta
 				Window.Close();
 			};
 			AddRemoveControl.Activated += (sender, e) => {
-				var add = AddRemoveControl.SelectedSegment == 1;
+
+				var add = AddRemoveControl.SelectedSegment == 0;
+				if(add) {
+					var ctrl = new NewProfileWindowController();
+					ctrl.Init(
+						_services,
+						p=> {
+							var newProfile = new ProfileInfo { Profile = p };
+							Profiles.AddObject(newProfile);
+							NSApplication.SharedApplication.StopModal();
+						},
+						()=> {
+							NSApplication.SharedApplication.StopModal();
+						});
+					NSApplication.SharedApplication.RunModalForWindow(ctrl.Window);
+				}
+				else {
+
+					var selectedProfile = Profiles.SelectedObjects.First().As<ProfileInfo>();
+					if(Profiles.ArrangedObjects().Count() <= 1)
+						return;
+
+					var alert = new NSAlert();
+					alert.MessageText = "Delete profile '{0}'?  Note that this will remove the entire profile folder.".ToFormat(selectedProfile.Profile);
+					alert.AddButton("OK");
+					alert.AddButton("Cancel");
+
+					var result = alert.RunModal();
+					if(result == 1000) {
+						Profiles.RemoveObject(selectedProfile);
+						_services.Get<IProfileLoader>().Remove(selectedProfile.Profile);
+					}
+				}
 			};
 		}
 
 		public void InitWithProfiles(
 			IEnumerable<Profile> profiles,
+			IServiceLocator services,
 			AppSettings settings,
 			IProfileLoader profileLoader,
 			IAppSettingsLoader appSettingsLoader,
-			Action complete,
-			Action cancel)
+			Action complete)
 		{
+			_services = services;
 			_appSettings = settings;
 			_profileLoader = profileLoader;
 			_appSettingsLoader = appSettingsLoader;
 			_complete = complete;
-			_cancel = cancel;
 
 			Profiles.Content.As<NSMutableArray>().RemoveAllObjects();
 
@@ -101,7 +133,7 @@ namespace Outlander.Mac.Beta
 				.ArrangedObjects()
 				.Select(x => x.As<ProfileInfo>())
 				.Apply(x => {
-					_profileLoader.SaveProfile(Profile.For(x.Profile, x.Account, x.Game, x.Character));
+					_profileLoader.Save(Profile.For(x.Profile, x.Account, x.Game, x.Character));
 				});
 
 			_complete();

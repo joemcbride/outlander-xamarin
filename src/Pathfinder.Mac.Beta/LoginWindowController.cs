@@ -56,7 +56,7 @@ namespace Outlander.Mac.Beta
 				HideSheet();
 				var model = BindingSource.SelectedObjects.First().As<ConnectModel>();
 				var settings = _services.Get<AppSettings>();
-				_services.Get<IProfileLoader>().SaveProfile(
+				_services.Get<IProfileLoader>().Save(
 					new Profile
 					{
 						Name = settings.Profile,

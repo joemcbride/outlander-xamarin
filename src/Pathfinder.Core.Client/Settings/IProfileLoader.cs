@@ -11,8 +11,10 @@ namespace Outlander.Core.Client
 	public interface IProfileLoader
 	{
 		IEnumerable<Profile> Profiles();
-		Profile LoadProfile(string path);
-		void SaveProfile(Profile profile);
+		Profile Load(string path);
+		void Save(Profile profile);
+		void Remove(string profile);
+		bool Exists(string profile);
 	}
 
 	public class ProfileLoader : IProfileLoader
@@ -39,10 +41,10 @@ namespace Outlander.Core.Client
 			var profilePath = PathForProfiles();
 			var dirs = _directorySystem.Directories(profilePath);
 
-			return dirs.Select(dir => LoadProfile(new DirectoryInfo(dir).Name)).ToList();
+			return dirs.Select(dir => Load(new DirectoryInfo(dir).Name)).ToList();
 		}
 
-		public Profile LoadProfile(string name)
+		public Profile Load(string name)
 		{
 			return Lock.Read(() => {
 				var filePath = Path.Combine(PathForProfiles(), name, Config_File_Name);
@@ -68,7 +70,7 @@ namespace Outlander.Core.Client
 			});
 		}
 
-		public void SaveProfile(Profile profile)
+		public void Save(Profile profile)
 		{
 			Lock.Write(() => {
 				var filePath = Path.Combine(PathForProfiles(), profile.Name, Config_File_Name);
@@ -81,6 +83,22 @@ namespace Outlander.Core.Client
 				builder.AppendFormat("Character: {0}", profile.Character);
 
 				_fileSystem.Save(builder.ToString(), filePath);
+			});
+		}
+
+		public void Remove(string profile)
+		{
+			Lock.Write(() => {
+				var filePath = Path.Combine(PathForProfiles(), profile);
+				_directorySystem.Delete(filePath);
+			});
+		}
+
+		public bool Exists(string profile)
+		{
+			return Lock.Read(() => {
+				var filePath = Path.Combine(PathForProfiles(), profile);
+				return _directorySystem.Exists(filePath);
 			});
 		}
 

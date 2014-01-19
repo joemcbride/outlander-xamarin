@@ -80,13 +80,12 @@ namespace Outlander.Mac.Beta
 			ctrl.Window.ParentWindow = Window;
 			ctrl.InitWithProfiles(
 				profiles,
+				_services,
 				_services.Get<AppSettings>(),
 				_services.Get<IProfileLoader>(),
 				_services.Get<IAppSettingsLoader>(),
 				() => {
 					NSApplication.SharedApplication.StopModal();
-				},
-				()=> {
 				}
 			);
 			NSApplication.SharedApplication.RunModalForWindow(ctrl.Window);
@@ -95,7 +94,7 @@ namespace Outlander.Mac.Beta
 		public void Connect()
 		{
 			var loader = _services.Get<IProfileLoader>();
-			var profile = loader.LoadProfile(_services.Get<AppSettings>().Profile);
+			var profile = loader.Load(_services.Get<AppSettings>().Profile);
 
 			var ctrl = new LoginWindowController();
 			ctrl.ShowSheet(
@@ -209,14 +208,6 @@ namespace Outlander.Mac.Beta
 			_services.Get<IAppSettingsLoader>().Load();
 
 			UpdateImages();
-
-			var profiles = _services.Get<IProfileLoader>().Profiles();
-			if(profiles != null)
-			{
-				profiles.Apply(p => {
-					System.Diagnostics.Debug.WriteLine("Profile: {0}".ToFormat(p.Name));
-				});
-			}
 
 			_commandProcessor = _services.Get<ICommandProcessor>();
 			_scriptLog = _services.Get<IScriptLog>();
