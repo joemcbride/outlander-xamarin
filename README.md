@@ -3,12 +3,12 @@ Outlander
 
 A Front End for [Dragonrealms](http://www.play.net/dr).  A work in progress.
 
-![v0 4](https://f.cloud.github.com/assets/255007/1845013/a631271c-7567-11e3-947c-036270a62bb0.png)
+![outlander-v0 5](https://f.cloud.github.com/assets/255007/1950617/eb5289fe-8150-11e3-9d13-0cbc0c34dc86.png)
 
 Download
 ====
 
-[Version 0.4](https://github.com/joemcbride/outlander/releases/tag/v0.4)
+[Version 0.5](https://github.com/joemcbride/outlander/releases/tag/v0.5)
 
 Requirements
 ====
