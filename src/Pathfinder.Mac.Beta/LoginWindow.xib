@@ -40,12 +40,13 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Game" id="MvD-Y3-wWB">
+                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Game" id="BDL-C6-6iY">
                                 <dictionary key="options">
+                                    <string key="NSMultipleValuesPlaceholder">Game</string>
                                     <string key="NSNotApplicablePlaceholder">Game</string>
                                     <string key="NSNoSelectionPlaceholder">Game</string>
                                     <string key="NSNullPlaceholder">Game</string>
-                                    <string key="NSMultipleValuesPlaceholder">Game</string>
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -59,12 +60,13 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Account" id="n2y-CQ-mSW">
+                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Account" id="LjZ-8F-5N5">
                                 <dictionary key="options">
+                                    <string key="NSMultipleValuesPlaceholder">Account</string>
                                     <string key="NSNotApplicablePlaceholder">Account</string>
                                     <string key="NSNoSelectionPlaceholder">Account</string>
                                     <string key="NSNullPlaceholder">Account</string>
-                                    <string key="NSMultipleValuesPlaceholder">Account</string>
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -78,12 +80,13 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Character" id="zs8-Gr-qxc">
+                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Character" id="dv1-bC-EUg">
                                 <dictionary key="options">
+                                    <string key="NSMultipleValuesPlaceholder">Character</string>
                                     <string key="NSNotApplicablePlaceholder">Character</string>
                                     <string key="NSNoSelectionPlaceholder">Character</string>
                                     <string key="NSNullPlaceholder">Character</string>
-                                    <string key="NSMultipleValuesPlaceholder">Character</string>
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -100,12 +103,13 @@
                             </allowedInputSourceLocales>
                         </secureTextFieldCell>
                         <connections>
-                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Password" id="yW4-Mw-ygr">
+                            <binding destination="cNy-Oc-YXW" name="value" keyPath="selection.Password" id="8cE-gh-NoC">
                                 <dictionary key="options">
+                                    <string key="NSMultipleValuesPlaceholder">Password</string>
                                     <string key="NSNotApplicablePlaceholder">Password</string>
                                     <string key="NSNoSelectionPlaceholder">Password</string>
                                     <string key="NSNullPlaceholder">Password</string>
-                                    <string key="NSMultipleValuesPlaceholder">Password</string>
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                 </dictionary>
                             </binding>
                         </connections>

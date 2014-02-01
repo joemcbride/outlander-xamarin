@@ -97,7 +97,7 @@ namespace Outlander.Core.Client
 		{
 			var formatted = command;
 			if(context != null && !string.IsNullOrWhiteSpace(context.Name)) {
-				formatted = "[{0}] {1}".ToFormat(context.Name, command);
+				formatted = "[{0}]: {1}".ToFormat(context.Name, command);
 			}
 
 			return Publish(formatted, context, t => {

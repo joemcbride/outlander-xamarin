@@ -35,6 +35,8 @@ namespace Outlander.Mac.Beta
 		private string _spell;
 		private int _count;
 
+		private TextViewWrapper _mainTextViewWrapper;
+
 
 		#region Constructors
 
@@ -215,6 +217,9 @@ namespace Outlander.Mac.Beta
 				SetRoundtime(e);
 			};
 
+			_highlightSettings = _services.Get<HighlightSettings>();
+			_mainTextViewWrapper = new TextViewWrapper(MainTextView, _highlightSettings);
+
 			_scriptLog.Info += (sender, e) => {
 				string log;
 				if(e.LineNumber > -1)
@@ -235,7 +240,7 @@ namespace Outlander.Mac.Beta
 
 					var tag = TextTag.For(log, "#0066CC");
 
-					Append(tag, MainTextView);
+					_mainTextViewWrapper.Append(tag);
 				});
 			};
 
@@ -251,8 +256,7 @@ namespace Outlander.Mac.Beta
 						log = "\n" + log;
 
 					var tag = TextTag.For(log, "ADFF2F");
-
-					Append(tag, MainTextView);
+					_mainTextViewWrapper.Append(tag);
 				});
 			};
 
@@ -267,12 +271,9 @@ namespace Outlander.Mac.Beta
 						log = "\n" + log;
 
 					var tag = TextTag.For(log, "ADFF2F");
-
-					Append(tag, MainTextView);
+					_mainTextViewWrapper.Append(tag);
 				});
 			};
-
-			_highlightSettings = _services.Get<HighlightSettings>();
 
 			var notifyLogger = new NotificationLogger();
 			notifyLogger.OnError = (err) => {
@@ -416,7 +417,7 @@ namespace Outlander.Mac.Beta
 				BeginInvokeOnMainThread(()=>{
 					if(tag.Filtered)
 						return;
-					Log(tag, MainTextView);
+					Log(tag);
 				});
 			});
 			_gameStreamListener.Subscribe(_gameStream);
@@ -477,12 +478,12 @@ namespace Outlander.Mac.Beta
 
 				var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt) + " " + command + "\n";
 
-				var hasLineFeed = MainTextView.TextStorage.Value.EndsWith("\n");
+				var hasLineFeed = _mainTextViewWrapper.EndsWithNewline();
 
 				if(!hasLineFeed)
 					prompt = "\n" + prompt;
 
-				Log(TextTag.For(prompt), MainTextView);
+				Log(TextTag.For(prompt));
 			}
 
 			_commandProcessor.Process(command, echo: false);
@@ -493,24 +494,24 @@ namespace Outlander.Mac.Beta
 			var defaultSettings = new DefaultSettings();
 			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
 
-			textView.TextStorage.BeginEditing();
+			//textView.TextStorage.BeginEditing();
 			textView.TextStorage.SetString("".CreateString(defaultColor.ToNSColor(), defaultSettings.Font));
-			textView.TextStorage.EndEditing();
+			//textView.TextStorage.EndEditing();
 
 			var highlights = _services.Get<Highlights>();
 			highlights.For(TextTag.For(text)).Apply(t => Append(t, textView));
 		}
 
-		private void Log(TextTag text, NSTextView textView)
+		private void Log(TextTag text)
 		{
 			var prompt = _gameServer.GameState.Get(ComponentKeys.Prompt);
 
 			if (string.Equals(text.Text.Trim(), prompt)
-				&& textView.TextStorage.Value.Trim().EndsWith(prompt))
+				&& _mainTextViewWrapper.EndsWith(prompt, true))
 				return;
 
 			var highlights = _services.Get<Highlights>();
-			highlights.For(text).Apply(t => Append(t, textView));
+			highlights.For(text).Apply(t => _mainTextViewWrapper.Append(t));
 		}
 
 		private void LogSystem(string text)
@@ -521,7 +522,7 @@ namespace Outlander.Mac.Beta
 		private void LogSystem(string text, string color)
 		{
 			text = "[{0}]: {1}".ToFormat(DateTime.Now.ToString("HH:mm"), text);
-			Append(TextTag.For(text, color, true), MainTextView);
+			_mainTextViewWrapper.Append(TextTag.For(text, color, true));
 		}
 
 		private void Append(TextTag tag, NSTextView textView)
@@ -535,18 +536,14 @@ namespace Outlander.Mac.Beta
 			var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
 			var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
 
-			//var atEnd = MainScrollView.VerticalScroller.FloatValue == 1.0f;
+			var scroll = textView.EnclosingScrollView.VerticalScroller.FloatValue == 1.0f;
 
-			textView.TextStorage.BeginEditing();
+			//textView.TextStorage.BeginEditing();
 			textView.TextStorage.Append(text.CreateString(color.ToNSColor(), font));
-			textView.TextStorage.EndEditing();
+			//textView.TextStorage.EndEditing();
 
-			//System.Diagnostics.Debug.WriteLine("Scroller: {0}, {1}".ToFormat(MainScrollView.VerticalScroller.FloatValue, atEnd));
-
-			var start = textView.TextStorage.Value.Length - 2;
-			start = start > -1 ? start : 0;
-			var length = start >= 2 ? 2 : 0;
-			textView.ScrollRangeToVisible(new NSRange(start, length));
+			if(scroll)
+				textView.ScrollRangeToVisible(new NSRange(textView.Value.Length, 0));
 		}
 
 		private void ReplaceText(IEnumerable<TextTag> tags, NSTextView textView)
@@ -554,14 +551,14 @@ namespace Outlander.Mac.Beta
 			var defaultSettings = new DefaultSettings();
 			var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
 
-			textView.TextStorage.BeginEditing();
+			//textView.TextStorage.BeginEditing();
 			textView.TextStorage.SetString("".CreateString(defaultColor.ToNSColor()));
 			tags.Apply(tag => {
 				var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
 				var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
 				textView.TextStorage.Append(tag.Text.CreateString(color.ToNSColor(), font));
 			});
-			textView.TextStorage.EndEditing();
+			//textView.TextStorage.EndEditing();
 		}
 
 		private long _rtMax = 0;
@@ -621,6 +618,70 @@ namespace Outlander.Mac.Beta
 			get {
 				return (MainWindow)base.Window;
 			}
+		}
+	}
+
+	public class TextViewWrapper
+	{
+		private readonly NSTextView _textView;
+		private readonly HighlightSettings _highlightSettings;
+
+		public TextViewWrapper(NSTextView textView, HighlightSettings highlightSettings)
+		{
+			_textView = textView;
+			_highlightSettings = highlightSettings;
+		}
+
+		public bool EndsWithNewline()
+		{
+			return EndsWith("\n");
+		}
+
+		public bool EndsWith(string value, bool trim = false)
+		{
+			var val = trim ? _textView.TextStorage.Value.Trim() : _textView.TextStorage.Value;
+			return val.EndsWith(value);
+		}
+
+		public void Append(TextTag tag)
+		{
+			_textView.BeginInvokeOnMainThread(() => {
+				var text = tag.Text.Replace("&lt;", "<").Replace("&gt;", ">");
+
+				var defaultSettings = new DefaultSettings();
+
+				var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
+
+				var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
+				var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
+
+				var scroll = _textView.EnclosingScrollView.VerticalScroller.FloatValue == 1.0f;
+
+				//textView.TextStorage.BeginEditing();
+				_textView.TextStorage.Append(text.CreateString(color.ToNSColor(), font));
+				//textView.TextStorage.EndEditing();
+
+				if(scroll)
+					_textView.ScrollRangeToVisible(new NSRange(_textView.Value.Length, 0));
+			});
+		}
+
+		public void ReplaceText(IEnumerable<TextTag> tags)
+		{
+			_textView.BeginInvokeOnMainThread(() => {
+
+				var defaultSettings = new DefaultSettings();
+				var defaultColor = _highlightSettings.Get(HighlightKeys.Default).Color;
+
+				//textView.TextStorage.BeginEditing();
+				_textView.TextStorage.SetString("".CreateString(defaultColor.ToNSColor()));
+				tags.Apply(tag => {
+					var color = !string.IsNullOrWhiteSpace(tag.Color) ? tag.Color : defaultColor;
+					var font = tag.Mono ? defaultSettings.MonoFont : defaultSettings.Font;
+					_textView.TextStorage.Append(tag.Text.CreateString(color.ToNSColor(), font));
+				});
+				//textView.TextStorage.EndEditing();
+			});
 		}
 	}
 }
