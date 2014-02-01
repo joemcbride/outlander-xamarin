@@ -1,7 +1,9 @@
 Outlander
 ==========
 
-A Front End for [Dragonrealms](http://www.play.net/dr).  A work in progress.
+A Front End for [Dragonrealms](http://www.play.net/dr).
+
+NOTE: Work on this version has been discontinued in favor of a fully native application. [Outlander-osx](http://github.com/joemcbride/outlander-osx)
 
 ![outlander-v0 5](https://f.cloud.github.com/assets/255007/1950617/eb5289fe-8150-11e3-9d13-0cbc0c34dc86.png)
 
